@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>MEDicos - Your Trusted Medical Store</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    /* Animated gradient background */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: -1;
+      background: linear-gradient(120deg, #2ec4b6 0%, #1b2a41 50%, #ff9f1c 100%);
+      background-size: 200% 200%;
+      animation: gradientMove 8s ease-in-out infinite;
+      opacity: 0.18;
+    }
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    /* Floating shapes */
+    .float-anim {
+      animation: floatY 4s ease-in-out infinite alternate;
+    }
+    @keyframes floatY {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-20px); }
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-cyan-900 via-slate-900 to-blue-900 min-h-screen text-white overflow-x-hidden">
+  <!-- Header -->
+  <header class="bg-white/10 backdrop-blur-lg border-b border-white/20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16 lg:h-20">
+        <!-- Logo -->
+        <a class="flex items-center space-x-3 group" href="/">
+          <div class="relative">
+            <img src="logo.svg" alt="MEDicos" class="h-10 w-auto sm:h-12 lg:h-14 transition-transform duration-300 group-hover:scale-105">
+            <div class="absolute inset-0 bg-gradient-to-r from-emerald-400/20 to-teal-400/20 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-sm"></div>
+          </div>
+          <span class="text-2xl font-bold tracking-wide text-emerald-300">MEDicos</span>
+        </a>
+
+        <!-- Desktop Navigation -->
+        <div class="hidden lg:flex items-center space-x-1">
+          <a class="relative group text-white hover:text-emerald-300 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover:bg-white/10" href="index.html">
+            Home
+            <span class="absolute bottom-0 left-1/2 w-0 h-0.5 bg-gradient-to-r from-emerald-400 to-teal-500 group-hover:w-full group-hover:left-0 transition-all duration-300 rounded-full"></span>
+          </a>
+          <a class="relative group text-white hover:text-emerald-300 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover:bg-white/10" href="about.html">
+            About
+            <span class="absolute bottom-0 left-1/2 w-0 h-0.5 bg-gradient-to-r from-emerald-400 to-teal-500 group-hover:w-full group-hover:left-0 transition-all duration-300 rounded-full"></span>
+          </a>
+          <a class="relative group text-white hover:text-emerald-300 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover:bg-white/10" href="#locations">
+            Locations
+            <span class="absolute bottom-0 left-1/2 w-0 h-0.5 bg-gradient-to-r from-emerald-400 to-teal-500 group-hover:w-full group-hover:left-0 transition-all duration-300 rounded-full"></span>
+          </a>
+          <a class="relative group text-white hover:text-emerald-300 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover:bg-white/10" href="gallery.html">
+            Gallery
+            <span class="absolute bottom-0 left-1/2 w-0 h-0.5 bg-gradient-to-r from-emerald-400 to-teal-500 group-hover:w-full group-hover:left-0 transition-all duration-300 rounded-full"></span>
+          </a>
+          <a class="relative group text-white hover:text-emerald-300 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover:bg-white/10" href="staff.html">
+            Staff
+            <span class="absolute bottom-0 left-1/2 w-0 h-0.5 bg-gradient-to-r from-emerald-400 to-teal-500 group-hover:w-full group-hover:left-0 transition-all duration-300 rounded-full"></span>
+          </a>
+          <a class="relative group text-white hover:text-emerald-300 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover:bg-white/10" href="contact.html">
+            Contact
+            <span class="absolute bottom-0 left-1/2 w-0 h-0.5 bg-gradient-to-r from-emerald-400 to-teal-500 group-hover:w-full group-hover:left-0 transition-all duration-300 rounded-full"></span>
+          </a>
+        </div>
+
+        <!-- Login Button & Mobile Menu -->
+        <div class="flex items-center space-x-3">
+          <button class="hidden sm:flex items-center space-x-2 cursor-pointer bg-gradient-to-r from-emerald-500 to-teal-500 text-white px-4 py-2 lg:px-6 lg:py-3 rounded-xl font-semibold text-sm lg:text-base hover:from-emerald-600 hover:to-teal-600 transition-all duration-300 transform hover:scale-105 hover:shadow-lg group overflow-hidden relative" onclick="window.location.href='auth-admin.html'">
+            <span class="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+            <i data-lucide="log-in" class="h-4 w-4 lg:h-5 lg:w-5 relative z-10"></i>
+            <span class="relative z-10">Login</span>
+          </button>
+          <button class="lg:hidden p-2 rounded-lg text-white hover:text-emerald-300 hover:bg-white/10 transition-all duration-300" aria-label="Toggle menu">
+            <i data-lucide="menu" class="h-6 w-6"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Animated floating shapes -->
+  <div class="fixed top-0 left-0 w-full h-full pointer-events-none z-0">
+    <div class="absolute top-20 left-10 w-32 h-32 bg-emerald-400/20 rounded-full blur-2xl float-anim"></div>
+    <div class="absolute bottom-24 right-16 w-40 h-40 bg-cyan-400/20 rounded-full blur-2xl float-anim" style="animation-delay:1.5s"></div>
+    <div class="absolute top-1/2 right-1/4 w-24 h-24 bg-yellow-400/20 rounded-full blur-2xl float-anim" style="animation-delay:2.5s"></div>
+  </div>
+
+  <!-- Hero Section -->
+  <section class="relative flex flex-col items-center justify-center min-h-[80vh] py-12 px-4 text-center z-10">
+    <h1 class="text-4xl md:text-6xl font-extrabold mb-6">
+      Welcome to <span class="text-emerald-300">MEDicos</span>
+    </h1>
+    <p class="text-xl md:text-2xl max-w-3xl mx-auto mb-6 font-medium">
+      Our legacy is since 2018, Alhamdulillah, and we provide the best medicines at affordable prices.<br>
+      We ensure our customers' health as the first priority.
+    </p>
+    <p class="text-emerald-200 text-xl mb-2">🌟 Our Legacy is Our Pride - Trusted by Families Since 2018! 🌟</p>
+    <p class="text-cyan-200 text-xl mb-10">Experience care, compassion, and quality—every visit, every time. 💊✨</p>
+    <div class="flex flex-wrap gap-6 justify-center mb-12">
+      <div class="bg-white/10 rounded-xl px-8 py-4 flex items-center gap-3 shadow-lg">
+        <i data-lucide="star" class="w-6 h-6 text-yellow-300"></i>
+        <span class="font-semibold text-lg">4.9★ Rated</span>
+      </div>
+      <div class="bg-white/10 rounded-xl px-8 py-4 flex items-center gap-3 shadow-lg">
+        <i data-lucide="users" class="w-6 h-6 text-emerald-300"></i>
+        <span class="font-semibold text-lg">Experienced Staff</span>
+      </div>
+      <div class="bg-white/10 rounded-xl px-8 py-4 flex items-center gap-3 shadow-lg">
+        <i data-lucide="shield" class="w-6 h-6 text-cyan-300"></i>
+        <span class="font-semibold text-lg">Trusted Since 2018</span>
+      </div>
+    </div>
+    <div class="flex flex-wrap gap-4 justify-center">
+      <a href="about.html" class="bg-emerald-500 hover:bg-emerald-600 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
+        Learn More About Us
+      </a>
+      <a href="gallery.html" class="bg-cyan-500 hover:bg-cyan-600 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
+        View Our Gallery
+      </a>
+    </div>
+  </section>
+  <!-- Locations Section -->
+  <section id="locations" class="relative py-12 px-4 max-w-6xl mx-auto">
+    <h2 class="text-3xl font-bold text-emerald-300 mb-8 text-center">Our Locations</h2>
+    <div class="grid gap-10 md:gap-12">
+      <!-- Location 1 -->
+      <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-4 md:p-6 lg:p-8 shadow-2xl border border-white/20 relative">
+        <div class="text-center mb-6">
+          <h3 class="text-xl md:text-2xl font-bold text-white mb-2">P.M.B.J.K BHATKAL (Urban Bank)</h3>
+          <p class="text-gray-200 text-sm md:text-base">Located in the heart of Bhatkal near Urban Bank, this Jan Aushadi Kendra provides affordable medicines to the local community. The shop is easily accessible and known for its friendly service.</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3720.218633836577!2d74.54951147491194!3d13.991487086425872!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bbc4324a6c7731b%3A0x18b7d41e5cf5e07b!2sJan%20Aushadi%20Kendra%20(Medical)!5e1!3m2!1sen!2sin!4v1753121932974!5m2!1sen!2sin" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          <iframe src="https://www.google.com/maps/embed?pb=!3m2!1sen!2sin!4v1753122377251!5m2!1sen!2sin!6m8!1m7!1sDA0D8qKGcr-XDZiIrsIb2A!2m2!1d13.99157647496208!2d74.55214940735219!3f207.3416786241277!4f-4.939625238402357!5f0.9481291081537339" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+      </div>
+      <!-- Location 2 -->
+      <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-4 md:p-6 lg:p-8 shadow-2xl border border-white/20 relative">
+        <div class="text-center mb-6">
+          <h3 class="text-xl md:text-2xl font-bold text-white mb-2">P.M.B.J.K (Bin Ali Emporium) - BHATKAL</h3>
+          <p class="text-gray-200 text-sm md:text-base">Situated at Bin Ali Emporium, this branch serves the Bhatkal area with a wide range of medicines and healthcare products. The location is convenient for shoppers and residents alike.</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d691.2604515114328!2d74.5367211840593!3d14.00600312785512!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bbc430b01633743%3A0x8ef9dfd9e0b9fc14!2sBIn%20Ali%20emporium!5e0!3m2!1sen!2sin!4v1753122876409!5m2!1sen!2sin" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          <iframe src="https://www.google.com/maps/embed?pb=!4v1753122794705!6m8!1m7!1sSw72l5ZORYm9PkNne9vM1Q!2m2!1d14.0061461029534!2d74.53714884869912!3f277.9842489009669!4f-0.7182603582881057!5f0.7820865974627469" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+      </div>
+      <!-- Location 3 -->
+      <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-4 md:p-6 lg:p-8 shadow-2xl border border-white/20 relative">
+        <div class="text-center mb-6">
+          <h3 class="text-xl md:text-2xl font-bold text-white mb-2">P.M.B.J.K - MURDESHWAR</h3>
+          <p class="text-gray-200 text-sm md:text-base">Our Murdeshwar branch is located near the famous Murudeshwar Temple Highway, serving both locals and tourists with quality medicines and healthcare essentials.</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3869.696954715094!2d74.49208917491399!3d14.095058186333528!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bbc46d38a06f3fb%3A0x2c351e9e89d2dcf4!2sMurudeshwar%20Temple%20Hwy!5e0!3m2!1sen!2sin!4v1753123183439!5m2!1sen!2sin" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          <iframe src="https://www.google.com/maps/embed?pb=!4v1753123126871!6m8!1m7!1sRAJUOP-ItXCjNKPJFbDCrw!2m2!1d14.095355241597!2d74.49685459423505!3f177.3083403811883!4f1.060560456155315!5f0.7820865974627469" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="text-center py-8 text-gray-300 bg-white/10 mt-12">
+    <div class="max-w-7xl mx-auto px-4">
+      <p class="text-lg mb-4">&copy; 2018-2024 MEDicos. All rights reserved.</p>
+      <div class="flex justify-center gap-6">
+        <a href="about.html" class="hover:text-emerald-300 transition">About Us</a>
+        <a href="staff.html" class="hover:text-emerald-300 transition">Our Staff</a>
+        <a href="contact.html" class="hover:text-emerald-300 transition">Contact</a>
+        <a href="auth-admin.html" class="hover:text-emerald-300 transition">Admin Login</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Location Modals -->
+  <div id="locationModal" class="fixed inset-0 bg-black/60 flex items-center justify-center z-50 hidden">
+    <div class="bg-white/95 rounded-2xl p-6 md:p-10 max-w-3xl w-full relative shadow-2xl">
+      <button onclick="closeLocationModal()" class="absolute top-4 right-4 text-gray-700 hover:text-red-500 text-2xl font-bold">&times;</button>
+      <div id="locationModalContent"></div>
+    </div>
+  </div>
+  <script>lucide.createIcons();</script>
+  <script>
+    // Dropdown logic
+    const dropdownBtn = document.getElementById('locationsDropdownBtn');
+    const dropdown = document.getElementById('locationsDropdown');
+    dropdownBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      dropdown.classList.toggle('hidden');
+    });
+    document.addEventListener('click', function(e) {
+      if (!dropdown.contains(e.target) && !dropdownBtn.contains(e.target)) {
+        dropdown.classList.add('hidden');
+      }
+    });
+
+    // Modal logic
+    const locationModal = document.getElementById('locationModal');
+    const locationModalContent = document.getElementById('locationModalContent');
+    function showLocationModal(idx) {
+      let html = '';
+      if (idx === 1) {
+        html = `
+          <h3 class="text-xl md:text-2xl font-bold text-emerald-700 mb-2 text-center">P.M.B.J.K BHATKAL (Urban Bank)</h3>
+          <p class="mb-4 text-gray-700 text-center">Located in the heart of Bhatkal near Urban Bank, this Jan Aushadi Kendra provides affordable medicines to the local community. The shop is easily accessible and known for its friendly service.</p>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3720.218633836577!2d74.54951147491194!3d13.991487086425872!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bbc4324a6c7731b%3A0x18b7d41e5cf5e07b!2sJan%20Aushadi%20Kendra%20(Medical)!5e1!3m2!1sen!2sin!4v1753121932974!5m2!1sen!2sin" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            <iframe src="https://www.google.com/maps/embed?pb=!3m2!1sen!2sin!4v1753122377251!5m2!1sen!2sin!6m8!1m7!1sDA0D8qKGcr-XDZiIrsIb2A!2m2!1d13.99157647496208!2d74.55214940735219!3f207.3416786241277!4f-4.939625238402357!5f0.9481291081537339" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          </div>
+        `;
+      } else if (idx === 2) {
+        html = `
+          <h3 class="text-xl md:text-2xl font-bold text-emerald-700 mb-2 text-center">P.M.B.J.K (Bin Ali Emporium) - BHATKAL</h3>
+          <p class="mb-4 text-gray-700 text-center">Situated at Bin Ali Emporium, this branch serves the Bhatkal area with a wide range of medicines and healthcare products. The location is convenient for shoppers and residents alike.</p>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d691.2604515114328!2d74.5367211840593!3d14.00600312785512!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bbc430b01633743%3A0x8ef9dfd9e0b9fc14!2sBIn%20Ali%20emporium!5e0!3m2!1sen!2sin!4v1753122876409!5m2!1sen!2sin" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            <iframe src="https://www.google.com/maps/embed?pb=!4v1753122794705!6m8!1m7!1sSw72l5ZORYm9PkNne9vM1Q!2m2!1d14.0061461029534!2d74.53714884869912!3f277.9842489009669!4f-0.7182603582881057!5f0.7820865974627469" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          </div>
+        `;
+      } else if (idx === 3) {
+        html = `
+          <h3 class="text-xl md:text-2xl font-bold text-emerald-700 mb-2 text-center">P.M.B.J.K - MURDESHWAR</h3>
+          <p class="mb-4 text-gray-700 text-center">Our Murdeshwar branch is located near the famous Murudeshwar Temple Highway, serving both locals and tourists with quality medicines and healthcare essentials.</p>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3869.696954715094!2d74.49208917491399!3d14.095058186333528!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bbc46d38a06f3fb%3A0x2c351e9e89d2dcf4!2sMurudeshwar%20Temple%20Hwy!5e0!3m2!1sen!2sin!4v1753123183439!5m2!1sen!2sin" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            <iframe src="https://www.google.com/maps/embed?pb=!4v1753123126871!6m8!1m7!1sRAJUOP-ItXCjNKPJFbDCrw!2m2!1d14.095355241597!2d74.49685459423505!3f177.3083403811883!4f1.060560456155315!5f0.7820865974627469" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          </div>
+        `;
+      }
+      locationModalContent.innerHTML = html;
+      locationModal.classList.remove('hidden');
+    }
+    function closeLocationModal() {
+      locationModal.classList.add('hidden');
+      locationModalContent.innerHTML = '';
+    }
+  </script>
+</body>
+</html> 

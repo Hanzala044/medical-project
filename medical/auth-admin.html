@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>MEDicos - Login & Registration</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    body {
+      background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+      min-height: 100vh;
+    }
+    .page { display: none; }
+    .page.active { display: block; }
+    
+    /* Fix dropdown visibility */
+    select, option {
+      background-color: #1e293b !important;
+      color: #ffffff !important;
+    }
+    select option:hover {
+      background-color: #334155 !important;
+    }
+    select:focus {
+      outline: 2px solid #38bdf8;
+      border-color: #38bdf8;
+    }
+    /* Ensure dropdown options are visible */
+    select option {
+      background-color: #1e293b !important;
+      color: #ffffff !important;
+      padding: 8px;
+    }
+  </style>
+</head>
+<body class="flex flex-col items-center justify-center min-h-screen text-white">
+
+  <!-- Announcement Banner -->
+  <div class="relative w-full flex justify-center z-20">
+    <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-pulse"></div>
+    <div class="relative bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl px-6 py-3 mt-4 mb-6 shadow-lg flex items-center justify-center text-center max-w-2xl mx-auto">
+      <span class="text-lg md:text-xl font-semibold text-white flex items-center gap-2">
+        🏥 <span>Welcome to MEDicos Pharmacy Management System</span> 💊<br class="block md:hidden"/>
+        <span class="ml-2 text-sm md:text-base font-normal text-gray-200">Secure access for staff and administrators since <span class="font-bold text-emerald-300">2018</span>. 🙏</span>
+      </span>
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <div class="flex space-x-4 mb-8 mt-6">
+    <button onclick="showPage('login')" class="px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 transition">Login</button>
+    <button onclick="showPage('register')" class="px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 transition">Register Staff</button>
+    <button onclick="showPage('admin')" class="px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 transition">Admin</button>
+  </div>
+
+  <!-- Login Page -->
+  <div id="login" class="page active">
+    <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-6 md:p-8 shadow-2xl border border-white/20 relative w-[95vw] max-w-md mx-auto">
+      <div class="absolute -top-4 -right-4 w-20 h-20 bg-gradient-to-br from-blue-400 to-cyan-600 rounded-full opacity-20 animate-pulse"></div>
+      <div class="absolute -bottom-4 -left-4 w-16 h-16 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full opacity-20 animate-bounce" style="animation-duration: 3s;"></div>
+      <div class="absolute top-4 right-4 flex space-x-2">
+        <div class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
+          <i data-lucide="star" class="w-4 h-4 text-white fill-current"></i>
+        </div>
+      </div>
+      <div class="text-center mb-6">
+        <h2 class="text-2xl md:text-3xl font-bold text-white mb-2">Staff Login</h2>
+        <p class="text-gray-200 text-sm">Access your pharmacy dashboard</p>
+      </div>
+      <form id="loginForm" class="space-y-4">
+        <div class="relative">
+          <i data-lucide="user" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5"></i>
+          <select id="staffSelect" required class="w-full pl-10 pr-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent backdrop-blur-sm transition-all duration-300 text-base appearance-none">
+            <option value="">Select Staff Member</option>
+            <option value="mohammed.huzefa">MOHAMMED HUZEFA</option>
+            <option value="nalini.kharvi">MS. NALINI KHARVI</option>
+            <option value="mohammed.hannan">MR. MOHAMMED HANNAN</option>
+            <option value="abdul.subhan">MR. ABDUL SUBHAN</option>
+            <option value="suprita">MS. SUPRITA</option>
+            <option value="mohammed.hanzala">MR. MOHAMMED HANZALA</option>
+          </select>
+        </div>
+        <div class="relative">
+          <i data-lucide="lock" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5"></i>
+          <input type="password" placeholder="Password" required class="w-full pl-10 pr-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent backdrop-blur-sm transition-all duration-300 text-base">
+        </div>
+        <button type="submit" class="w-full bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 transform hover:scale-105 text-white py-3 rounded-lg font-semibold text-lg transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center space-x-2">
+          <span>Login</span>
+          <i data-lucide="log-in" class="w-5 h-5"></i>
+        </button>
+      </form>
+      <div class="text-center mt-4">
+        <span class="text-gray-300 text-sm">Don't have an account?</span>
+        <button onclick="showPage('register')" class="text-cyan-400 hover:underline ml-1 text-sm">Register</button>
+      </div>
+      <div id="loginMsg" class="text-center mt-2 text-sm"></div>
+    </div>
+  </div>
+
+  <!-- Register Page -->
+  <div id="register" class="page">
+    <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-6 md:p-8 shadow-2xl border border-white/20 relative w-[95vw] max-w-md mx-auto">
+      <div class="absolute -top-4 -right-4 w-20 h-20 bg-gradient-to-br from-green-400 to-emerald-600 rounded-full opacity-20 animate-pulse"></div>
+      <div class="absolute -bottom-4 -left-4 w-16 h-16 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full opacity-20 animate-bounce" style="animation-duration: 3s;"></div>
+      <div class="text-center mb-6">
+        <h2 class="text-2xl md:text-3xl font-bold text-white mb-2">Register Staff</h2>
+        <p class="text-gray-200 text-sm">Create your MEDicos staff account</p>
+      </div>
+      <form id="registerForm" class="space-y-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="relative">
+            <i data-lucide="user" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4 md:w-5 md:h-5"></i>
+            <input type="text" placeholder="First Name*" required class="w-full pl-8 md:pl-10 pr-4 py-2 md:py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent backdrop-blur-sm transition-all duration-300 text-sm md:text-base">
+          </div>
+          <div class="relative">
+            <i data-lucide="user" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4 md:w-5 md:h-5"></i>
+            <input type="text" placeholder="Last Name*" required class="w-full pl-8 md:pl-10 pr-4 py-2 md:py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent backdrop-blur-sm transition-all duration-300 text-sm md:text-base">
+          </div>
+        </div>
+        <div class="relative">
+          <i data-lucide="mail" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4 md:w-5 md:h-5"></i>
+          <input type="email" placeholder="Email Address" class="w-full pl-8 md:pl-10 pr-4 py-2 md:py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent backdrop-blur-sm transition-all duration-300 text-sm md:text-base">
+        </div>
+        <div class="relative">
+          <i data-lucide="phone" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4 md:w-5 md:h-5"></i>
+          <input type="tel" placeholder="Phone Number*" required class="w-full pl-8 md:pl-10 pr-4 py-2 md:py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent backdrop-blur-sm transition-all duration-300 text-sm md:text-base">
+        </div>
+        <div class="relative">
+          <i data-lucide="lock" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4 md:w-5 md:h-5"></i>
+          <input type="password" placeholder="Password*" required class="w-full pl-8 md:pl-10 pr-4 py-2 md:py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent backdrop-blur-sm transition-all duration-300 text-sm md:text-base">
+        </div>
+        <button type="submit" class="w-full bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-600 hover:to-cyan-600 transform hover:scale-105 text-white py-3 rounded-lg font-semibold text-lg transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center space-x-2">
+          <span>Register</span>
+          <i data-lucide="user-plus" class="w-5 h-5"></i>
+        </button>
+      </form>
+      <div class="text-center mt-4">
+        <span class="text-gray-300 text-sm">Already have an account?</span>
+        <button onclick="showPage('login')" class="text-emerald-400 hover:underline ml-1 text-sm">Login</button>
+      </div>
+      <div id="registerMsg" class="text-center mt-2 text-sm"></div>
+    </div>
+  </div>
+
+  <!-- Admin Login Page -->
+  <div id="admin" class="page">
+    <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-6 md:p-8 shadow-2xl border border-white/20 relative w-[95vw] max-w-md mx-auto">
+      <div class="absolute -top-4 -right-4 w-20 h-20 bg-gradient-to-br from-purple-400 to-indigo-600 rounded-full opacity-20 animate-pulse"></div>
+      <div class="absolute -bottom-4 -left-4 w-16 h-16 bg-gradient-to-br from-pink-400 to-red-500 rounded-full opacity-20 animate-bounce" style="animation-duration: 3s;"></div>
+      <div class="text-center mb-6">
+        <h2 class="text-2xl md:text-3xl font-bold text-white mb-2">Admin Login</h2>
+        <p class="text-gray-200 text-sm">Administrative access only</p>
+      </div>
+      <form id="adminForm" class="space-y-4">
+        <div class="relative">
+          <i data-lucide="user" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5"></i>
+          <select id="adminSelect" required class="w-full pl-10 pr-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent backdrop-blur-sm transition-all duration-300 text-base appearance-none">
+            <option value="">Select Admin</option>
+            <option value="hanif">MOHAMMED HANIF (CEO)</option>
+            <option value="huzefa">MOHAMMED HUZEFA</option>
+            <option value="hannan">MOHAMMED HANNAN</option>
+            <option value="subhan">ABDUL SUBHAN</option>
+            <option value="nalini">NALINI KHARVI</option>
+            <option value="suprita">SUPRITA</option>
+            <option value="hanzala">MOHAMMED HANZALA</option>
+          </select>
+        </div>
+        <div class="relative">
+          <i data-lucide="lock" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5"></i>
+          <input type="password" id="adminPassword" placeholder="Password" required class="w-full pl-10 pr-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent backdrop-blur-sm transition-all duration-300 text-base">
+        </div>
+        <button type="submit" class="w-full bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 transform hover:scale-105 text-white py-3 rounded-lg font-semibold text-lg transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center space-x-2">
+          <span>Login as Admin</span>
+          <i data-lucide="shield" class="w-5 h-5"></i>
+        </button>
+      </form>
+      <div class="text-center mt-4">
+        <span class="text-gray-300 text-sm">Need staff access?</span>
+        <button onclick="showPage('login')" class="text-purple-400 hover:underline ml-1 text-sm">Staff Login</button>
+      </div>
+      <div id="adminMsg" class="text-center mt-2 text-sm"></div>
+    </div>
+  </div>
+
+  <script>
+    function showPage(page) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById(page).classList.add('active');
+      document.getElementById('loginMsg').textContent = '';
+      document.getElementById('registerMsg').textContent = '';
+      document.getElementById('adminMsg').textContent = '';
+    }
+
+    // Admin credentials mapping
+    const adminCredentials = {
+      'hanif': 'admin123',
+      'huzefa': 'admin123',
+      'hannan': 'admin123',
+      'subhan': 'admin123',
+      'nalini': 'admin123',
+      'suprita': 'admin123',
+      'hanzala': 'admin123'
+    };
+
+    // Staff credentials mapping
+    const staffCredentials = {
+      'mohammed.huzefa': 'staff123',
+      'nalini.kharvi': 'staff123',
+      'mohammed.hannan': 'staff123',
+      'abdul.subhan': 'staff123',
+      'suprita': 'staff123',
+      'mohammed.hanzala': 'staff123'
+    };
+
+    // Register Handler
+    document.getElementById('registerForm').onsubmit = async function(e) {
+      e.preventDefault();
+      const firstName = e.target[0].value;
+      const lastName = e.target[1].value;
+      const email = e.target[2].value;
+      const phone = e.target[3].value;
+      const password = e.target[4].value;
+      
+      const staffData = {
+        username: `${firstName.toLowerCase()}.${lastName.toLowerCase()}`,
+        password: password,
+        full_name: `${firstName} ${lastName}`,
+        email: email,
+        phone: phone,
+        position: 'Staff Member',
+        hire_date: new Date().toISOString().split('T')[0]
+      };
+      
+      try {
+        const response = await fetch('/api/register', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(staffData)
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok) {
+          document.getElementById('registerMsg').textContent = 'Registration successful! Please login.';
+          document.getElementById('registerMsg').className = 'text-center mt-2 text-sm text-green-400';
+          setTimeout(() => showPage('login'), 1500);
+        } else {
+          document.getElementById('registerMsg').textContent = data.error || 'Registration failed!';
+          document.getElementById('registerMsg').className = 'text-center mt-2 text-sm text-red-400';
+        }
+      } catch (error) {
+        console.error('Registration error:', error);
+        document.getElementById('registerMsg').textContent = 'Registration failed! Please try again.';
+        document.getElementById('registerMsg').className = 'text-center mt-2 text-sm text-red-400';
+      }
+    };
+
+    // Login Handler
+    document.getElementById('loginForm').onsubmit = async function(e) {
+      e.preventDefault();
+      const staffSelect = document.getElementById('staffSelect');
+      const password = e.target[1].value;
+      
+      if (!staffSelect.value) {
+        document.getElementById('loginMsg').textContent = 'Please select a staff member!';
+        document.getElementById('loginMsg').className = 'text-center mt-2 text-sm text-red-400';
+        return;
+      }
+      
+      const username = staffSelect.value;
+      
+      try {
+        const response = await fetch('/api/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            username: username,
+            password: password,
+            user_type: 'staff'
+          })
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok) {
+          document.getElementById('loginMsg').textContent = 'Login successful! Redirecting...';
+          document.getElementById('loginMsg').className = 'text-center mt-2 text-sm text-green-400';
+          setTimeout(() => window.location.href = 'staff_dashboard.html', 1500);
+        } else {
+          document.getElementById('loginMsg').textContent = data.error || 'Invalid credentials!';
+          document.getElementById('loginMsg').className = 'text-center mt-2 text-sm text-red-400';
+        }
+      } catch (error) {
+        console.error('Login error:', error);
+        document.getElementById('loginMsg').textContent = 'Login failed! Please try again.';
+        document.getElementById('loginMsg').className = 'text-center mt-2 text-sm text-red-400';
+      }
+    };
+
+    // Admin Login Handler
+    document.getElementById('adminForm').onsubmit = async function(e) {
+      e.preventDefault();
+      const admin = document.getElementById('adminSelect').value;
+      const password = document.getElementById('adminPassword').value;
+      
+      if (!admin) {
+        document.getElementById('adminMsg').textContent = 'Please select an admin!';
+        document.getElementById('adminMsg').className = 'text-center mt-2 text-sm text-red-400';
+        return;
+      }
+      
+      // Map admin selection to actual usernames
+      const adminMap = {
+        'hanif': 'admin1',
+        'huzefa': 'admin2',
+        'hannan': 'admin3',
+        'subhan': 'admin4',
+        'nalini': 'admin5',
+        'suprita': 'admin6',
+        'hanzala': 'admin7'
+      };
+      
+      const actualUsername = adminMap[admin];
+      
+      try {
+        const response = await fetch('/api/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            username: actualUsername,
+            password: password,
+            user_type: 'admin'
+          })
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok) {
+          document.getElementById('adminMsg').textContent = 'Admin login successful! Redirecting...';
+          document.getElementById('adminMsg').className = 'text-center mt-2 text-sm text-green-400';
+          setTimeout(() => window.location.href = 'admin_dashboard.html', 1500);
+        } else {
+          document.getElementById('adminMsg').textContent = data.error || 'Invalid admin credentials!';
+          document.getElementById('adminMsg').className = 'text-center mt-2 text-sm text-red-400';
+        }
+      } catch (error) {
+        console.error('Admin login error:', error);
+        document.getElementById('adminMsg').textContent = 'Admin login failed! Please try again.';
+        document.getElementById('adminMsg').className = 'text-center mt-2 text-sm text-red-400';
+      }
+    };
+
+    lucide.createIcons();
+  </script>
+</body>
+</html> 

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>MEDicos - Admin Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    /* Fix dropdown visibility */
+    select, option {
+      background-color: #1e293b !important;
+      color: #ffffff !important;
+    }
+    select option:hover {
+      background-color: #334155 !important;
+    }
+    select:focus {
+      outline: 2px solid #38bdf8;
+      border-color: #38bdf8;
+    }
+    /* Ensure dropdown options are visible */
+    select option {
+      background-color: #1e293b !important;
+      color: #ffffff !important;
+      padding: 8px;
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-cyan-900 via-slate-900 to-blue-900 min-h-screen text-white">
+  <div class="container mx-auto py-8 px-4">
+    <!-- Header -->
+    <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-6 shadow-2xl border border-white/20 mb-8">
+      <div class="flex justify-between items-center">
+        <div>
+          <h1 class="text-3xl font-bold text-emerald-300 mb-2">Admin Dashboard</h1>
+          <div class="flex space-x-4 text-sm">
+            <div id="currentTime" class="text-cyan-200"></div>
+            <div id="currentDate" class="text-cyan-200"></div>
+          </div>
+        </div>
+        <div class="flex space-x-4">
+          <button id="addMedicineBtn" class="bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded-lg font-semibold transition">+ Add Medicine</button>
+          <button id="logoutBtn" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-semibold transition">Logout</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dashboard Stats -->
+    <div class="grid grid-cols-1 md:grid-cols-5 gap-6 mb-8">
+      <div class="bg-white/10 backdrop-blur-lg rounded-xl p-6 shadow-lg border border-white/20">
+        <div class="text-2xl font-bold text-emerald-300" id="totalMedicines">0</div>
+        <div class="text-gray-300">Total Medicines</div>
+      </div>
+      <div class="bg-white/10 backdrop-blur-lg rounded-xl p-6 shadow-lg border border-white/20">
+        <div class="text-2xl font-bold text-red-300" id="lowStock">0</div>
+        <div class="text-gray-300">Low Stock</div>
+      </div>
+      <div class="bg-white/10 backdrop-blur-lg rounded-xl p-6 shadow-lg border border-white/20">
+        <div class="text-2xl font-bold text-yellow-300" id="expiringSoon">0</div>
+        <div class="text-gray-300">Expiring Soon</div>
+      </div>
+      <div class="bg-white/10 backdrop-blur-lg rounded-xl p-6 shadow-lg border border-white/20">
+        <div class="text-2xl font-bold text-blue-300" id="salesToday">0</div>
+        <div class="text-gray-300">Sales Today</div>
+      </div>
+      <div class="bg-white/10 backdrop-blur-lg rounded-xl p-6 shadow-lg border border-white/20">
+        <div class="text-2xl font-bold text-green-300" id="revenueToday">$0.00</div>
+        <div class="text-gray-300">Revenue Today</div>
+      </div>
+    </div>
+
+    <!-- Search Bar -->
+    <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-6 shadow-2xl border border-white/20 mb-8">
+      <div class="flex items-center space-x-4">
+        <div class="flex-1">
+          <input type="text" id="searchMedicine" placeholder="Search medicines..." class="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+        </div>
+      </div>
+    </div>
+
+    <!-- Medicines Table -->
+    <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-8 shadow-2xl border border-white/20">
+      <h2 class="text-2xl font-bold text-emerald-300 mb-6">Medicine Inventory</h2>
+      <div class="overflow-x-auto">
+        <table class="w-full text-left">
+          <thead>
+            <tr class="bg-emerald-500/80">
+              <th class="px-6 py-3 text-white font-semibold">Medicine</th>
+              <th class="px-6 py-3 text-white font-semibold">Stock</th>
+              <th class="px-6 py-3 text-white font-semibold">Price</th>
+              <th class="px-6 py-3 text-white font-semibold">Expiry</th>
+              <th class="px-6 py-3 text-white font-semibold">Manufacturer</th>
+              <th class="px-6 py-3 text-white font-semibold">Category</th>
+              <th class="px-6 py-3 text-white font-semibold text-right">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="medicinesTableBody">
+            <!-- Dynamic rows here -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Medicine Modal -->
+  <div id="addMedicineModal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden">
+    <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-8 shadow-2xl border border-white/20 w-full max-w-2xl mx-4">
+      <div class="flex justify-between items-center mb-6">
+        <h3 class="text-2xl font-bold text-white">Add New Medicine</h3>
+        <button id="closeAddModal" class="text-white hover:text-gray-300">
+          <i data-lucide="x" class="w-6 h-6"></i>
+        </button>
+      </div>
+      <form id="addMedicineForm" class="space-y-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <input type="text" name="medicine_name" placeholder="Medicine Name" required class="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-300">
+          <input type="text" name="batch_number" placeholder="Batch Number" required class="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-300">
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <input type="date" name="expiry_date" required class="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white">
+          <input type="date" name="date_of_purchase" required class="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white">
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <input type="number" name="quantity_available" placeholder="Quantity Available" required class="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-300">
+          <input type="number" name="unit_price" step="0.01" placeholder="Unit Price" required class="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-300">
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <input type="text" name="manufacturer" placeholder="Manufacturer" class="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-300">
+          <input type="text" name="category" placeholder="Category" class="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-300">
+        </div>
+        <textarea name="description" placeholder="Description" rows="3" class="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-300"></textarea>
+        <div class="flex space-x-4">
+          <button type="submit" class="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white py-3 rounded-lg font-semibold transition">Add Medicine</button>
+          <button type="button" id="closeAddModal2" class="flex-1 bg-gray-500 hover:bg-gray-600 text-white py-3 rounded-lg font-semibold transition">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Edit Medicine Modal -->
+  <div id="editMedicineModal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden">
+    <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-8 shadow-2xl border border-white/20 w-full max-w-2xl mx-4">
+      <div class="flex justify-between items-center mb-6">
+        <h3 class="text-2xl font-bold text-white">Edit Medicine</h3>
+        <button id="closeEditModal" class="text-white hover:text-gray-300">
+          <i data-lucide="x" class="w-6 h-6"></i>
+        </button>
+      </div>
+      <form id="editMedicineForm" class="space-y-4">
+        <input type="hidden" name="medicine_id" id="edit_medicine_id">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <input type="text" name="medicine_name" id="edit_medicine_name" placeholder="Medicine Name" required class="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-300">
+          <input type="text" name="batch_number" id="edit_batch_number" placeholder="Batch Number" required class="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-300">
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <input type="date" name="expiry_date" id="edit_expiry_date" required class="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white">
+          <input type="date" name="date_of_purchase" id="edit_date_of_purchase" required class="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white">
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <input type="number" name="quantity_available" id="edit_quantity_available" placeholder="Quantity Available" required class="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-300">
+          <input type="number" name="unit_price" id="edit_unit_price" step="0.01" placeholder="Unit Price" required class="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-300">
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <input type="text" name="manufacturer" id="edit_manufacturer" placeholder="Manufacturer" class="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-300">
+          <input type="text" name="category" id="edit_category" placeholder="Category" class="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-300">
+        </div>
+        <textarea name="description" id="edit_description" placeholder="Description" rows="3" class="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-300"></textarea>
+        <div class="flex space-x-4">
+          <button type="submit" class="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white py-3 rounded-lg font-semibold transition">Update Medicine</button>
+          <button type="button" id="closeEditModal2" class="flex-1 bg-gray-500 hover:bg-gray-600 text-white py-3 rounded-lg font-semibold transition">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="admin_dashboard.js"></script>
+  <script>
+    lucide.createIcons();
+    
+    // Additional event listeners for modal close buttons
+    document.getElementById('closeAddModal2').addEventListener('click', () => {
+      document.getElementById('addMedicineModal').classList.add('hidden');
+    });
+    
+    document.getElementById('closeEditModal2').addEventListener('click', () => {
+      document.getElementById('editMedicineModal').classList.add('hidden');
+    });
+  </script>
+</body>
+</html> 

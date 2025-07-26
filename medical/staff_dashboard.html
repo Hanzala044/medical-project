@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>MEDicos - Staff Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    /* Fix dropdown visibility */
+    select, option {
+      background-color: #1e293b !important;
+      color: #ffffff !important;
+    }
+    select option:hover {
+      background-color: #334155 !important;
+    }
+    select:focus {
+      outline: 2px solid #38bdf8;
+      border-color: #38bdf8;
+    }
+    /* Ensure dropdown options are visible */
+    select option {
+      background-color: #1e293b !important;
+      color: #ffffff !important;
+      padding: 8px;
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-cyan-900 via-slate-900 to-blue-900 min-h-screen text-white">
+  <div class="container mx-auto py-12 px-4">
+    <!-- Header -->
+    <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-6 shadow-2xl border border-white/20 mb-8">
+      <div class="flex justify-between items-center">
+        <div>
+          <h1 class="text-3xl font-bold text-emerald-300 mb-2">Staff Dashboard</h1>
+          <div class="flex space-x-4 text-sm">
+            <div id="clock" class="text-cyan-200"></div>
+            <div id="date" class="text-cyan-200"></div>
+          </div>
+          <div class="mt-2">
+            <span class="text-emerald-300 font-semibold">Logged in as: </span>
+            <span id="staffName" class="text-white font-bold"></span>
+          </div>
+        </div>
+        <div class="flex space-x-4">
+          <button onclick="showSection('sales')" class="bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded-lg font-semibold transition">Sales</button>
+          <button onclick="showSection('records')" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold transition">Records</button>
+          <button onclick="logout()" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-semibold transition">Logout</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sales Section -->
+    <div id="salesSection" class="section active">
+      <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-8 shadow-2xl border border-white/20 max-w-2xl mx-auto">
+        <h2 class="text-2xl font-bold mb-6 text-emerald-300">Sell Medicine</h2>
+        <form id="sellForm" class="space-y-4">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <input type="text" id="customerName" placeholder="Customer Name" required class="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white">
+            <input type="text" id="customerPhone" placeholder="Customer Phone" required class="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white">
+          </div>
+          <select id="medicineSelect" required class="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white">
+            <option value="">Select Medicine</option>
+          </select>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <input type="number" id="quantity" min="1" placeholder="Quantity" required class="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white">
+            <input type="text" id="doctorName" placeholder="Doctor Name" required class="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white">
+          </div>
+          <input type="text" id="doctorPhone" placeholder="Doctor Phone" required class="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white">
+          <input type="file" id="prescriptionFile" accept="image/*" class="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white">
+          <div class="flex space-x-4">
+            <button type="button" id="saveBtn" class="w-1/2 bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-lg font-semibold text-lg transition">Save</button>
+            <button type="button" id="pushDriveBtn" class="w-1/2 bg-yellow-500 hover:bg-yellow-600 text-white py-3 rounded-lg font-semibold text-lg transition">Push to Drive</button>
+          </div>
+          <button type="submit" class="w-full bg-emerald-500 hover:bg-emerald-600 text-white py-3 rounded-lg font-semibold text-lg transition">Submit Sale</button>
+        </form>
+        <div id="saleMessage" class="mt-4 text-center text-sm"></div>
+      </div>
+    </div>
+
+    <!-- Records Section -->
+    <div id="recordsSection" class="section hidden">
+      <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-8 shadow-2xl border border-white/20">
+        <div class="flex justify-between items-center mb-6">
+          <h2 class="text-2xl font-bold text-emerald-300">Sales Records</h2>
+          <button onclick="refreshRecords()" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold transition">Refresh</button>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left rounded-lg overflow-hidden">
+            <thead>
+              <tr class="bg-emerald-500/80">
+                <th class="px-4 py-3">Date</th>
+                <th class="px-4 py-3">Customer</th>
+                <th class="px-4 py-3">Medicine</th>
+                <th class="px-4 py-3">Quantity</th>
+                <th class="px-4 py-3">Total</th>
+                <th class="px-4 py-3">Doctor</th>
+                <th class="px-4 py-3">Sold By</th>
+                <th class="px-4 py-3">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="recordsTable">
+              <!-- Dynamic rows here -->
+            </tbody>
+          </table>
+        </div>
+        <div id="recordsMessage" class="mt-4 text-center text-sm"></div>
+      </div>
+    </div>
+  </div>
+  <script src="staff_dashboard.js"></script>
+  <script>
+    lucide.createIcons();
+    
+    // Global functions for HTML onclick handlers
+    function showSection(sectionName) {
+        if (window.staffDashboard) {
+            window.staffDashboard.showSection(sectionName);
+        }
+    }
+    
+    function refreshRecords() {
+        if (window.staffDashboard) {
+            window.staffDashboard.refreshRecords();
+        }
+    }
+    
+    function logout() {
+        if (window.staffDashboard) {
+            window.staffDashboard.logout();
+        }
+    }
+  </script>
+</body>
+</html> 
