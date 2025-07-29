@@ -6,7 +6,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="css/loader.css">
   <style>
+    /* Global Serif Font Override */
+    * {
+      font-family: 'Times New Roman', Times, serif !important;
+    }
+    
     /* Animated gradient background */
     body::before {
       content: '';
@@ -31,64 +37,38 @@
       0% { transform: translateY(0); }
       100% { transform: translateY(-20px); }
     }
+
   </style>
 </head>
 <body class="bg-gradient-to-br from-cyan-900 via-slate-900 to-blue-900 min-h-screen text-white overflow-x-hidden">
+
+
+
   <!-- Header -->
-  <header class="bg-white/10 backdrop-blur-lg border-b border-white/20">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between items-center h-16 lg:h-20">
-        <!-- Logo -->
-        <a class="flex items-center space-x-3 group" href="index.html">
-          <div class="relative">
-            <img src="logo.svg" alt="MEDicos" class="h-10 w-auto sm:h-12 lg:h-14 transition-transform duration-300 group-hover:scale-105">
-            <div class="absolute inset-0 bg-gradient-to-r from-emerald-400/20 to-teal-400/20 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-sm"></div>
-          </div>
-          <span class="text-2xl font-bold tracking-wide text-emerald-300">MEDicos</span>
-        </a>
-
-        <!-- Desktop Navigation -->
-        <div class="hidden lg:flex items-center space-x-1">
-          <a class="relative group text-white hover:text-emerald-300 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover:bg-white/10" href="index.html">
-            Home
-            <span class="absolute bottom-0 left-1/2 w-0 h-0.5 bg-gradient-to-r from-emerald-400 to-teal-500 group-hover:w-full group-hover:left-0 transition-all duration-300 rounded-full"></span>
-          </a>
-          <a class="relative group text-white hover:text-emerald-300 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover:bg-white/10" href="about.html">
-            About
-            <span class="absolute bottom-0 left-1/2 w-0 h-0.5 bg-gradient-to-r from-emerald-400 to-teal-500 group-hover:w-full group-hover:left-0 transition-all duration-300 rounded-full"></span>
-          </a>
-          <div class="relative">
-            <button class="flex items-center space-x-1 text-white hover:text-emerald-300 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover:bg-white/10 group">
-              <span>Services</span>
-              <i data-lucide="chevron-down" class="h-4 w-4 transition-transform duration-300"></i>
-            </button>
-          </div>
-          <a class="relative group text-white hover:text-emerald-300 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover:bg-white/10" href="gallery.html">
-            Gallery
-            <span class="absolute bottom-0 left-1/2 w-0 h-0.5 bg-gradient-to-r from-emerald-400 to-teal-500 group-hover:w-full group-hover:left-0 transition-all duration-300 rounded-full"></span>
-          </a>
-          <a class="relative group text-emerald-300 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover:bg-white/10" href="staff.html">
-            Staff
-            <span class="absolute bottom-0 left-1/2 w-full h-0.5 bg-gradient-to-r from-emerald-400 to-teal-500 rounded-full"></span>
-          </a>
-          <a class="relative group text-white hover:text-emerald-300 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover:bg-white/10" href="contact.html">
-            Contact
-            <span class="absolute bottom-0 left-1/2 w-0 h-0.5 bg-gradient-to-r from-emerald-400 to-teal-500 group-hover:w-full group-hover:left-0 transition-all duration-300 rounded-full"></span>
-          </a>
-        </div>
-
-        <!-- Login Button & Mobile Menu -->
-        <div class="flex items-center space-x-3">
-          <button class="hidden sm:flex items-center space-x-2 cursor-pointer bg-gradient-to-r from-emerald-500 to-teal-500 text-white px-4 py-2 lg:px-6 lg:py-3 rounded-xl font-semibold text-sm lg:text-base hover:from-emerald-600 hover:to-teal-600 transition-all duration-300 transform hover:scale-105 hover:shadow-lg group overflow-hidden relative" onclick="window.location.href='auth-admin.html'">
-            <span class="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
-            <i data-lucide="log-in" class="h-4 w-4 lg:h-5 lg:w-5 relative z-10"></i>
-            <span class="relative z-10">Login</span>
-          </button>
-          <button class="lg:hidden p-2 rounded-lg text-white hover:text-emerald-300 hover:bg-white/10 transition-all duration-300" aria-label="Toggle menu">
-            <i data-lucide="menu" class="h-6 w-6"></i>
-          </button>
+  <header class="header-container">
+    <div class="header-content">
+      <!-- Logo Section -->
+      <div class="logo-section">
+        <div class="flex items-center gap-3 group cursor-pointer" onclick="openLogoModal()">
+          <img src="logo.png" alt="MEDicos" class="logo-image">
+          <span class="logo-text">MEDicos</span>
         </div>
       </div>
+
+      <!-- Navigation Section -->
+      <div class="nav-section">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="about.html" class="nav-link">About</a>
+        <a href="index.html#locations" class="nav-link">Locations</a>
+        <a href="gallery.html" class="nav-link">Gallery</a>
+        <a href="staff.html" class="nav-link">Staff</a>
+        <a href="contact.html" class="nav-link">Contact</a>
+      </div>
+
+      <!-- Login Button -->
+      <button class="login-button" onclick="window.location.href='auth-admin.html'">
+        Login
+      </button>
     </div>
   </header>
 
@@ -100,79 +80,180 @@
   </div>
 
   <!-- Staff Section -->
-  <section class="py-12 px-4 max-w-5xl mx-auto">
-    <h2 class="text-3xl font-bold text-emerald-300 mb-8 text-center">Our Team</h2>
-    <!-- Head Boss -->
-    <div class="bg-white/10 rounded-2xl p-6 text-center shadow-lg mb-10">
-      <img src="hanif_ceo.png" alt="Mohammed Hanif" class="mx-auto rounded-full w-32 h-32 object-cover mb-4 border-4 border-emerald-400">
-      <h3 class="text-xl font-bold text-emerald-200 mb-1">Mohammed Hanif</h3>
-      <p class="text-sm text-gray-200 mb-2">CEO, P.M.B.J.K Bhatkal</p>
-      <p class="text-gray-300 text-sm">The most humble and experienced leader, with 10+ years in marketing and a vision that has guided the organization to new heights.</p>
-    </div>
-    <!-- Current Staff -->
-    <h3 class="text-2xl font-semibold text-cyan-200 mb-4 mt-8 text-center">Current Staff</h3>
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 mb-10">
-      <div class="bg-white/10 rounded-2xl p-6 text-center shadow-lg">
-        <img src="huzaifa.png" alt="Mohammed Huzefa" class="mx-auto rounded-full w-28 h-28 object-cover mb-3 border-4 border-cyan-400">
-        <h4 class="font-bold text-lg text-emerald-100 mb-1">Mohammed Huzefa</h4>
-        <p class="text-gray-200 text-sm">Manages both purchasing and sales, currently overseeing P.M.B.J.K Madeena Colony, Bhatkal single-handedly.</p>
+  <section class="relative py-16 px-4 z-10">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-12 md:mb-16">
+        <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-emerald-300 mb-4 md:mb-6">Our Team</h1>
+        <p class="text-lg md:text-xl text-gray-200 max-w-3xl mx-auto px-4">
+          Meet the dedicated healthcare professionals who make MEDicos your trusted pharmacy partner
+        </p>
       </div>
-      <div class="bg-white/10 rounded-2xl p-6 text-center shadow-lg">
-        <img src="nalini_kharvi.png" alt="Ms. Nalini Kharvi" class="mx-auto rounded-full w-28 h-28 object-cover mb-3 border-4 border-cyan-400">
-        <h4 class="font-bold text-lg text-emerald-100 mb-1">Ms. Nalini Kharvi</h4>
-        <p class="text-gray-200 text-sm">Purchasing Executive and Maintenance Coordinator, known for reliability and attention to detail, with over 2 years at the firm.</p>
-      </div>
-      <div class="bg-white/10 rounded-2xl p-6 text-center shadow-lg">
-        <img src="hannan.png" alt="Mr. Mohammed Hannan" class="mx-auto rounded-full w-28 h-28 object-cover mb-3 border-4 border-cyan-400">
-        <h4 class="font-bold text-lg text-emerald-100 mb-1">Mr. Mohammed Hannan</h4>
-        <p class="text-gray-200 text-sm">Associate Manager with strong expertise in medicine, talented and dedicated team member.</p>
-      </div>
-      <div class="bg-white/10 rounded-2xl p-6 text-center shadow-lg">
-        <img src="abdul_subhan.png" alt="Mr. Abdul Subhan" class="mx-auto rounded-full w-28 h-28 object-cover mb-3 border-4 border-cyan-400">
-        <h4 class="font-bold text-lg text-emerald-100 mb-1">Mr. Abdul Subhan</h4>
-        <p class="text-gray-200 text-sm">Junior Executive in Sales and key assistant in purchasing, known for his enthusiasm and support.</p>
-      </div>
-      <div class="bg-white/10 rounded-2xl p-6 text-center shadow-lg">
-        <img src="suprita.png" alt="Ms. Suprita" class="mx-auto rounded-full w-28 h-28 object-cover mb-3 border-4 border-cyan-400">
-        <h4 class="font-bold text-lg text-emerald-100 mb-1">Ms. Suprita</h4>
-        <p class="text-gray-200 text-sm">Head of Nursing Department, with extensive knowledge of medicines and surgical materials.</p>
-      </div>
-      <div class="bg-white/10 rounded-2xl p-6 text-center shadow-lg">
-        <img src="hanzala.png" alt="Mr. Mohammed Hanzala" class="mx-auto rounded-full w-28 h-28 object-cover mb-3 border-4 border-cyan-400">
-        <h4 class="font-bold text-lg text-emerald-100 mb-1">Mr. Mohammed Hanzala</h4>
-        <p class="text-gray-200 text-sm">Aspiring software engineer and head of purchase and sales, experienced and knowledgeable in medicines and technology.</p>
-      </div>
-    </div>
-    <!-- Former Staff -->
-    <h3 class="text-2xl font-semibold text-yellow-300 mb-4 mt-8 text-center">Former Staff</h3>
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-      <div class="bg-white/10 rounded-2xl p-6 text-center shadow-lg">
-        <img src="imran_karani.png" alt="Mr. Imran Karani" class="mx-auto rounded-full w-24 h-24 object-cover mb-3 border-4 border-yellow-400">
-        <h4 class="font-bold text-lg text-yellow-100 mb-1">Mr. Imran Karani</h4>
-        <p class="text-gray-200 text-sm">(2019–2022) Provided immense support and dedication, playing a crucial role in building the success of Jan Aushadhi Medical.</p>
-      </div>
-      <div class="bg-white/10 rounded-2xl p-6 text-center shadow-lg">
-        <img src="zakwan_karani.png" alt="Mr. Zakwan Karani" class="mx-auto rounded-full w-24 h-24 object-cover mb-3 border-4 border-yellow-400">
-        <h4 class="font-bold text-lg text-yellow-100 mb-1">Mr. Zakwan Karani</h4>
-        <p class="text-gray-200 text-sm">(2022–Dec 2023) Served as Purchasing Head, with commitment and expertise that contributed greatly to the pharmacy's growth.</p>
-      </div>
-      <div class="bg-white/10 rounded-2xl p-6 text-center shadow-lg">
-        <img src="inzimam.png" alt="Mr. Inzimam" class="mx-auto rounded-full w-24 h-24 object-cover mb-3 border-4 border-yellow-400">
-        <h4 class="font-bold text-lg text-yellow-100 mb-1">Mr. Inzimam</h4>
-        <p class="text-gray-200 text-sm">(2023–2024) Started as a trainee at P.M.B.J.K Bhatkal, later transferred to Madeena Colony, and played a valuable role during his tenure.</p>
-      </div>
-    </div>
-  </section>
 
-  <!-- Team Values -->
-  <div class="mt-16 bg-white/10 rounded-2xl p-8 shadow-lg">
-    <h2 class="text-3xl font-bold text-emerald-300 mb-8 text-center">Our Team Values</h2>
-    <div class="grid md:grid-cols-3 gap-8">
-      <div class="text-center">
-        <div class="bg-emerald-500/20 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-          <i data-lucide="heart" class="w-8 h-8 text-emerald-300"></i>
+      <!-- Leadership Section -->
+      <div class="mb-12 md:mb-16">
+        <div class="text-center mb-8 md:mb-12">
+          <h2 class="text-2xl md:text-3xl font-bold text-emerald-300 mb-4">Executive Leadership</h2>
+          <p class="text-gray-300 max-w-2xl mx-auto px-4">Our visionary leadership team guides MEDicos with expertise and dedication</p>
         </div>
-        <h3 class="text-xl font-semibold text-emerald-300 mb-3">Compassion</h3>
+        
+        <div class="bg-white/10 rounded-2xl p-4 md:p-8 shadow-lg">
+          <div class="flex flex-col lg:flex-row items-center gap-4 md:gap-8">
+            <div class="flex-shrink-0">
+              <img src="hanz.jpg" alt="Mohammed Hanif" class="w-32 h-32 md:w-48 md:h-48 rounded-full border-4 border-emerald-400 shadow-lg object-cover cursor-pointer hover:scale-105 transition-transform duration-300" onclick="openStaffModal('hanz.jpg', 'Mohammed Hanif', 'Chief Executive Officer')">
+            </div>
+            <div class="text-center lg:text-left flex-1">
+              <h3 class="text-2xl md:text-3xl font-bold text-emerald-300 mb-2">Mohammed Hanif</h3>
+              <p class="text-lg md:text-xl text-emerald-200 mb-3 md:mb-4">Chief Executive Officer</p>
+              <p class="text-sm md:text-lg text-gray-300 mb-4 md:mb-6 leading-relaxed">
+                A visionary leader with over 10 years of experience in healthcare marketing and business development. 
+                Under his leadership, MEDicos has grown into a trusted healthcare partner serving the community with 
+                dedication and excellence.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Current Staff Section -->
+      <div class="mb-16">
+        <div class="text-center mb-8 md:mb-12">
+          <h2 class="text-2xl md:text-3xl font-bold text-cyan-300 mb-4">Current Team Members</h2>
+          <p class="text-gray-300 max-w-2xl mx-auto px-4">Our dedicated professionals committed to providing exceptional healthcare services</p>
+        </div>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
+          <!-- Staff Member 1 -->
+          <div class="bg-white/10 rounded-2xl p-4 md:p-6 shadow-lg">
+            <div class="text-center mb-4 md:mb-6">
+              <img src="huzefa.jpg" alt="Mohammed Huzefa" class="w-24 h-24 md:w-32 md:h-32 mx-auto rounded-full border-4 border-cyan-400 shadow-lg mb-3 md:mb-4 object-cover cursor-pointer hover:scale-105 transition-transform duration-300" onclick="openStaffModal('huzefa.jpg', 'Mohammed Huzefa', 'Operations Manager')">
+              <h4 class="text-lg md:text-xl font-bold text-cyan-300 mb-2">Mohammed Huzefa</h4>
+              <p class="text-emerald-200 font-medium mb-2 md:mb-3 text-sm md:text-base">Operations Manager</p>
+            </div>
+            <p class="text-gray-300 text-xs md:text-sm leading-relaxed text-center">
+              Manages both purchasing and sales operations, currently overseeing P.M.B.J.K Madeena Colony, Bhatkal 
+              with exceptional efficiency and dedication.
+            </p>
+          </div>
+
+          <!-- Staff Member 2 -->
+          <div class="bg-white/10 rounded-2xl p-4 md:p-6 shadow-lg">
+            <div class="text-center mb-4 md:mb-6">
+              <img src="nalini.jpg" alt="Ms. Nalini Kharvi" class="w-24 h-24 md:w-32 md:h-32 mx-auto rounded-full border-4 border-cyan-400 shadow-lg mb-3 md:mb-4 object-cover cursor-pointer hover:scale-105 transition-transform duration-300" onclick="openStaffModal('nalini.jpg', 'Ms. Nalini Kharvi', 'Purchasing Executive')">
+              <h4 class="text-lg md:text-xl font-bold text-cyan-300 mb-2">Ms. Nalini Kharvi</h4>
+              <p class="text-emerald-200 font-medium mb-2 md:mb-3 text-sm md:text-base">Purchasing Executive</p>
+            </div>
+            <p class="text-gray-300 text-xs md:text-sm leading-relaxed text-center">
+              Purchasing Executive and Maintenance Coordinator, known for exceptional reliability and attention to detail, 
+              with over 2 years of dedicated service at MEDicos.
+            </p>
+          </div>
+
+          <!-- Staff Member 3 -->
+          <div class="bg-white/10 rounded-2xl p-4 md:p-6 shadow-lg">
+            <div class="text-center mb-4 md:mb-6">
+              <img src="hannan.jpg" alt="Mr. Mohammed Hannan" class="w-24 h-24 md:w-32 md:h-32 mx-auto rounded-full border-4 border-cyan-400 shadow-lg mb-3 md:mb-4 object-cover cursor-pointer hover:scale-105 transition-transform duration-300" onclick="openStaffModal('hannan.jpg', 'Mr. Mohammed Hannan', 'Associate Manager')">
+              <h4 class="text-lg md:text-xl font-bold text-cyan-300 mb-2">Mr. Mohammed Hannan</h4>
+              <p class="text-emerald-200 font-medium mb-2 md:mb-3 text-sm md:text-base">Associate Manager</p>
+            </div>
+            <p class="text-gray-300 text-xs md:text-sm leading-relaxed text-center">
+              Associate Manager with strong expertise in pharmaceutical products and medicine management. 
+              A talented and dedicated team member committed to excellence.
+            </p>
+          </div>
+
+          <!-- Staff Member 4 -->
+          <div class="bg-white/10 rounded-2xl p-4 md:p-6 shadow-lg">
+            <div class="text-center mb-4 md:mb-6">
+              <img src="subhan.jpg" alt="Mr. Abdul Subhan" class="w-24 h-24 md:w-32 md:h-32 mx-auto rounded-full border-4 border-cyan-400 shadow-lg mb-3 md:mb-4 object-cover cursor-pointer hover:scale-105 transition-transform duration-300" onclick="openStaffModal('subhan.jpg', 'Mr. Abdul Subhan', 'Junior Executive')">
+              <h4 class="text-lg md:text-xl font-bold text-cyan-300 mb-2">Mr. Abdul Subhan</h4>
+              <p class="text-emerald-200 font-medium mb-2 md:mb-3 text-sm md:text-base">Junior Executive</p>
+            </div>
+            <p class="text-gray-300 text-xs md:text-sm leading-relaxed text-center">
+              Junior Executive in Sales and key assistant in purchasing operations. Known for his enthusiasm, 
+              support, and commitment to customer service excellence.
+            </p>
+          </div>
+
+          <!-- Staff Member 5 -->
+          <div class="bg-white/10 rounded-2xl p-4 md:p-6 shadow-lg">
+            <div class="text-center mb-4 md:mb-6">
+              <img src="suprita.jpg" alt="Ms. Suprita" class="w-24 h-24 md:w-32 md:h-32 mx-auto rounded-full border-4 border-cyan-400 shadow-lg mb-3 md:mb-4 object-cover cursor-pointer hover:scale-105 transition-transform duration-300" onclick="openStaffModal('suprita.jpg', 'Ms. Suprita', 'Head of Nursing')">
+              <h4 class="text-lg md:text-xl font-bold text-cyan-300 mb-2">Ms. Suprita</h4>
+              <p class="text-emerald-200 font-medium mb-2 md:mb-3 text-sm md:text-base">Head of Nursing</p>
+            </div>
+            <p class="text-gray-300 text-xs md:text-sm leading-relaxed text-center">
+              Head of Nursing Department with extensive knowledge of medicines and surgical materials. 
+              Provides expert guidance on healthcare products and patient care.
+            </p>
+          </div>
+
+          <!-- Staff Member 6 -->
+          <div class="bg-white/10 rounded-2xl p-4 md:p-6 shadow-lg">
+            <div class="text-center mb-4 md:mb-6">
+              <img src="hanzala.jpg" alt="Mr. Mohammed Hanzala" class="w-24 h-24 md:w-32 md:h-32 mx-auto rounded-full border-4 border-cyan-400 shadow-lg mb-3 md:mb-4 object-cover cursor-pointer hover:scale-105 transition-transform duration-300" onclick="openStaffModal('hanzala.jpg', 'Mr. Mohammed Hanzala', 'Technology Lead')">
+              <h4 class="text-lg md:text-xl font-bold text-cyan-300 mb-2">Mr. Mohammed Hanzala</h4>
+              <p class="text-emerald-200 font-medium mb-2 md:mb-3 text-sm md:text-base">Technology Lead</p>
+            </div>
+            <p class="text-gray-300 text-xs md:text-sm leading-relaxed text-center">
+              Aspiring software engineer and head of purchase and sales. Experienced in both pharmaceutical 
+              knowledge and modern technology solutions for healthcare management.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Former Staff Section -->
+      <div class="mb-12 md:mb-16">
+        <div class="text-center mb-8 md:mb-12">
+          <h2 class="text-2xl md:text-3xl font-bold text-yellow-300 mb-4">Former Team Members</h2>
+          <p class="text-gray-300 max-w-2xl mx-auto px-4">We honor the contributions of our former team members who helped build MEDicos</p>
+        </div>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
+          <div class="bg-white/10 rounded-2xl p-4 md:p-6 shadow-lg">
+            <div class="text-center mb-3 md:mb-4">
+              <img src="imran.jpg" alt="Mr. Imran Karani" class="w-20 h-20 md:w-24 md:h-24 mx-auto rounded-full border-4 border-yellow-400 shadow-lg mb-2 md:mb-3 object-cover cursor-pointer hover:scale-105 transition-transform duration-300" onclick="openStaffModal('imran.jpg', 'Mr. Imran Karani', 'Former Staff (2019–2022)')">
+              <h4 class="text-base md:text-lg font-bold text-yellow-300 mb-1">Mr. Imran Karani</h4>
+              <p class="text-yellow-200 text-xs md:text-sm mb-2">2019–2022</p>
+            </div>
+            <p class="text-gray-300 text-xs md:text-sm text-center">
+              Provided immense support and dedication, playing a crucial role in building the success of Jan Aushadhi Medical.
+            </p>
+          </div>
+          
+          <div class="bg-white/10 rounded-2xl p-4 md:p-6 shadow-lg">
+            <div class="text-center mb-3 md:mb-4">
+              <img src="zakwan.jpg" alt="Mr. Zakwan Karani" class="w-20 h-20 md:w-24 md:h-24 mx-auto rounded-full border-4 border-yellow-400 shadow-lg mb-2 md:mb-3 object-cover cursor-pointer hover:scale-105 transition-transform duration-300" onclick="openStaffModal('zakwan.jpg', 'Mr. Zakwan Karani', 'Former Staff (2022–Dec 2023)')">
+              <h4 class="text-base md:text-lg font-bold text-yellow-300 mb-1">Mr. Zakwan Karani</h4>
+              <p class="text-yellow-200 text-xs md:text-sm mb-2">2022–Dec 2023</p>
+            </div>
+            <p class="text-gray-300 text-xs md:text-sm text-center">
+              Served as Purchasing Head with commitment and expertise that contributed greatly to the pharmacy's growth.
+            </p>
+          </div>
+          
+          <div class="bg-white/10 rounded-2xl p-4 md:p-6 shadow-lg">
+            <div class="text-center mb-3 md:mb-4">
+              <img src="inzimam.jpg" alt="Mr. Inzimam" class="w-20 h-20 md:w-24 md:h-24 mx-auto rounded-full border-4 border-yellow-400 shadow-lg mb-2 md:mb-3 object-cover cursor-pointer hover:scale-105 transition-transform duration-300" onclick="openStaffModal('inzimam.jpg', 'Mr. Inzimam', 'Former Staff (2023–2024)')">
+              <h4 class="text-base md:text-lg font-bold text-yellow-300 mb-1">Mr. Inzimam</h4>
+              <p class="text-yellow-200 text-xs md:text-sm mb-2">2023–2024</p>
+            </div>
+            <p class="text-gray-300 text-xs md:text-sm text-center">
+              Started as a trainee at P.M.B.J.K Bhatkal, later transferred to Madeena Colony, playing a valuable role during his tenure.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Team Values Section -->
+      <div class="bg-white/10 rounded-2xl p-4 md:p-8 shadow-lg">
+        <h2 class="text-2xl md:text-3xl font-bold text-emerald-300 mb-6 md:mb-8 text-center">Our Core Values</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+          <div class="text-center">
+            <div class="bg-emerald-500/20 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+              <i data-lucide="heart" class="w-8 h-8 text-emerald-300"></i>
+            </div>
+            <h3 class="text-xl font-semibold text-emerald-300 mb-3">Compassion</h3>
         <p class="text-gray-200">We treat every patient with care, understanding, and respect</p>
       </div>
       <div class="text-center">
@@ -192,6 +273,41 @@
     </div>
   </div>
 
+  <!-- Staff Modal -->
+  <div id="staffModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 hidden">
+    <div class="bg-white/10 backdrop-blur-xl rounded-2xl p-4 md:p-8 max-w-md w-full mx-4 relative shadow-2xl border border-white/20">
+      <button onclick="closeStaffModal()" class="absolute top-4 right-4 text-white hover:text-red-400 text-2xl font-bold transition-colors">&times;</button>
+      <div class="text-center">
+        <img id="staffModalImage" src="" alt="Staff Member" class="w-48 h-48 md:w-64 md:h-64 mx-auto rounded-full border-4 border-emerald-400 shadow-2xl mb-6 object-cover">
+        <h2 id="staffModalName" class="text-2xl md:text-3xl font-bold text-emerald-300 mb-2"></h2>
+        <p id="staffModalDesignation" class="text-lg md:text-xl text-gray-200 mb-6"></p>
+        <button onclick="closeStaffModal()" class="px-6 py-3 bg-emerald-500/80 backdrop-blur-sm text-white rounded-lg hover:bg-emerald-600/90 transition-all duration-300 border border-emerald-400/30">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Logo Modal -->
+  <div id="logoModal" class="fixed inset-0 bg-black/60 flex items-center justify-center z-50 hidden">
+    <div class="bg-white/95 rounded-2xl p-6 md:p-10 max-w-2xl w-full relative shadow-2xl">
+      <button onclick="closeLogoModal()" class="absolute top-4 right-4 text-gray-700 hover:text-red-500 text-2xl font-bold">&times;</button>
+      <div class="text-center">
+        <img src="logo.png" alt="MEDicos Logo" class="w-full max-w-md mx-auto mb-6 rounded-lg shadow-lg">
+        <h2 class="text-2xl md:text-3xl font-bold text-emerald-700 mb-4">MEDicos</h2>
+        <p class="text-gray-600 mb-6">Your Trusted Healthcare Partner Since 2018</p>
+        <div class="flex justify-center gap-4">
+          <button onclick="window.location.href='index.html'" class="px-6 py-3 bg-emerald-500 text-white rounded-lg hover:bg-emerald-600 transition-colors">
+            Go Home
+          </button>
+          <button onclick="closeLogoModal()" class="px-6 py-3 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <footer class="text-center py-8 text-gray-300 bg-white/10 mt-12">
     <div class="max-w-7xl mx-auto px-4">
       <p class="text-lg mb-4">&copy; 2018-2024 MEDicos. All rights reserved.</p>
@@ -204,6 +320,65 @@
     </div>
   </footer>
 
+  <script src="js/init.js"></script>
+  <script src="js/chatbot.js"></script>
+  <script>
+    // Loading overlay management
+    window.addEventListener('load', function() {
+      const loadingOverlay = document.getElementById('loadingOverlay');
+      if (loadingOverlay) {
+        setTimeout(() => {
+          loadingOverlay.classList.add('hidden');
+          setTimeout(() => {
+            loadingOverlay.style.display = 'none';
+          }, 300);
+        }, 1000); // Show loading for 1 second
+      }
+    });
+
+    // Staff Modal Functions
+    function openStaffModal(imageSrc, name, designation) {
+      const staffModal = document.getElementById('staffModal');
+      const staffModalImage = document.getElementById('staffModalImage');
+      const staffModalName = document.getElementById('staffModalName');
+      const staffModalDesignation = document.getElementById('staffModalDesignation');
+      
+      staffModalImage.src = imageSrc;
+      staffModalName.textContent = name;
+      staffModalDesignation.textContent = designation;
+      
+      staffModal.classList.remove('hidden');
+    }
+
+    function closeStaffModal() {
+      const staffModal = document.getElementById('staffModal');
+      staffModal.classList.add('hidden');
+    }
+
+    // Logo Modal Functions
+    function openLogoModal() {
+      const logoModal = document.getElementById('logoModal');
+      logoModal.classList.remove('hidden');
+    }
+
+    function closeLogoModal() {
+      const logoModal = document.getElementById('logoModal');
+      logoModal.classList.add('hidden');
+    }
+
+    // Close modals when clicking outside
+    document.getElementById('staffModal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeStaffModal();
+      }
+    });
+
+    document.getElementById('logoModal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeLogoModal();
+      }
+    });
+  </script>
   <script>lucide.createIcons();</script>
 </body>
 </html> 

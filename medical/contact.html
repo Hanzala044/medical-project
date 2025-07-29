@@ -6,7 +6,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="css/loader.css">
   <style>
+    /* Global Serif Font Override */
+    * {
+      font-family: 'Times New Roman', Times, serif !important;
+    }
+    
     /* Animated gradient background */
     body::before {
       content: '';
@@ -31,64 +37,50 @@
       0% { transform: translateY(0); }
       100% { transform: translateY(-20px); }
     }
+
   </style>
 </head>
 <body class="bg-gradient-to-br from-cyan-900 via-slate-900 to-blue-900 min-h-screen text-white overflow-x-hidden">
+
+
+
+  <!-- Loading Overlay -->
+  <div id="loadingOverlay" class="loading-overlay">
+    <div class="loader"></div>
+    <div class="loading-text">MEDicos</div>
+    <div class="loading-subtitle">Contact Information</div>
+    <div class="loading-messages">
+      <div class="loading-message">Loading contact details...</div>
+      <div class="loading-message">Preparing contact form...</div>
+      <div class="loading-message">Almost ready...</div>
+    </div>
+  </div>
+
   <!-- Header -->
-  <header class="bg-white/10 backdrop-blur-lg border-b border-white/20">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between items-center h-16 lg:h-20">
-        <!-- Logo -->
-        <a class="flex items-center space-x-3 group" href="index.html">
-          <div class="relative">
-            <img src="logo.svg" alt="MEDicos" class="h-10 w-auto sm:h-12 lg:h-14 transition-transform duration-300 group-hover:scale-105">
-            <div class="absolute inset-0 bg-gradient-to-r from-emerald-400/20 to-teal-400/20 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-sm"></div>
-          </div>
-          <span class="text-2xl font-bold tracking-wide text-emerald-300">MEDicos</span>
-        </a>
-
-        <!-- Desktop Navigation -->
-        <div class="hidden lg:flex items-center space-x-1">
-          <a class="relative group text-white hover:text-emerald-300 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover:bg-white/10" href="index.html">
-            Home
-            <span class="absolute bottom-0 left-1/2 w-0 h-0.5 bg-gradient-to-r from-emerald-400 to-teal-500 group-hover:w-full group-hover:left-0 transition-all duration-300 rounded-full"></span>
-          </a>
-          <a class="relative group text-white hover:text-emerald-300 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover:bg-white/10" href="about.html">
-            About
-            <span class="absolute bottom-0 left-1/2 w-0 h-0.5 bg-gradient-to-r from-emerald-400 to-teal-500 group-hover:w-full group-hover:left-0 transition-all duration-300 rounded-full"></span>
-          </a>
-          <div class="relative">
-            <button class="flex items-center space-x-1 text-white hover:text-emerald-300 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover:bg-white/10 group">
-              <span>Services</span>
-              <i data-lucide="chevron-down" class="h-4 w-4 transition-transform duration-300"></i>
-            </button>
-          </div>
-          <a class="relative group text-white hover:text-emerald-300 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover:bg-white/10" href="gallery.html">
-            Gallery
-            <span class="absolute bottom-0 left-1/2 w-0 h-0.5 bg-gradient-to-r from-emerald-400 to-teal-500 group-hover:w-full group-hover:left-0 transition-all duration-300 rounded-full"></span>
-          </a>
-          <a class="relative group text-white hover:text-emerald-300 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover:bg-white/10" href="staff.html">
-            Staff
-            <span class="absolute bottom-0 left-1/2 w-0 h-0.5 bg-gradient-to-r from-emerald-400 to-teal-500 group-hover:w-full group-hover:left-0 transition-all duration-300 rounded-full"></span>
-          </a>
-          <a class="relative group text-emerald-300 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover:bg-white/10" href="contact.html">
-            Contact
-            <span class="absolute bottom-0 left-1/2 w-full h-0.5 bg-gradient-to-r from-emerald-400 to-teal-500 rounded-full"></span>
-          </a>
-        </div>
-
-        <!-- Login Button & Mobile Menu -->
-        <div class="flex items-center space-x-3">
-          <button class="hidden sm:flex items-center space-x-2 cursor-pointer bg-gradient-to-r from-emerald-500 to-teal-500 text-white px-4 py-2 lg:px-6 lg:py-3 rounded-xl font-semibold text-sm lg:text-base hover:from-emerald-600 hover:to-teal-600 transition-all duration-300 transform hover:scale-105 hover:shadow-lg group overflow-hidden relative" onclick="window.location.href='auth-admin.html'">
-            <span class="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
-            <i data-lucide="log-in" class="h-4 w-4 lg:h-5 lg:w-5 relative z-10"></i>
-            <span class="relative z-10">Login</span>
-          </button>
-          <button class="lg:hidden p-2 rounded-lg text-white hover:text-emerald-300 hover:bg-white/10 transition-all duration-300" aria-label="Toggle menu">
-            <i data-lucide="menu" class="h-6 w-6"></i>
-          </button>
+  <header class="header-container">
+    <div class="header-content">
+      <!-- Logo Section -->
+      <div class="logo-section">
+        <div class="flex items-center gap-3 group cursor-pointer" onclick="openLogoModal()">
+          <img src="logo.png" alt="MEDicos" class="logo-image">
+          <span class="logo-text">MEDicos</span>
         </div>
       </div>
+
+      <!-- Navigation Section -->
+      <div class="nav-section">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="about.html" class="nav-link">About</a>
+        <a href="index.html#locations" class="nav-link">Locations</a>
+        <a href="gallery.html" class="nav-link">Gallery</a>
+        <a href="staff.html" class="nav-link">Staff</a>
+        <a href="contact.html" class="nav-link">Contact</a>
+      </div>
+
+      <!-- Login Button -->
+      <button class="login-button" onclick="window.location.href='auth-admin.html'">
+        Login
+      </button>
     </div>
   </header>
 
@@ -100,21 +92,21 @@
   </div>
 
   <!-- Contact Section -->
-  <section class="relative py-16 px-4 z-10">
+  <section class="relative py-8 md:py-16 px-4 z-10">
     <div class="max-w-6xl mx-auto">
-      <div class="text-center mb-16">
-        <h1 class="text-4xl md:text-5xl font-bold text-emerald-300 mb-6">Contact & Developer</h1>
-        <p class="text-xl text-gray-200 max-w-3xl mx-auto">
-          Get in touch with us for any queries, feedback, or collaborations. Meet the developer behind MEDicos
+      <div class="text-center mb-12 md:mb-16">
+        <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-emerald-300 mb-4 md:mb-6">Contact Information</h1>
+        <p class="text-lg md:text-xl text-gray-200 max-w-3xl mx-auto px-4">
+          Get in touch with MEDicos for professional healthcare services and support
         </p>
       </div>
 
-      <div class="grid lg:grid-cols-2 gap-12 items-start">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-start">
         <!-- Contact Information -->
-        <div class="space-y-8">
-          <div class="bg-white/10 rounded-2xl p-8 shadow-lg">
-            <h2 class="text-2xl font-bold text-emerald-300 mb-6">Get In Touch</h2>
-            <div class="space-y-6">
+        <div class="space-y-6 md:space-y-8">
+          <div class="bg-white/10 rounded-2xl p-6 md:p-8 shadow-lg">
+            <h2 class="text-xl md:text-2xl font-bold text-emerald-300 mb-4 md:mb-6">Get In Touch</h2>
+            <div class="space-y-4 md:space-y-6">
               <div class="flex items-start gap-4">
                 <div class="bg-emerald-500/20 rounded-lg p-3">
                   <i data-lucide="map-pin" class="w-6 h-6 text-emerald-300"></i>
@@ -132,7 +124,7 @@
                 <div>
                   <h3 class="font-semibold text-emerald-300 mb-1">Phone</h3>
                   <p class="text-gray-200">+91 9110232172</p>
-                  <p class="text-gray-200">+9741690949</p>
+                  <p class="text-gray-200">+91 9741690949</p>
                 </div>
               </div>
               
@@ -161,10 +153,10 @@
             </div>
           </div>
 
-          <div class="bg-white/10 rounded-2xl p-8 shadow-lg">
-            <h2 class="text-2xl font-bold text-emerald-300 mb-6">Quick Contact Form</h2>
-            <form class="space-y-4">
-              <div class="grid md:grid-cols-2 gap-4">
+          <div class="bg-white/10 rounded-2xl p-6 md:p-8 shadow-lg">
+            <h2 class="text-xl md:text-2xl font-bold text-emerald-300 mb-4 md:mb-6">Contact Form</h2>
+            <form class="space-y-3 md:space-y-4">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
                 <input type="text" placeholder="First Name" class="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-300 focus:border-emerald-500 focus:outline-none transition-colors">
                 <input type="text" placeholder="Last Name" class="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-300 focus:border-emerald-500 focus:outline-none transition-colors">
               </div>
@@ -179,32 +171,29 @@
         </div>
 
         <!-- Developer Profile -->
-        <div class="space-y-8">
-          <div class="bg-white/10 border-4 border-cyan-400 rounded-3xl shadow-2xl p-8 flex flex-col items-center">
-            <img src="C:\Users\moham\Downloads\77b6eb1e-6fe3-4a53-a3ff-bf4c888243f6 (2).jpg" alt="Mohammed Hanzala" class="w-40 h-40 rounded-full border-4 border-emerald-400 shadow-lg mb-6 object-cover">
-            <h3 class="text-3xl font-bold text-emerald-300 mb-2">Mohammed Hanzala</h3>
-            <p class="text-xl text-gray-200 mb-4">Software Engineer</p>
-            <p class="text-gray-300 text-center mb-6">
-              Passionate about building beautiful, functional, and impactful software for the healthcare industry and beyond. 
-              Specialized in modern web technologies and user experience design.
-            </p>
-            <div class="flex gap-4 mb-6">
-              <a href="https://www.instagram.com/mohd_.hanzala/" target="_blank" class="hover:scale-110 transition bg-pink-500/20 rounded-full p-3">
-                <i data-lucide="instagram" class="w-8 h-8 text-pink-400"></i>
-              </a>
+        <div class="space-y-6 md:space-y-8">
+          <div class="bg-white/10 rounded-2xl p-6 md:p-8 shadow-lg">
+            <div class="text-center mb-4 md:mb-6">
+              <img src="mohammed_hanzala.jpg" alt="Mohammed Hanzala" class="w-24 h-24 md:w-32 md:h-32 mx-auto rounded-full border-4 border-emerald-400 shadow-lg mb-3 md:mb-4 object-cover">
+              <h3 class="text-xl md:text-2xl font-bold text-emerald-300 mb-2">Mohammed Hanzala</h3>
+              <p class="text-base md:text-lg text-gray-200 mb-2 md:mb-3">Software Engineer</p>
+              <p class="text-gray-300 text-center mb-6">
+                Experienced software engineer by profession but blood lies in pharmacy & specializing in healthcare technology solutions. 
+                Passionate about creating innovative, user-friendly applications.
+              </p>
+            </div>
+            
+            <div class="flex justify-center gap-4 mb-6">
               <a href="https://github.com/Hanzala044/" target="_blank" class="hover:scale-110 transition bg-gray-500/20 rounded-full p-3">
-                <i data-lucide="github" class="w-8 h-8 text-gray-200"></i>
+                <i data-lucide="github" class="w-6 h-6 text-gray-200"></i>
               </a>
               <a href="https://www.linkedin.com/in/mohammed-hanzala-0ab14424a/" target="_blank" class="hover:scale-110 transition bg-blue-500/20 rounded-full p-3">
-                <i data-lucide="linkedin" class="w-8 h-8 text-blue-400"></i>
+                <i data-lucide="linkedin" class="w-6 h-6 text-blue-300"></i>
               </a>
-              <a href="https://x.com/Arabian263" target="_blank" class="hover:scale-110 transition bg-cyan-500/20 rounded-full p-3">
-                <i data-lucide="twitter" class="w-8 h-8 text-cyan-400"></i>
+              <a href="https://www.instagram.com/mohd_.hanzala/" target="_blank" class="hover:scale-110 transition bg-pink-500/20 rounded-full p-3">
+                <i data-lucide="instagram" class="w-6 h-6 text-pink-300"></i>
               </a>
             </div>
-            <a href="mailto:mohammed.hanzala@example.com" class="bg-emerald-500 hover:bg-emerald-600 text-white px-8 py-3 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
-              Email Me
-            </a>
           </div>
 
           <div class="bg-white/10 rounded-2xl p-8 shadow-lg">
@@ -233,6 +222,26 @@
     </div>
   </section>
 
+  <!-- Logo Modal -->
+  <div id="logoModal" class="fixed inset-0 bg-black/60 flex items-center justify-center z-50 hidden">
+    <div class="bg-white/95 rounded-2xl p-6 md:p-10 max-w-2xl w-full relative shadow-2xl">
+      <button onclick="closeLogoModal()" class="absolute top-4 right-4 text-gray-700 hover:text-red-500 text-2xl font-bold">&times;</button>
+      <div class="text-center">
+        <img src="logo.png" alt="MEDicos Logo" class="w-full max-w-md mx-auto mb-6 rounded-lg shadow-lg">
+        <h2 class="text-2xl md:text-3xl font-bold text-emerald-700 mb-4">MEDicos</h2>
+        <p class="text-gray-600 mb-6">Your Trusted Healthcare Partner Since 2018</p>
+        <div class="flex justify-center gap-4">
+          <button onclick="window.location.href='index.html'" class="px-6 py-3 bg-emerald-500 text-white rounded-lg hover:bg-emerald-600 transition-colors">
+            Go Home
+          </button>
+          <button onclick="closeLogoModal()" class="px-6 py-3 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <footer class="text-center py-8 text-gray-300 bg-white/10 mt-12">
     <div class="max-w-7xl mx-auto px-4">
       <p class="text-lg mb-4">&copy; 2018-2024 MEDicos. All rights reserved.</p>
@@ -245,6 +254,40 @@
     </div>
   </footer>
 
+  <script src="js/init.js"></script>
+  <script src="js/chatbot.js"></script>
+  <script>
+    // Loading overlay management
+    window.addEventListener('load', function() {
+      const loadingOverlay = document.getElementById('loadingOverlay');
+      if (loadingOverlay) {
+        setTimeout(() => {
+          loadingOverlay.classList.add('hidden');
+          setTimeout(() => {
+            loadingOverlay.style.display = 'none';
+          }, 300);
+        }, 1000); // Show loading for 1 second
+      }
+    });
+
+    // Logo Modal Functions
+    function openLogoModal() {
+      const logoModal = document.getElementById('logoModal');
+      logoModal.classList.remove('hidden');
+    }
+
+    function closeLogoModal() {
+      const logoModal = document.getElementById('logoModal');
+      logoModal.classList.add('hidden');
+    }
+
+    // Close modal when clicking outside
+    document.getElementById('logoModal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeLogoModal();
+      }
+    });
+  </script>
   <script>lucide.createIcons();</script>
 </body>
 </html> 

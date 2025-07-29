@@ -6,7 +6,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="css/loader.css">
   <style>
+    /* Global Serif Font Override */
+    * {
+      font-family: 'Times New Roman', Times, serif !important;
+    }
+    
     body {
       background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
       min-height: 100vh;
@@ -32,26 +38,201 @@
       color: #ffffff !important;
       padding: 8px;
     }
+
+    /* Neumorphic Button Styles - From Uiverse.io by SupportHotline */
+    :root {
+      --color-back: #1e293b;
+    }
+
+    .neumorphic-button {
+      background: var(--color-back);
+      border-radius: 0.5em;
+      box-shadow:
+        inset 0px -6px 18px -6px rgba(3, 15, 20, 0),
+        inset rgba(54, 69, 75, 1) -1px -1px 6px 0px,
+        inset 12px 0px 12px -6px rgba(3, 15, 20, 0),
+        inset -12px 0px 12px -6px rgba(3, 15, 20, 0),
+        rgba(54, 69, 75, 1) -1px -1px 6px 0px;
+      border: solid 2px #030f14;
+      cursor: pointer;
+      font-size: 18px;
+      padding: 0.7em 1.7em;
+      outline: none;
+      transition: all 0.3s;
+      user-select: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      color: #d0a756;
+      font-weight: 700;
+    }
+
+    .neumorphic-button:hover {
+      box-shadow:
+        inset 0px -6px 18px -6px rgba(3, 15, 20, 1),
+        inset 0px 6px 18px -6px rgba(3, 15, 20, 1),
+        inset 12px 0px 12px -6px rgba(3, 15, 20, 0),
+        inset -12px 0px 12px -6px rgba(3, 15, 20, 0),
+        -1px -1px 6px 0px rgba(54, 69, 75, 1);
+    }
+
+    .neumorphic-button:active {
+      box-shadow:
+        inset 0px -12px 12px -6px rgba(3, 15, 20, 1),
+        inset 0px 12px 12px -6px rgba(3, 15, 20, 1),
+        inset 12px 0px 12px -6px rgba(3, 15, 20, 1),
+        inset -12px 0px 12px -6px rgba(3, 15, 20, 1),
+        -1px -1px 6px 0px rgba(54, 69, 75, 1);
+    }
+
+    .neumorphic-button .text {
+      color: #d0a756;
+      font-weight: 700;
+      margin: auto;
+      transition: all 0.3s;
+      width: fit-content;
+      font-family: 'Times New Roman', Times, serif;
+    }
+
+    .neumorphic-button:hover .text {
+      transform: scale(0.9);
+    }
+
+    .neumorphic-button:active .text {
+      transform: scale(0.8);
+    }
+
+    /* Trust Marker Button Styles */
+    .trust-marker-button {
+      background: var(--color-back);
+      border-radius: 0.5em;
+      box-shadow:
+        inset 0px -6px 18px -6px rgba(3, 15, 20, 0),
+        inset rgba(54, 69, 75, 1) -1px -1px 6px 0px,
+        inset 12px 0px 12px -6px rgba(3, 15, 20, 0),
+        inset -12px 0px 12px -6px rgba(3, 15, 20, 0),
+        rgba(54, 69, 75, 1) -1px -1px 6px 0px;
+      border: solid 2px #030f14;
+      cursor: pointer;
+      transition: all 0.3s;
+      user-select: none;
+      padding: 0.5em;
+      display: block;
+      text-decoration: none;
+    }
+
+    .trust-marker-button:hover {
+      box-shadow:
+        inset 0px -6px 18px -6px rgba(3, 15, 20, 1),
+        inset 0px 6px 18px -6px rgba(3, 15, 20, 1),
+        inset 12px 0px 12px -6px rgba(3, 15, 20, 0),
+        inset -12px 0px 12px -6px rgba(3, 15, 20, 0),
+        -1px -1px 6px 0px rgba(54, 69, 75, 1);
+      transform: scale(1.05);
+    }
+
+    .trust-marker-button:active {
+      box-shadow:
+        inset 0px -12px 12px -6px rgba(3, 15, 20, 1),
+        inset 0px 12px 12px -6px rgba(3, 15, 20, 1),
+        inset 12px 0px 12px -6px rgba(3, 15, 20, 1),
+        inset -12px 0px 12px -6px rgba(3, 15, 20, 1),
+        -1px -1px 6px 0px rgba(54, 69, 75, 1);
+      transform: scale(0.95);
+    }
+
+
   </style>
 </head>
 <body class="flex flex-col items-center justify-center min-h-screen text-white">
 
+
+
+  <!-- Loading Overlay -->
+  <div id="loadingOverlay" class="loading-overlay">
+    <div class="loader"></div>
+    <div class="loading-text">MEDicos</div>
+    <div class="loading-subtitle">Secure Access Portal</div>
+    <div class="loading-messages">
+      <div class="loading-message">Initializing secure connection...</div>
+      <div class="loading-message">Loading authentication system...</div>
+      <div class="loading-message">Preparing login interface...</div>
+    </div>
+  </div>
+
+  <!-- Exit Button -->
+  <div class="absolute top-4 right-4 z-30">
+    <button onclick="window.location.href='index.html'" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition-all duration-300 flex items-center gap-2 shadow-lg hover:shadow-xl transform hover:scale-105">
+      <i data-lucide="home" class="w-4 h-4"></i>
+      <span class="hidden sm:inline">Exit to Home</span>
+      <span class="sm:hidden">Exit</span>
+    </button>
+  </div>
+
   <!-- Announcement Banner -->
   <div class="relative w-full flex justify-center z-20">
     <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-pulse"></div>
-    <div class="relative bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl px-6 py-3 mt-4 mb-6 shadow-lg flex items-center justify-center text-center max-w-2xl mx-auto">
-      <span class="text-lg md:text-xl font-semibold text-white flex items-center gap-2">
-        🏥 <span>Welcome to MEDicos Pharmacy Management System</span> 💊<br class="block md:hidden"/>
-        <span class="ml-2 text-sm md:text-base font-normal text-gray-200">Secure access for staff and administrators since <span class="font-bold text-emerald-300">2018</span>. 🙏</span>
+    <div class="relative bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl px-4 md:px-6 py-3 mt-4 mb-4 md:mb-6 shadow-lg flex items-center justify-center text-center max-w-2xl mx-auto">
+      <span class="text-base md:text-lg lg:text-xl font-semibold text-white flex flex-col md:flex-row items-center gap-2">
+        <span class="flex items-center gap-2">🏥 <span>Welcome to MEDicos Pharmacy Management System</span> 💊</span>
+        <span class="text-xs md:text-sm lg:text-base font-normal text-gray-200">Secure access for staff and administrators since <span class="font-bold text-emerald-300">2018</span>. 🙏</span>
       </span>
     </div>
   </div>
 
-  <!-- Navigation -->
-  <div class="flex space-x-4 mb-8 mt-6">
-    <button onclick="showPage('login')" class="px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 transition">Login</button>
-    <button onclick="showPage('register')" class="px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 transition">Register Staff</button>
-    <button onclick="showPage('admin')" class="px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 transition">Admin</button>
+  <!-- Trust Markers Navigation -->
+  <div class="flex flex-wrap justify-center gap-4 md:gap-6 mb-6 md:mb-8 mt-4 md:mt-6 px-4">
+    <!-- Login Trust Marker -->
+    <!-- From Uiverse.io by SupportHotline -->
+    <div class="trust-marker-button" onclick="showPage('login')">
+      <div class="TrustMarkerHeroComponent_trustMarkerContainer__yFj1S bg-gray-900 rounded-xl p-4 flex items-center space-x-4 min-w-[200px]">
+        <div class="TrustMarkerHeroComponent_trustMarkerHeadingContainer__cjGbd flex-1">
+          <h3 class="text-white font-semibold text-lg">Staff Login</h3>
+          <h4 class="text-gray-300 text-sm">Secure access portal</h4>
+        </div>
+        <div class="TrustMarkerHeroComponent_trustMarkerImageContainer__434rY">
+          <div class="TrustMarkerHeroComponent_imageBackground__XVdWd w-12 h-12 bg-emerald-500/20 rounded-full flex items-center justify-center">
+            <i data-lucide="log-in" class="w-6 h-6 text-emerald-400"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+    <!-- Register Staff Trust Marker -->
+    <!-- From Uiverse.io by SupportHotline -->
+    <div class="trust-marker-button" onclick="showPage('register')">
+      <div class="TrustMarkerHeroComponent_trustMarkerContainer__yFj1S bg-gray-900 rounded-xl p-4 flex items-center space-x-4 min-w-[200px]">
+        <div class="TrustMarkerHeroComponent_trustMarkerHeadingContainer__cjGbd flex-1">
+          <h3 class="text-white font-semibold text-lg">Register Staff</h3>
+          <h4 class="text-gray-300 text-sm">Join our team</h4>
+        </div>
+        <div class="TrustMarkerHeroComponent_trustMarkerImageContainer__434rY">
+          <div class="TrustMarkerHeroComponent_imageBackground__XVdWd w-12 h-12 bg-blue-500/20 rounded-full flex items-center justify-center">
+            <i data-lucide="user-plus" class="w-6 h-6 text-blue-400"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Admin Trust Marker -->
+    <!-- From Uiverse.io by SupportHotline -->
+    <div class="trust-marker-button" onclick="showPage('admin')">
+      <div class="TrustMarkerHeroComponent_trustMarkerContainer__yFj1S bg-gray-900 rounded-xl p-4 flex items-center space-x-4 min-w-[200px]">
+        <div class="TrustMarkerHeroComponent_trustMarkerHeadingContainer__cjGbd flex-1">
+          <h3 class="text-white font-semibold text-lg">Admin Panel</h3>
+          <h4 class="text-gray-300 text-sm">System management</h4>
+        </div>
+        <div class="TrustMarkerHeroComponent_trustMarkerImageContainer__434rY">
+          <div class="TrustMarkerHeroComponent_imageBackground__XVdWd w-12 h-12 bg-purple-500/20 rounded-full flex items-center justify-center">
+            <i data-lucide="shield" class="w-6 h-6 text-purple-400"></i>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- Login Page -->
@@ -85,11 +266,21 @@
           <i data-lucide="lock" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5"></i>
           <input type="password" placeholder="Password" required class="w-full pl-10 pr-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent backdrop-blur-sm transition-all duration-300 text-base">
         </div>
-        <button type="submit" class="w-full bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 transform hover:scale-105 text-white py-3 rounded-lg font-semibold text-lg transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center space-x-2">
-          <span>Login</span>
+        <!-- From Uiverse.io by SupportHotline -->
+        <button type="submit" class="neumorphic-button">
+          <div class="text">Login</div>
           <i data-lucide="log-in" class="w-5 h-5"></i>
         </button>
       </form>
+      
+      <!-- Exit Button for Staff Login -->
+      <div class="mt-4 text-center">
+        <button onclick="window.location.href='index.html'" class="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-lg transition-all duration-300 flex items-center gap-2 mx-auto shadow-lg hover:shadow-xl transform hover:scale-105">
+          <i data-lucide="home" class="w-4 h-4"></i>
+          Exit to Home
+        </button>
+      </div>
+      
       <div class="text-center mt-4">
         <span class="text-gray-300 text-sm">Don't have an account?</span>
         <button onclick="showPage('register')" class="text-cyan-400 hover:underline ml-1 text-sm">Register</button>
@@ -130,11 +321,21 @@
           <i data-lucide="lock" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4 md:w-5 md:h-5"></i>
           <input type="password" placeholder="Password*" required class="w-full pl-8 md:pl-10 pr-4 py-2 md:py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent backdrop-blur-sm transition-all duration-300 text-sm md:text-base">
         </div>
-        <button type="submit" class="w-full bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-600 hover:to-cyan-600 transform hover:scale-105 text-white py-3 rounded-lg font-semibold text-lg transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center space-x-2">
-          <span>Register</span>
+        <!-- From Uiverse.io by SupportHotline -->
+        <button type="submit" class="neumorphic-button">
+          <div class="text">Register</div>
           <i data-lucide="user-plus" class="w-5 h-5"></i>
         </button>
       </form>
+      
+      <!-- Exit Button for Register -->
+      <div class="mt-4 text-center">
+        <button onclick="window.location.href='index.html'" class="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-lg transition-all duration-300 flex items-center gap-2 mx-auto shadow-lg hover:shadow-xl transform hover:scale-105">
+          <i data-lucide="home" class="w-4 h-4"></i>
+          Exit to Home
+        </button>
+      </div>
+      
       <div class="text-center mt-4">
         <span class="text-gray-300 text-sm">Already have an account?</span>
         <button onclick="showPage('login')" class="text-emerald-400 hover:underline ml-1 text-sm">Login</button>
@@ -170,11 +371,21 @@
           <i data-lucide="lock" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5"></i>
           <input type="password" id="adminPassword" placeholder="Password" required class="w-full pl-10 pr-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent backdrop-blur-sm transition-all duration-300 text-base">
         </div>
-        <button type="submit" class="w-full bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 transform hover:scale-105 text-white py-3 rounded-lg font-semibold text-lg transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center space-x-2">
-          <span>Login as Admin</span>
+        <!-- From Uiverse.io by SupportHotline -->
+        <button type="submit" class="neumorphic-button">
+          <div class="text">Login as Admin</div>
           <i data-lucide="shield" class="w-5 h-5"></i>
         </button>
       </form>
+      
+      <!-- Exit Button for Admin Login -->
+      <div class="mt-4 text-center">
+        <button onclick="window.location.href='index.html'" class="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-lg transition-all duration-300 flex items-center gap-2 mx-auto shadow-lg hover:shadow-xl transform hover:scale-105">
+          <i data-lucide="home" class="w-4 h-4"></i>
+          Exit to Home
+        </button>
+      </div>
+      
       <div class="text-center mt-4">
         <span class="text-gray-300 text-sm">Need staff access?</span>
         <button onclick="showPage('login')" class="text-purple-400 hover:underline ml-1 text-sm">Staff Login</button>
@@ -357,7 +568,107 @@
       }
     };
 
-    lucide.createIcons();
+    // Initialize all components when DOM is loaded
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log('🔐 MEDicos Auth - Initializing all components...');
+      
+      // Initialize Lucide icons
+      lucide.createIcons();
+      console.log('✅ Icons initialized');
+      
+      // Initialize trust markers
+      const trustMarkers = document.querySelectorAll('.TrustMarkerHeroComponent_gradientBorderBackground___42bi');
+      trustMarkers.forEach(marker => {
+        marker.addEventListener('mouseenter', function() {
+          this.style.transform = 'scale(1.05)';
+        });
+        marker.addEventListener('mouseleave', function() {
+          this.style.transform = 'scale(1)';
+        });
+        
+        // Add click feedback
+        marker.addEventListener('click', function() {
+          this.style.transform = 'scale(0.95)';
+          setTimeout(() => {
+            this.style.transform = 'scale(1.05)';
+          }, 150);
+        });
+      });
+      console.log('✅ Trust markers initialized');
+      
+      // Initialize form animations
+      const formInputs = document.querySelectorAll('input, select');
+      formInputs.forEach(input => {
+        input.addEventListener('focus', function() {
+          this.parentElement.style.transform = 'scale(1.02)';
+        });
+        input.addEventListener('blur', function() {
+          this.parentElement.style.transform = 'scale(1)';
+        });
+      });
+      console.log('✅ Form animations initialized');
+      
+      // Initialize page transitions
+      const pages = document.querySelectorAll('.page');
+      pages.forEach(page => {
+        if (page.classList.contains('active')) {
+          page.style.animation = 'fadeIn 0.5s ease-in-out';
+        }
+      });
+      console.log('✅ Page transitions initialized');
+      
+      // Initialize floating background elements
+      const floatingElements = document.querySelectorAll('.animate-pulse, .animate-bounce');
+      floatingElements.forEach((element, index) => {
+        element.style.animationDelay = `${index * 0.3}s`;
+      });
+      console.log('✅ Floating elements initialized');
+      
+      // Initialize button hover effects
+      const buttons = document.querySelectorAll('button');
+      buttons.forEach(button => {
+        button.addEventListener('mouseenter', function() {
+          this.style.transform = 'translateY(-2px)';
+        });
+        button.addEventListener('mouseleave', function() {
+          this.style.transform = 'translateY(0)';
+        });
+      });
+      console.log('✅ Button effects initialized');
+      
+      console.log('🎉 All MEDicos Auth components initialized successfully!');
+    });
+    
+    // Add CSS animations
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      
+      .page.active {
+        animation: fadeIn 0.5s ease-in-out;
+      }
+    `;
+    document.head.appendChild(style);
+  </script>
+  <script src="js/init.js"></script>
+  <script>
+    // Loading overlay management
+    window.addEventListener('load', function() {
+      const loadingOverlay = document.getElementById('loadingOverlay');
+      if (loadingOverlay) {
+        setTimeout(() => {
+          loadingOverlay.classList.add('hidden');
+          setTimeout(() => {
+            loadingOverlay.style.display = 'none';
+          }, 300);
+        }, 1000); // Show loading for 1 second
+      }
+    });
+
+
   </script>
 </body>
 </html> 

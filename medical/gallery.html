@@ -6,7 +6,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="css/loader.css">
   <style>
+    /* Global Serif Font Override */
+    * {
+      font-family: 'Times New Roman', Times, serif !important;
+    }
+    
     /* Animated gradient background */
     body::before {
       content: '';
@@ -33,62 +39,45 @@
     }
   </style>
 </head>
-<body class="bg-gradient-to-br from-cyan-900 via-slate-900 to-blue-900 min-h-screen text-white overflow-x-hidden">
+<body class="bg-gradient-to-br from-cyan-900 via-slate-900 to-blue-900 min-h-screen text-white overflow-x-hidden gallery-page">
+
+  <!-- Loading Overlay -->
+  <div id="loadingOverlay" class="loading-overlay">
+    <div class="loader"></div>
+    <div class="loading-text">MEDicos</div>
+    <div class="loading-subtitle">Gallery</div>
+    <div class="loading-messages">
+      <div class="loading-message">Loading gallery...</div>
+      <div class="loading-message">Preparing images...</div>
+      <div class="loading-message">Almost ready...</div>
+    </div>
+  </div>
+
   <!-- Header -->
-  <header class="bg-white/10 backdrop-blur-lg border-b border-white/20">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between items-center h-16 lg:h-20">
-        <!-- Logo -->
-        <a class="flex items-center space-x-3 group" href="index.html">
-          <div class="relative">
-            <img src="logo.svg" alt="MEDicos" class="h-10 w-auto sm:h-12 lg:h-14 transition-transform duration-300 group-hover:scale-105">
-            <div class="absolute inset-0 bg-gradient-to-r from-emerald-400/20 to-teal-400/20 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-sm"></div>
-          </div>
-          <span class="text-2xl font-bold tracking-wide text-emerald-300">MEDicos</span>
-        </a>
-
-        <!-- Desktop Navigation -->
-        <div class="hidden lg:flex items-center space-x-1">
-          <a class="relative group text-white hover:text-emerald-300 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover:bg-white/10" href="index.html">
-            Home
-            <span class="absolute bottom-0 left-1/2 w-0 h-0.5 bg-gradient-to-r from-emerald-400 to-teal-500 group-hover:w-full group-hover:left-0 transition-all duration-300 rounded-full"></span>
-          </a>
-          <a class="relative group text-white hover:text-emerald-300 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover:bg-white/10" href="about.html">
-            About
-            <span class="absolute bottom-0 left-1/2 w-0 h-0.5 bg-gradient-to-r from-emerald-400 to-teal-500 group-hover:w-full group-hover:left-0 transition-all duration-300 rounded-full"></span>
-          </a>
-          <div class="relative">
-            <button class="flex items-center space-x-1 text-white hover:text-emerald-300 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover:bg-white/10 group">
-              <span>Services</span>
-              <i data-lucide="chevron-down" class="h-4 w-4 transition-transform duration-300"></i>
-            </button>
-          </div>
-          <a class="relative group text-emerald-300 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover:bg-white/10" href="gallery.html">
-            Gallery
-            <span class="absolute bottom-0 left-1/2 w-full h-0.5 bg-gradient-to-r from-emerald-400 to-teal-500 rounded-full"></span>
-          </a>
-          <a class="relative group text-white hover:text-emerald-300 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover:bg-white/10" href="staff.html">
-            Staff
-            <span class="absolute bottom-0 left-1/2 w-0 h-0.5 bg-gradient-to-r from-emerald-400 to-teal-500 group-hover:w-full group-hover:left-0 transition-all duration-300 rounded-full"></span>
-          </a>
-          <a class="relative group text-white hover:text-emerald-300 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover:bg-white/10" href="contact.html">
-            Contact
-            <span class="absolute bottom-0 left-1/2 w-0 h-0.5 bg-gradient-to-r from-emerald-400 to-teal-500 group-hover:w-full group-hover:left-0 transition-all duration-300 rounded-full"></span>
-          </a>
-        </div>
-
-        <!-- Login Button & Mobile Menu -->
-        <div class="flex items-center space-x-3">
-          <button class="hidden sm:flex items-center space-x-2 cursor-pointer bg-gradient-to-r from-emerald-500 to-teal-500 text-white px-4 py-2 lg:px-6 lg:py-3 rounded-xl font-semibold text-sm lg:text-base hover:from-emerald-600 hover:to-teal-600 transition-all duration-300 transform hover:scale-105 hover:shadow-lg group overflow-hidden relative" onclick="window.location.href='auth-admin.html'">
-            <span class="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
-            <i data-lucide="log-in" class="h-4 w-4 lg:h-5 lg:w-5 relative z-10"></i>
-            <span class="relative z-10">Login</span>
-          </button>
-          <button class="lg:hidden p-2 rounded-lg text-white hover:text-emerald-300 hover:bg-white/10 transition-all duration-300" aria-label="Toggle menu">
-            <i data-lucide="menu" class="h-6 w-6"></i>
-          </button>
+  <header class="header-container">
+    <div class="header-content">
+      <!-- Logo Section -->
+      <div class="logo-section">
+        <div class="flex items-center gap-3 group cursor-pointer" onclick="openLogoModal()">
+          <img src="logo.png" alt="MEDicos" class="logo-image">
+          <span class="logo-text">MEDicos</span>
         </div>
       </div>
+
+      <!-- Navigation Section -->
+      <div class="nav-section">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="about.html" class="nav-link">About</a>
+        <a href="index.html#locations" class="nav-link">Locations</a>
+        <a href="gallery.html" class="nav-link">Gallery</a>
+        <a href="staff.html" class="nav-link">Staff</a>
+        <a href="contact.html" class="nav-link">Contact</a>
+      </div>
+
+      <!-- Login Button -->
+      <button class="login-button" onclick="window.location.href='auth-admin.html'">
+        Login
+      </button>
     </div>
   </header>
 
@@ -100,77 +89,196 @@
   </div>
 
   <!-- Gallery Section -->
-  <section class="relative py-16 px-4 z-10">
+  <section class="relative py-8 md:py-16 px-4 z-10">
     <div class="max-w-7xl mx-auto">
-      <div class="text-center mb-12">
-        <h1 class="text-4xl md:text-5xl font-bold text-emerald-300 mb-6">Our Pharmacy Gallery</h1>
-        <p class="text-xl text-gray-200 max-w-3xl mx-auto">
+      <div class="text-center mb-8 md:mb-12">
+        <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-emerald-300 mb-4 md:mb-6">Our Pharmacy Gallery</h1>
+        <p class="text-lg md:text-xl text-gray-200 max-w-3xl mx-auto px-4">
           Explore our comprehensive gallery showcasing our pharmacy services, facilities, and the quality care we provide to our valued customers
         </p>
       </div>
       
-      <div class="flex flex-wrap justify-center gap-4 mb-12">
-        <button class="px-6 py-3 rounded-full font-medium transition-all duration-300 transform cursor-pointer hover:scale-105 bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-lg" onclick="filterGallery('all')">All</button>
-        <button class="px-6 py-3 rounded-full font-medium transition-all duration-300 transform cursor-pointer hover:scale-105 bg-white/10 text-white border border-white/20 hover:border-emerald-500 hover:text-emerald-300" onclick="filterGallery('medicines')">Medicines</button>
-        <button class="px-6 py-3 rounded-full font-medium transition-all duration-300 transform cursor-pointer hover:scale-105 bg-white/10 text-white border border-white/20 hover:border-emerald-500 hover:text-emerald-300" onclick="filterGallery('facility')">Facility</button>
-        <button class="px-6 py-3 rounded-full font-medium transition-all duration-300 transform cursor-pointer hover:scale-105 bg-white/10 text-white border border-white/20 hover:border-emerald-500 hover:text-emerald-300" onclick="filterGallery('services')">Services</button>
+      <div class="flex flex-wrap justify-center gap-2 md:gap-4 mb-8 md:mb-12 px-4">
+        <button class="px-4 md:px-6 py-2 md:py-3 rounded-full font-medium transition-all duration-300 transform cursor-pointer hover:scale-105 bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-lg text-sm md:text-base" onclick="filterGallery('all')">All</button>
+        <button class="px-4 md:px-6 py-2 md:py-3 rounded-full font-medium transition-all duration-300 transform cursor-pointer hover:scale-105 bg-white/10 text-white border border-white/20 hover:border-emerald-500 hover:text-emerald-300 text-sm md:text-base" onclick="filterGallery('staff')">Staff</button>
+        <button class="px-4 md:px-6 py-2 md:py-3 rounded-full font-medium transition-all duration-300 transform cursor-pointer hover:scale-105 bg-white/10 text-white border border-white/20 hover:border-emerald-500 hover:text-emerald-300 text-sm md:text-base" onclick="filterGallery('events')">Events</button>
+        <button class="px-4 md:px-6 py-2 md:py-3 rounded-full font-medium transition-all duration-300 transform cursor-pointer hover:scale-105 bg-white/10 text-white border border-white/20 hover:border-emerald-500 hover:text-emerald-300 text-sm md:text-base" onclick="filterGallery('facility')">Facility</button>
       </div>
       
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        <!-- Real Pharmacy Photos -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
+        <!-- Gallery Images -->
         <div class="gallery-item group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:scale-105 cursor-pointer bg-white" data-category="staff">
           <div class="aspect-w-4 aspect-h-3 overflow-hidden">
             <img src="gallery1.jpg" alt="Staff member with ice cream" class="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110">
           </div>
         </div>
+        
         <div class="gallery-item group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:scale-105 cursor-pointer bg-white" data-category="staff">
           <div class="aspect-w-4 aspect-h-3 overflow-hidden">
             <img src="gallery2.jpg" alt="Staff group photo in pharmacy" class="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110">
           </div>
         </div>
+        
         <div class="gallery-item group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:scale-105 cursor-pointer bg-white" data-category="staff">
           <div class="aspect-w-4 aspect-h-3 overflow-hidden">
             <img src="gallery3.jpg" alt="Two staff members in pharmacy (black and white)" class="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110">
           </div>
         </div>
+        
         <div class="gallery-item group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:scale-105 cursor-pointer bg-white" data-category="staff">
           <div class="aspect-w-4 aspect-h-3 overflow-hidden">
             <img src="gallery4.jpg" alt="Staff collage and pharmacy scenes" class="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110">
           </div>
         </div>
+        
         <div class="gallery-item group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:scale-105 cursor-pointer bg-white" data-category="events">
           <div class="aspect-w-4 aspect-h-3 overflow-hidden">
             <img src="gallery5.jpg" alt="Farewell cake" class="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110">
           </div>
         </div>
+        
         <div class="gallery-item group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:scale-105 cursor-pointer bg-white" data-category="events">
           <div class="aspect-w-4 aspect-h-3 overflow-hidden">
             <img src="gallery6.jpg" alt="Staff and customers at pharmacy event" class="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110">
           </div>
         </div>
+        
         <div class="gallery-item group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:scale-105 cursor-pointer bg-white" data-category="events">
           <div class="aspect-w-4 aspect-h-3 overflow-hidden">
             <img src="gallery7.jpg" alt="Staff and customers at pharmacy event 2" class="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110">
           </div>
         </div>
+        
         <div class="gallery-item group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:scale-105 cursor-pointer bg-white" data-category="facility">
           <div class="aspect-w-4 aspect-h-3 overflow-hidden">
             <img src="gallery8.jpg" alt="Pharmacy interior with green shelves" class="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110">
           </div>
         </div>
+        
         <div class="gallery-item group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:scale-105 cursor-pointer bg-white" data-category="staff">
           <div class="aspect-w-4 aspect-h-3 overflow-hidden">
             <img src="gallery9.jpg" alt="Two staff at pharmacy counter" class="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110">
           </div>
         </div>
+        
         <div class="gallery-item group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:scale-105 cursor-pointer bg-white" data-category="events">
           <div class="aspect-w-4 aspect-h-3 overflow-hidden">
             <img src="gallery10.jpg" alt="Pharmacy event with food" class="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110">
           </div>
         </div>
+        
+        <div class="gallery-item group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:scale-105 cursor-pointer bg-white" data-category="staff">
+          <div class="aspect-w-4 aspect-h-3 overflow-hidden">
+            <img src="gallery11.jpg" alt="Staff member at pharmacy counter" class="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110">
+          </div>
+        </div>
+        
+        <div class="gallery-item group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:scale-105 cursor-pointer bg-white" data-category="events">
+          <div class="aspect-w-4 aspect-h-3 overflow-hidden">
+            <img src="gallery12.jpg" alt="Pharmacy team celebration" class="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110">
+          </div>
+        </div>
+        
+        <div class="gallery-item group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:scale-105 cursor-pointer bg-white" data-category="facility">
+          <div class="aspect-w-4 aspect-h-3 overflow-hidden">
+            <img src="gallery13.jpg" alt="Pharmacy medicine shelves" class="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110">
+          </div>
+        </div>
+        
+        <div class="gallery-item group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:scale-105 cursor-pointer bg-white" data-category="staff">
+          <div class="aspect-w-4 aspect-h-3 overflow-hidden">
+            <img src="gallery14.jpg" alt="Staff member helping customer" class="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110">
+          </div>
+        </div>
+        
+        <div class="gallery-item group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:scale-105 cursor-pointer bg-white" data-category="events">
+          <div class="aspect-w-4 aspect-h-3 overflow-hidden">
+            <img src="gallery15.jpg" alt="Pharmacy team meeting" class="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110">
+          </div>
+        </div>
+        
+        <div class="gallery-item group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:scale-105 cursor-pointer bg-white" data-category="facility">
+          <div class="aspect-w-4 aspect-h-3 overflow-hidden">
+            <img src="gallery16.jpg" alt="Pharmacy consultation area" class="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110">
+          </div>
+        </div>
+        
+        <div class="gallery-item group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:scale-105 cursor-pointer bg-white" data-category="staff">
+          <div class="aspect-w-4 aspect-h-3 overflow-hidden">
+            <img src="gallery17.jpg" alt="Staff member with medicines" class="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110">
+          </div>
+        </div>
+        
+        <div class="gallery-item group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:scale-105 cursor-pointer bg-white" data-category="events">
+          <div class="aspect-w-4 aspect-h-3 overflow-hidden">
+            <img src="gallery18.jpg" alt="Pharmacy community event" class="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110">
+          </div>
+        </div>
+        
+        <div class="gallery-item group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:scale-105 cursor-pointer bg-white" data-category="facility">
+          <div class="aspect-w-4 aspect-h-3 overflow-hidden">
+            <img src="gallery19.jpg" alt="Pharmacy storage area" class="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110">
+          </div>
+        </div>
+        
+        <div class="gallery-item group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:scale-105 cursor-pointer bg-white" data-category="staff">
+          <div class="aspect-w-4 aspect-h-3 overflow-hidden">
+            <img src="gallery20.jpg" alt="Staff team photo" class="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110">
+          </div>
+        </div>
+        
+        <div class="gallery-item group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:scale-105 cursor-pointer bg-white" data-category="events">
+          <div class="aspect-w-4 aspect-h-3 overflow-hidden">
+            <img src="gallery21.jpg" alt="Pharmacy health awareness event" class="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110">
+          </div>
+        </div>
+        
+        <div class="gallery-item group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:scale-105 cursor-pointer bg-white" data-category="facility">
+          <div class="aspect-w-4 aspect-h-3 overflow-hidden">
+            <img src="gallery22.jpg" alt="Pharmacy waiting area" class="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110">
+          </div>
+        </div>
+        
+        <div class="gallery-item group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:scale-105 cursor-pointer bg-white" data-category="staff">
+          <div class="aspect-w-4 aspect-h-3 overflow-hidden">
+            <img src="gallery23.jpg" alt="Staff member providing consultation" class="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110">
+          </div>
+        </div>
+        
+        <div class="gallery-item group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:scale-105 cursor-pointer bg-white" data-category="events">
+          <div class="aspect-w-4 aspect-h-3 overflow-hidden">
+            <img src="gallery24.jpg" alt="Pharmacy team training session" class="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110">
+          </div>
+        </div>
+        
+        <div class="gallery-item group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:scale-105 cursor-pointer bg-white" data-category="facility">
+          <div class="aspect-w-4 aspect-h-3 overflow-hidden">
+            <img src="gallery25.jpg" alt="Pharmacy medicine dispensing area" class="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110">
+          </div>
+        </div>
       </div>
     </div>
   </section>
+
+  <!-- Logo Modal -->
+  <div id="logoModal" class="fixed inset-0 bg-black/60 flex items-center justify-center z-50 hidden">
+    <div class="bg-white/95 rounded-2xl p-6 md:p-10 max-w-2xl w-full relative shadow-2xl">
+      <button onclick="closeLogoModal()" class="absolute top-4 right-4 text-gray-700 hover:text-red-500 text-2xl font-bold">&times;</button>
+      <div class="text-center">
+        <img src="logo.png" alt="MEDicos Logo" class="w-full max-w-md mx-auto mb-6 rounded-lg shadow-lg">
+        <h2 class="text-2xl md:text-3xl font-bold text-emerald-700 mb-4">MEDicos</h2>
+        <p class="text-gray-600 mb-6">Your Trusted Healthcare Partner Since 2018</p>
+        <div class="flex justify-center gap-4">
+          <button onclick="window.location.href='index.html'" class="px-6 py-3 bg-emerald-500 text-white rounded-lg hover:bg-emerald-600 transition-colors">
+            Go Home
+          </button>
+          <button onclick="closeLogoModal()" class="px-6 py-3 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <footer class="text-center py-8 text-gray-300 bg-white/10 mt-12">
     <div class="max-w-7xl mx-auto px-4">
@@ -184,8 +292,39 @@
     </div>
   </footer>
 
+  <script src="js/init.js"></script>
+  <script src="js/chatbot.js"></script>
   <script>
-    lucide.createIcons();
+    // Loading overlay management
+    window.addEventListener('load', function() {
+      const loadingOverlay = document.getElementById('loadingOverlay');
+      if (loadingOverlay) {
+        setTimeout(() => {
+          loadingOverlay.classList.add('hidden');
+          setTimeout(() => {
+            loadingOverlay.style.display = 'none';
+          }, 300);
+        }, 1000); // Show loading for 1 second
+      }
+    });
+
+    // Logo Modal Functions
+    function openLogoModal() {
+      const logoModal = document.getElementById('logoModal');
+      logoModal.classList.remove('hidden');
+    }
+
+    function closeLogoModal() {
+      const logoModal = document.getElementById('logoModal');
+      logoModal.classList.add('hidden');
+    }
+
+    // Close modal when clicking outside
+    document.getElementById('logoModal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeLogoModal();
+      }
+    });
     
     // Gallery filter functionality
     function filterGallery(category) {
@@ -210,5 +349,6 @@
       });
     }
   </script>
+  <script>lucide.createIcons();</script>
 </body>
 </html> 

@@ -1,18 +1,20 @@
-from flask import Flask, request, jsonify, session, render_template_string, send_from_directory, url_for
+from flask import Flask, request, jsonify, session, send_from_directory, url_for
 from flask_cors import CORS
 import mysql.connector
 from mysql.connector import Error
 import os
 import json
 from datetime import datetime, date
-import hashlib
-import base64
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaFileUpload
-import uuid
+
+# Import WhatsApp integration
+from whatsapp_integration import setup_whatsapp_routes
+from twilio_whatsapp_integration import setup_twilio_whatsapp_routes
+from razorpay_integration import setup_razorpay_routes
 
 app = Flask(__name__, static_folder='.', static_url_path='')
 app.secret_key = 'medicos_secret_key_2024'
@@ -109,12 +111,16 @@ def init_database():
                     unit_price DECIMAL(10,2) NOT NULL,
                     total_amount DECIMAL(10,2) NOT NULL,
                     doctor_name VARCHAR(100),
-                    doctor_phone VARCHAR(20),
                     prescription_photo_url VARCHAR(500),
                     customer_name VARCHAR(100),
                     customer_phone VARCHAR(20),
                     sale_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                     sold_by INT NOT NULL,
+                    rate_per_tablet DECIMAL(10,2),
+                    payment_id VARCHAR(100),
+                    order_id VARCHAR(100),
+                    payment_status ENUM('pending', 'completed', 'failed') DEFAULT 'pending',
+                    payment_method VARCHAR(50) DEFAULT 'razorpay',
                     FOREIGN KEY (medicine_id) REFERENCES medicines(medicine_id),
                     FOREIGN KEY (sold_by) REFERENCES staff(staff_id)
                 )
@@ -645,11 +651,12 @@ def add_sale():
         medicine_id = data.get('medicine_id')
         quantity_sold = data.get('quantity_sold')
         doctor_name = data.get('doctor_name')
-        doctor_phone = data.get('doctor_phone')
+        rate_per_tablet = data.get('rate_per_tablet')
+        total_amount = data.get('total_amount')
         prescription_photo_url = data.get('prescription_photo_url')
         customer_name = data.get('customer_name')
         customer_phone = data.get('customer_phone')
-        sold_by = data.get('sold_by')  # Get staff ID from request data
+        sold_by = session.get('user_id')  # Get staff ID from session
         
         connection = get_db_connection()
         if not connection:
@@ -668,16 +675,20 @@ def add_sale():
             return jsonify({'error': 'Insufficient quantity available'}), 400
         
         unit_price = medicine[1]
-        total_amount = quantity_sold * unit_price
+        # Use provided total_amount or calculate from rate_per_tablet
+        if total_amount is None and rate_per_tablet:
+            total_amount = quantity_sold * rate_per_tablet
+        elif total_amount is None:
+            total_amount = quantity_sold * unit_price
         
         # Insert sale record
         cursor.execute("""
             INSERT INTO sales (medicine_id, quantity_sold, unit_price, total_amount,
-                             doctor_name, doctor_phone, prescription_photo_url,
-                             customer_name, customer_phone, sold_by)
+                             doctor_name, prescription_photo_url,
+                             customer_name, customer_phone, sold_by, rate_per_tablet)
             VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
         """, (medicine_id, quantity_sold, unit_price, total_amount, doctor_name,
-              doctor_phone, prescription_photo_url, customer_name, customer_phone, sold_by))
+              prescription_photo_url, customer_name, customer_phone, sold_by, rate_per_tablet))
         
         # Update medicine quantity
         cursor.execute("""
@@ -713,9 +724,44 @@ def upload_prescription():
         save_path = os.path.join(uploads_dir, filename)
         file.save(save_path)
         
-        # Return the local file URL
+        # Upload to Google Drive if credentials are available
+        drive_url = None
+        try:
+            if os.path.exists(SERVICE_ACCOUNT_FILE):
+                credentials = service_account.Credentials.from_service_account_file(
+                    SERVICE_ACCOUNT_FILE, scopes=SCOPES)
+                service = build('drive', 'v3', credentials=credentials)
+                
+                # Create file metadata
+                file_metadata = {
+                    'name': filename,
+                    'parents': [GOOGLE_DRIVE_FOLDER_ID]
+                }
+                
+                # Create media upload
+                media = MediaFileUpload(save_path, resumable=True)
+                
+                # Upload file
+                file = service.files().create(
+                    body=file_metadata,
+                    media_body=media,
+                    fields='id,webViewLink'
+                ).execute()
+                
+                drive_url = file.get('webViewLink')
+                print(f"✅ File uploaded to Google Drive: {drive_url}")
+            else:
+                print("⚠️ Google Drive credentials not found, skipping Drive upload")
+        except Exception as drive_error:
+            print(f"⚠️ Google Drive upload failed: {drive_error}")
+        
+        # Return the local file URL and Drive URL if available
         file_url = url_for('uploaded_file', filename=filename, _external=True)
-        return jsonify({'success': True, 'file_url': file_url})
+        return jsonify({
+            'success': True, 
+            'file_url': file_url,
+            'drive_url': drive_url
+        })
     except Exception as e:
         return jsonify({'error': f'Upload error: {str(e)}'}), 500
 
@@ -809,10 +855,17 @@ if __name__ == '__main__':
     # Initialize database on startup
     init_database()
     
+    # Setup WhatsApp routes
+    setup_whatsapp_routes(app)
+    setup_twilio_whatsapp_routes(app)
+    setup_razorpay_routes(app)
+    
     print("🚀 MEDicos Pharmacy Management System Backend")
     print("📊 Database initialized with sample data")
     print("🔐 Default admin credentials: admin1/admin123 or admin2/admin123")
     print("👥 Sample staff credentials: staff1/staff123, staff2/staff123, staff3/staff123")
+    print("📱 WhatsApp receipt integration enabled (Facebook API + Twilio)")
+    print("💳 Razorpay payment integration enabled")
     print("🌐 Server starting on http://localhost:5000")
     
     app.run(debug=True, host='0.0.0.0', port=5000)
