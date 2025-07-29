@@ -4,9 +4,6 @@
 // Google Drive API integration (frontend-only upload)
 // Add this to your HTML: <script src="https://apis.google.com/js/api.js"></script>
 
-var CLIENT_ID = '104664795256266494944';
-var API_KEY = '65d87663e049b9db9568b7f17d77cc9c30759541';
-var FOLDER_ID = 'medicos-drive-uploader-340@medicos-466420.iam.gserviceaccount.com';
 var SCOPES = 'https://www.googleapis.com/auth/drive.file';
 
 function startGapi() {
@@ -66,6 +63,96 @@ class StaffDashboard {
         this.loadAvailableMedicines();
         this.updateClock();
         setInterval(() => this.updateClock(), 1000);
+        
+        // Initialize all UI components
+        this.initializeUIComponents();
+        
+        // Show Twilio integration is loaded
+        this.showNotification('Twilio WhatsApp integration loaded!', 'info');
+    }
+    
+    initializeUIComponents() {
+        // Initialize form animations
+        const formInputs = document.querySelectorAll('input, select, textarea');
+        formInputs.forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.style.transform = 'scale(1.02)';
+                this.parentElement.style.borderColor = '#10b981';
+            });
+            input.addEventListener('blur', function() {
+                this.parentElement.style.transform = 'scale(1)';
+                this.parentElement.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+            });
+        });
+        
+        // Initialize button hover effects
+        const buttons = document.querySelectorAll('button');
+        buttons.forEach(button => {
+            button.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-2px)';
+                this.style.boxShadow = '0 10px 25px rgba(0, 0, 0, 0.2)';
+            });
+            button.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+                this.style.boxShadow = '';
+            });
+        });
+        
+        // Initialize table row hover effects
+        const tableRows = document.querySelectorAll('tbody tr');
+        tableRows.forEach(row => {
+            row.addEventListener('mouseenter', function() {
+                this.style.backgroundColor = 'rgba(16, 185, 129, 0.1)';
+            });
+            row.addEventListener('mouseleave', function() {
+                this.style.backgroundColor = '';
+            });
+        });
+        
+        // Initialize modal animations
+        const modals = document.querySelectorAll('.modal');
+        modals.forEach(modal => {
+            modal.addEventListener('show.bs.modal', function() {
+                this.style.animation = 'fadeIn 0.3s ease-in-out';
+            });
+        });
+        
+        // Initialize floating elements
+        const floatingElements = document.querySelectorAll('.animate-pulse, .animate-bounce');
+        floatingElements.forEach((element, index) => {
+            element.style.animationDelay = `${index * 0.2}s`;
+        });
+        
+        // Initialize Razorpay integration
+        if (typeof Razorpay !== 'undefined') {
+            // Razorpay SDK loaded
+        }
+        
+        // Initialize real-time calculations
+        const quantityInput = document.getElementById('quantity');
+        const rateInput = document.getElementById('ratePerTablet');
+        const totalInput = document.getElementById('totalAmount');
+        
+        if (quantityInput && rateInput && totalInput) {
+            [quantityInput, rateInput].forEach(input => {
+                input.addEventListener('input', () => this.calculateTotal());
+            });
+        }
+        
+        // Initialize prescription upload preview
+        const prescriptionInput = document.getElementById('prescriptionFile');
+        if (prescriptionInput) {
+            prescriptionInput.addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        // Create preview if needed
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
     }
 
     async loadCurrentStaffInfo() {
@@ -98,6 +185,13 @@ class StaffDashboard {
         
         // Prescription upload
         document.getElementById('prescriptionFile').addEventListener('change', (e) => this.handlePrescriptionUpload(e));
+        
+        // Quantity and rate calculation
+        document.getElementById('quantity').addEventListener('input', (e) => this.calculateTotal());
+        document.getElementById('ratePerTablet').addEventListener('input', (e) => this.calculateTotal());
+        
+        // Razorpay payment
+        document.getElementById('payWithRazorpayBtn').addEventListener('click', (e) => this.handleRazorpayPayment(e));
     }
 
     updateClock() {
@@ -154,7 +248,13 @@ class StaffDashboard {
                         <td class="px-4 py-3">${sale.customer_name}</td>
                         <td class="px-4 py-3">${sale.medicine_name}</td>
                         <td class="px-4 py-3">${sale.quantity_sold}</td>
-                        <td class="px-4 py-3">$${sale.total_amount}</td>
+                        <td class="px-4 py-3">₹${sale.rate_per_tablet || sale.unit_price || 'N/A'}</td>
+                        <td class="px-4 py-3">₹${sale.total_amount}</td>
+                        <td class="px-4 py-3">
+                            <span class="px-2 py-1 rounded text-xs ${sale.payment_status === 'completed' ? 'bg-green-500' : sale.payment_status === 'pending' ? 'bg-yellow-500' : 'bg-red-500'}">
+                                ${sale.payment_status || 'N/A'}
+                            </span>
+                        </td>
                         <td class="px-4 py-3">${sale.doctor_name}</td>
                         <td class="px-4 py-3">${sale.sold_by_name || 'N/A'}</td>
                         <td class="px-4 py-3">
@@ -164,7 +264,7 @@ class StaffDashboard {
                     tbody.appendChild(row);
                 });
             } else {
-                tbody.innerHTML = '<tr><td colspan="8" class="px-4 py-3 text-center text-gray-400">No sales records found</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="10" class="px-4 py-3 text-center text-gray-400">No sales records found</td></tr>';
             }
         } catch (error) {
             console.error('Error loading sales records:', error);
@@ -271,10 +371,25 @@ class StaffDashboard {
                     ${sale.sold_by_name}
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                    ${sale.prescription_photo_url ? 
-                        `<a href="${sale.prescription_photo_url}" target="_blank" class="text-blue-600 hover:text-blue-900">View Prescription</a>` : 
-                        '<span class="text-gray-400">No prescription</span>'
-                    }
+                    <div class="flex flex-col items-end space-y-2">
+                        ${sale.prescription_photo_url ? 
+                            `<div class="flex flex-col items-center space-y-1">
+                                <img src="${sale.prescription_photo_url}" alt="Prescription" class="w-16 h-16 object-cover rounded border cursor-pointer hover:scale-110 transition-transform" onclick="window.open('${sale.prescription_photo_url}', '_blank')">
+                                <a href="${sale.prescription_photo_url}" target="_blank" class="text-blue-600 hover:text-blue-900 text-xs">View Full</a>
+                            </div>` : 
+                            '<span class="text-gray-400">No prescription</span>'
+                        }
+                        <div class="flex flex-col space-y-1">
+                            <button onclick="staffDashboard.sendWhatsAppReceipt(${sale.sale_id})" 
+                                    class="bg-green-500 hover:bg-green-600 text-white text-xs px-2 py-1 rounded transition-colors">
+                                📱 Send Receipt
+                            </button>
+                            <button onclick="staffDashboard.sendTwilioReceipt(${sale.sale_id})" 
+                                    class="bg-blue-500 hover:bg-blue-600 text-white text-xs px-2 py-1 rounded transition-colors">
+                                📱 Send Receipt (Twilio)
+                            </button>
+                        </div>
+                    </div>
                 </td>
             `;
             
@@ -488,6 +603,289 @@ class StaffDashboard {
         const phoneRegex = /^[\+]?[1-9][\d]{0,15}$/;
         return phoneRegex.test(phone.replace(/[\s\-\(\)]/g, ''));
     }
+
+    // WhatsApp receipt functionality
+    async sendWhatsAppReceipt(saleId) {
+        try {
+            this.showNotification('Sending receipt via WhatsApp...', 'info');
+            
+            const response = await fetch(`/api/send-receipt/${saleId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            
+            const result = await response.json();
+            
+            if (result.success) {
+                this.showNotification('✅ Receipt sent successfully via WhatsApp!', 'success');
+                // Refresh the sales list to show updated status
+                this.loadSales();
+            } else {
+                this.showNotification(`❌ Failed to send receipt: ${result.message}`, 'error');
+            }
+        } catch (error) {
+            console.error('Error sending WhatsApp receipt:', error);
+            this.showNotification('❌ Error sending receipt. Please try again.', 'error');
+        }
+    }
+
+    // Check WhatsApp receipt status
+    async checkWhatsAppStatus(saleId) {
+        try {
+            const response = await fetch(`/api/whatsapp-status/${saleId}`);
+            const result = await response.json();
+            
+            if (result.success) {
+                return result;
+            } else {
+                console.error('Failed to check WhatsApp status:', result.message);
+                return null;
+            }
+        } catch (error) {
+            console.error('Error checking WhatsApp status:', error);
+            return null;
+        }
+    }
+
+    // Add sendTwilioReceipt method to StaffDashboard class
+    async sendTwilioReceipt(saleId) {
+        try {
+            this.showNotification('Sending receipt via Twilio WhatsApp...', 'info');
+            const response = await fetch(`/api/send-receipt-twilio/${saleId}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' }
+            });
+            const result = await response.json();
+            if (result.success) {
+                this.showNotification('✅ Receipt sent successfully via Twilio WhatsApp!', 'success');
+                this.loadSales();
+            } else {
+                this.showNotification(`❌ Failed to send receipt: ${result.message}`, 'error');
+            }
+        } catch (error) {
+            console.error('Error sending Twilio WhatsApp receipt:', error);
+            this.showNotification('❌ Error sending receipt. Please try again.', 'error');
+        }
+    }
+
+    // Send WhatsApp receipt directly from form data
+    async sendWhatsAppReceiptFromForm(saleData) {
+        try {
+            this.showNotification('Sending receipt via Twilio WhatsApp...', 'info');
+            
+            // Create a temporary sale object for receipt generation
+            const tempSale = {
+                sale_id: Date.now(), // Temporary ID
+                sale_date: new Date().toISOString(),
+                customer_name: saleData.customer_name,
+                customer_phone: saleData.customer_phone,
+                quantity_sold: saleData.quantity_sold,
+                total_amount: saleData.total_amount || 0,
+                doctor_name: saleData.doctor_name,
+                doctor_phone: saleData.doctor_phone,
+                medicine_name: saleData.medicine_name || 'Medicine',
+                unit_price: saleData.unit_price || 0,
+                manufacturer: saleData.manufacturer || 'Pharmacy',
+                sold_by_name: this.currentStaff ? this.currentStaff.full_name : 'Staff'
+            };
+            
+            // Send via Twilio
+            const response = await fetch('/api/send-receipt-twilio-direct', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(tempSale)
+            });
+            
+            const result = await response.json();
+            if (result.success) {
+                this.showNotification('✅ Receipt sent successfully via Twilio WhatsApp!', 'success');
+                return true;
+            } else {
+                this.showNotification(`❌ Failed to send receipt: ${result.message}`, 'error');
+                return false;
+            }
+        } catch (error) {
+            console.error('Error sending Twilio WhatsApp receipt:', error);
+            this.showNotification('❌ Error sending receipt. Please try again.', 'error');
+            return false;
+        }
+    }
+
+    // Calculate total amount based on quantity and rate per tablet
+    calculateTotal() {
+        const quantity = parseFloat(document.getElementById('quantity').value) || 0;
+        const ratePerTablet = parseFloat(document.getElementById('ratePerTablet').value) || 0;
+        const totalAmount = quantity * ratePerTablet;
+        
+        document.getElementById('totalAmount').value = totalAmount.toFixed(2);
+        return totalAmount;
+    }
+
+    // Handle Razorpay payment
+    async handleRazorpayPayment(event) {
+        event.preventDefault();
+        
+        // Validate form
+        const form = document.getElementById('sellForm');
+        if (!form.checkValidity()) {
+            form.reportValidity();
+            return;
+        }
+
+        const totalAmount = this.calculateTotal();
+        if (totalAmount <= 0) {
+            alert('Please enter valid quantity and rate per tablet.');
+            return;
+        }
+
+        // Get form data
+        const formData = {
+            customer_name: document.getElementById('customerName').value,
+            customer_phone: document.getElementById('customerPhone').value,
+            medicine_id: parseInt(document.getElementById('medicineSelect').value),
+            quantity_sold: parseInt(document.getElementById('quantity').value),
+            doctor_name: document.getElementById('doctorName').value,
+            rate_per_tablet: parseFloat(document.getElementById('ratePerTablet').value),
+            total_amount: totalAmount
+        };
+
+        try {
+            // Create Razorpay order
+            const orderResponse = await fetch('/api/create-razorpay-order', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    amount: Math.round(totalAmount * 100), // Convert to paise
+                    currency: 'INR',
+                    receipt: 'receipt_' + Date.now(),
+                    notes: {
+                        customer_name: formData.customer_name,
+                        medicine_id: formData.medicine_id,
+                        quantity: formData.quantity_sold
+                    }
+                })
+            });
+
+            if (!orderResponse.ok) {
+                throw new Error('Failed to create payment order');
+            }
+
+            const orderData = await orderResponse.json();
+            
+            // Check if we're in mock mode
+            if (orderData.key_id === 'rzp_test_YOUR_KEY_ID' || orderData.key_id === 'mock_key') {
+                // Mock payment flow for testing
+                // Using Mock Payment Flow
+                
+                // Simulate payment success after 2 seconds
+                setTimeout(async () => {
+                    const mockResponse = {
+                        razorpay_payment_id: 'pay_mock_' + Date.now(),
+                        razorpay_order_id: orderData.id,
+                        razorpay_signature: 'mock_signature_' + Date.now()
+                    };
+                    
+                    await this.handlePaymentSuccess(mockResponse, formData);
+                }, 2000);
+                
+                // Show mock payment modal
+                alert('🔧 Mock Payment Mode\n\nSimulating payment process...\n\nPayment will be completed automatically in 2 seconds.');
+                
+            } else {
+                // Real Razorpay payment flow
+                const options = {
+                    key: orderData.key_id,
+                    amount: orderData.amount,
+                    currency: orderData.currency,
+                    name: 'MEDicos Pharmacy',
+                    description: `Medicine Purchase - ${formData.customer_name}`,
+                    order_id: orderData.id,
+                    handler: async (response) => {
+                        await this.handlePaymentSuccess(response, formData);
+                    },
+                    prefill: {
+                        name: formData.customer_name,
+                        contact: formData.customer_phone,
+                        email: 'customer@medicos.com'
+                    },
+                    notes: {
+                        address: 'MEDicos Pharmacy'
+                    },
+                    theme: {
+                        color: '#10b981'
+                    },
+                    modal: {
+                        ondismiss: () => {
+                            // Payment modal closed
+                        }
+                    }
+                };
+
+                // Open Razorpay payment modal
+                const rzp = new Razorpay(options);
+                rzp.open();
+            }
+
+        } catch (error) {
+            console.error('Payment error:', error);
+            alert('Payment initialization failed: ' + error.message);
+        }
+    }
+
+    // Handle successful payment
+    async handlePaymentSuccess(paymentResponse, formData) {
+        try {
+            // Verify payment on backend
+            const verifyResponse = await fetch('/api/verify-razorpay-payment', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    payment_id: paymentResponse.razorpay_payment_id,
+                    order_id: paymentResponse.razorpay_order_id,
+                    signature: paymentResponse.razorpay_signature,
+                    form_data: formData
+                })
+            });
+
+            if (!verifyResponse.ok) {
+                throw new Error('Payment verification failed');
+            }
+
+            const result = await verifyResponse.json();
+            
+            if (result.success) {
+                alert('✅ Payment successful! Sale recorded and receipt sent.');
+                
+                // Send WhatsApp receipt
+                if (formData.customer_phone) {
+                    try {
+                        const success = await this.sendWhatsAppReceiptFromForm(formData);
+                        if (success) {
+                            // WhatsApp receipt sent successfully
+                        }
+                    } catch (error) {
+                        console.error('WhatsApp receipt failed:', error);
+                    }
+                }
+                
+                // Reset form
+                document.getElementById('sellForm').reset();
+                document.getElementById('totalAmount').value = '';
+                
+                // Refresh records
+                this.refreshRecords();
+                
+            } else {
+                alert('❌ Payment verification failed: ' + result.error);
+            }
+
+        } catch (error) {
+            console.error('Payment verification error:', error);
+            alert('Payment verification failed: ' + error.message);
+        }
+    }
 }
 
 // Initialize dashboard when page loads
@@ -516,7 +914,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     medicine_id: parseInt(document.getElementById('medicineSelect').value),
                     quantity_sold: parseInt(document.getElementById('quantity').value),
                     doctor_name: document.getElementById('doctorName').value,
-                    doctor_phone: document.getElementById('doctorPhone').value,
+                    rate_per_tablet: parseFloat(document.getElementById('ratePerTablet').value),
+                    total_amount: parseFloat(document.getElementById('totalAmount').value),
                     prescription_photo_url: uploadData.file_url,
                     customer_name: document.getElementById('customerName').value,
                     customer_phone: document.getElementById('customerPhone').value
@@ -527,7 +926,44 @@ document.addEventListener('DOMContentLoaded', () => {
                     body: JSON.stringify(saleData)
                 });
                 if (saleResponse.ok) {
+                    const saleResult = await saleResponse.json();
                     alert('Saved to database and image available in records!');
+                    
+                    // Automatically send WhatsApp receipt to customer
+                    if (saleData.customer_phone) {
+                        try {
+                            // Try to send via sale ID first
+                            if (saleResult.sale_id) {
+                                const twilioResponse = await fetch(`/api/send-receipt-twilio/${saleResult.sale_id}`, {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json' }
+                                });
+                                const twilioResult = await twilioResponse.json();
+                                
+                                if (twilioResult.success) {
+                                    alert('✅ Receipt sent successfully to customer via WhatsApp!');
+                                } else {
+                                    // Fallback to direct method
+                                    const success = await window.staffDashboard.sendWhatsAppReceiptFromForm(saleData);
+                                    if (success) {
+                                        alert('✅ Receipt sent successfully to customer via WhatsApp!');
+                                    } else {
+                                        alert('⚠️ Sale saved but WhatsApp receipt failed.');
+                                    }
+                                }
+                            } else {
+                                // Use direct method if no sale ID
+                                const success = await window.staffDashboard.sendWhatsAppReceiptFromForm(saleData);
+                                if (success) {
+                                    alert('✅ Receipt sent successfully to customer via WhatsApp!');
+                                } else {
+                                    alert('⚠️ Sale saved but WhatsApp receipt failed.');
+                                }
+                            }
+                        } catch (error) {
+                            alert('⚠️ Sale saved but WhatsApp receipt failed: ' + error.message);
+                        }
+                    }
                 } else {
                     alert('Sale save failed.');
                 }

@@ -7,6 +7,11 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
   <style>
+    /* Global Serif Font Override */
+    * {
+      font-family: 'Times New Roman', Times, serif !important;
+    }
+    
     /* Fix dropdown visibility */
     select, option {
       background-color: #1e293b !important;
@@ -25,29 +30,172 @@
       color: #ffffff !important;
       padding: 8px;
     }
+
+    /* Floating Label Input Styles - From Uiverse.io by AmIt-DasIT */
+    .floating-container {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      position: relative;
+      color: white;
+    }
+
+    .floating-container .floating-label {
+      font-size: 15px;
+      padding-left: 10px;
+      position: absolute;
+      top: 13px;
+      transition: 0.3s;
+      pointer-events: none;
+      color: #94a3b8;
+    }
+
+    .floating-input {
+      width: 100%;
+      height: 45px;
+      border: none;
+      outline: none;
+      padding: 0px 7px;
+      border-radius: 6px;
+      color: #fff;
+      font-size: 15px;
+      background-color: transparent;
+      box-shadow: 3px 3px 10px rgba(0,0,0,1),
+      -1px -1px 6px rgba(255, 255, 255, 0.4);
+    }
+
+    .floating-input:focus {
+      border: 2px solid transparent;
+      color: #fff;
+      box-shadow: 3px 3px 10px rgba(0,0,0,1),
+      -1px -1px 6px rgba(255, 255, 255, 0.4),
+      inset 3px 3px 10px rgba(0,0,0,1),
+      inset -1px -1px 6px rgba(255, 255, 255, 0.4);
+    }
+
+    .floating-container .floating-input:valid ~ .floating-label,
+    .floating-container .floating-input:focus ~ .floating-label {
+      transition: 0.3s;
+      padding-left: 2px;
+      transform: translateY(-35px);
+      color: #22c55e;
+    }
+
+    .floating-container .floating-input:valid,
+    .floating-container .floating-input:focus {
+      box-shadow: 3px 3px 10px rgba(0,0,0,1),
+      -1px -1px 6px rgba(255, 255, 255, 0.4),
+      inset 3px 3px 10px rgba(0,0,0,1),
+      inset -1px -1px 6px rgba(255, 255, 255, 0.4);
+    }
+
+    /* Floating Date Input Styles */
+    .floating-date {
+      width: 100%;
+      height: 45px;
+      border: none;
+      outline: none;
+      padding: 0px 7px;
+      border-radius: 6px;
+      color: #fff;
+      font-size: 15px;
+      background-color: transparent;
+      box-shadow: 3px 3px 10px rgba(0,0,0,1),
+      -1px -1px 6px rgba(255, 255, 255, 0.4);
+      cursor: pointer;
+    }
+
+    .floating-date:focus {
+      border: 2px solid transparent;
+      color: #fff;
+      box-shadow: 3px 3px 10px rgba(0,0,0,1),
+      -1px -1px 6px rgba(255, 255, 255, 0.4),
+      inset 3px 3px 10px rgba(0,0,0,1),
+      inset -1px -1px 6px rgba(255, 255, 255, 0.4);
+    }
+
+    .floating-container .floating-date:valid ~ .floating-label,
+    .floating-container .floating-date:focus ~ .floating-label {
+      transition: 0.3s;
+      padding-left: 2px;
+      transform: translateY(-35px);
+      color: #22c55e;
+    }
+
+    .floating-container .floating-date:valid,
+    .floating-container .floating-date:focus {
+      box-shadow: 3px 3px 10px rgba(0,0,0,1),
+      -1px -1px 6px rgba(255, 255, 255, 0.4),
+      inset 3px 3px 10px rgba(0,0,0,1),
+      inset -1px -1px 6px rgba(255, 255, 255, 0.4);
+    }
+
+    /* Floating Textarea Styles */
+    .floating-textarea {
+      width: 100%;
+      min-height: 80px;
+      border: none;
+      outline: none;
+      padding: 12px 7px 7px 7px;
+      border-radius: 6px;
+      color: #fff;
+      font-size: 15px;
+      background-color: transparent;
+      box-shadow: 3px 3px 10px rgba(0,0,0,1),
+      -1px -1px 6px rgba(255, 255, 255, 0.4);
+      resize: vertical;
+    }
+
+    .floating-textarea:focus {
+      border: 2px solid transparent;
+      color: #fff;
+      box-shadow: 3px 3px 10px rgba(0,0,0,1),
+      -1px -1px 6px rgba(255, 255, 255, 0.4),
+      inset 3px 3px 10px rgba(0,0,0,1),
+      inset -1px -1px 6px rgba(255, 255, 255, 0.4);
+    }
+
+    .floating-container .floating-textarea:valid ~ .floating-label,
+    .floating-container .floating-textarea:focus ~ .floating-label {
+      transition: 0.3s;
+      padding-left: 2px;
+      transform: translateY(-35px);
+      color: #22c55e;
+    }
+
+    .floating-container .floating-textarea:valid,
+    .floating-container .floating-textarea:focus {
+      box-shadow: 3px 3px 10px rgba(0,0,0,1),
+      -1px -1px 6px rgba(255, 255, 255, 0.4),
+      inset 3px 3px 10px rgba(0,0,0,1),
+      inset -1px -1px 6px rgba(255, 255, 255, 0.4);
+    }
   </style>
 </head>
 <body class="bg-gradient-to-br from-cyan-900 via-slate-900 to-blue-900 min-h-screen text-white">
-  <div class="container mx-auto py-8 px-4">
+
+
+
+  <div class="container mx-auto py-4 md:py-8 px-4">
     <!-- Header -->
-    <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-6 shadow-2xl border border-white/20 mb-8">
-      <div class="flex justify-between items-center">
+    <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-4 md:p-6 shadow-2xl border border-white/20 mb-6 md:mb-8">
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 md:gap-0">
         <div>
-          <h1 class="text-3xl font-bold text-emerald-300 mb-2">Admin Dashboard</h1>
-          <div class="flex space-x-4 text-sm">
+          <h1 class="text-2xl md:text-3xl font-bold text-emerald-300 mb-2">Admin Dashboard</h1>
+          <div class="flex flex-col sm:flex-row space-y-1 sm:space-y-0 sm:space-x-4 text-xs md:text-sm">
             <div id="currentTime" class="text-cyan-200"></div>
             <div id="currentDate" class="text-cyan-200"></div>
           </div>
         </div>
-        <div class="flex space-x-4">
-          <button id="addMedicineBtn" class="bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded-lg font-semibold transition">+ Add Medicine</button>
-          <button id="logoutBtn" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-semibold transition">Logout</button>
+        <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4 w-full md:w-auto">
+          <button id="addMedicineBtn" class="bg-emerald-500 hover:bg-emerald-600 text-white px-3 md:px-4 py-2 rounded-lg font-semibold transition text-sm md:text-base">+ Add Medicine</button>
+          <button id="logoutBtn" class="bg-red-500 hover:bg-red-600 text-white px-3 md:px-4 py-2 rounded-lg font-semibold transition text-sm md:text-base">Logout</button>
         </div>
       </div>
     </div>
 
     <!-- Dashboard Stats -->
-    <div class="grid grid-cols-1 md:grid-cols-5 gap-6 mb-8">
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6 mb-6 md:mb-8">
       <div class="bg-white/10 backdrop-blur-lg rounded-xl p-6 shadow-lg border border-white/20">
         <div class="text-2xl font-bold text-emerald-300" id="totalMedicines">0</div>
         <div class="text-gray-300">Total Medicines</div>
@@ -74,7 +222,11 @@
     <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-6 shadow-2xl border border-white/20 mb-8">
       <div class="flex items-center space-x-4">
         <div class="flex-1">
-          <input type="text" id="searchMedicine" placeholder="Search medicines..." class="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+          <!-- From Uiverse.io by AmIt-DasIT -->
+          <div class="floating-container">
+            <input type="text" id="searchMedicine" name="searchMedicine" class="floating-input">
+            <label class="floating-label">Search medicines...</label>
+          </div>
         </div>
       </div>
     </div>
@@ -112,24 +264,52 @@
           <i data-lucide="x" class="w-6 h-6"></i>
         </button>
       </div>
-      <form id="addMedicineForm" class="space-y-4">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <input type="text" name="medicine_name" placeholder="Medicine Name" required class="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-300">
-          <input type="text" name="batch_number" placeholder="Batch Number" required class="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-300">
+      <form id="addMedicineForm" class="space-y-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- From Uiverse.io by AmIt-DasIT -->
+          <div class="floating-container">
+            <input required="" type="text" name="medicine_name" class="floating-input">
+            <label class="floating-label">Medicine Name</label>
+          </div>
+          <div class="floating-container">
+            <input required="" type="text" name="batch_number" class="floating-input">
+            <label class="floating-label">Batch Number</label>
+          </div>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <input type="date" name="expiry_date" required class="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white">
-          <input type="date" name="date_of_purchase" required class="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="floating-container">
+            <input required="" type="date" name="expiry_date" class="floating-date">
+            <label class="floating-label">Expiry Date</label>
+          </div>
+          <div class="floating-container">
+            <input required="" type="date" name="date_of_purchase" class="floating-date">
+            <label class="floating-label">Date of Purchase</label>
+          </div>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <input type="number" name="quantity_available" placeholder="Quantity Available" required class="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-300">
-          <input type="number" name="unit_price" step="0.01" placeholder="Unit Price" required class="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-300">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="floating-container">
+            <input required="" type="number" name="quantity_available" class="floating-input">
+            <label class="floating-label">Quantity Available</label>
+          </div>
+          <div class="floating-container">
+            <input required="" type="number" name="unit_price" step="0.01" class="floating-input">
+            <label class="floating-label">Unit Price</label>
+          </div>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <input type="text" name="manufacturer" placeholder="Manufacturer" class="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-300">
-          <input type="text" name="category" placeholder="Category" class="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-300">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="floating-container">
+            <input type="text" name="manufacturer" class="floating-input">
+            <label class="floating-label">Manufacturer</label>
+          </div>
+          <div class="floating-container">
+            <input type="text" name="category" class="floating-input">
+            <label class="floating-label">Category</label>
+          </div>
         </div>
-        <textarea name="description" placeholder="Description" rows="3" class="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-300"></textarea>
+        <div class="floating-container">
+          <textarea name="description" rows="3" class="floating-textarea"></textarea>
+          <label class="floating-label">Description</label>
+        </div>
         <div class="flex space-x-4">
           <button type="submit" class="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white py-3 rounded-lg font-semibold transition">Add Medicine</button>
           <button type="button" id="closeAddModal2" class="flex-1 bg-gray-500 hover:bg-gray-600 text-white py-3 rounded-lg font-semibold transition">Cancel</button>
@@ -147,25 +327,53 @@
           <i data-lucide="x" class="w-6 h-6"></i>
         </button>
       </div>
-      <form id="editMedicineForm" class="space-y-4">
+      <form id="editMedicineForm" class="space-y-6">
         <input type="hidden" name="medicine_id" id="edit_medicine_id">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <input type="text" name="medicine_name" id="edit_medicine_name" placeholder="Medicine Name" required class="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-300">
-          <input type="text" name="batch_number" id="edit_batch_number" placeholder="Batch Number" required class="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-300">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- From Uiverse.io by AmIt-DasIT -->
+          <div class="floating-container">
+            <input required="" type="text" name="medicine_name" id="edit_medicine_name" class="floating-input">
+            <label class="floating-label">Medicine Name</label>
+          </div>
+          <div class="floating-container">
+            <input required="" type="text" name="batch_number" id="edit_batch_number" class="floating-input">
+            <label class="floating-label">Batch Number</label>
+          </div>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <input type="date" name="expiry_date" id="edit_expiry_date" required class="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white">
-          <input type="date" name="date_of_purchase" id="edit_date_of_purchase" required class="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="floating-container">
+            <input required="" type="date" name="expiry_date" id="edit_expiry_date" class="floating-date">
+            <label class="floating-label">Expiry Date</label>
+          </div>
+          <div class="floating-container">
+            <input required="" type="date" name="date_of_purchase" id="edit_date_of_purchase" class="floating-date">
+            <label class="floating-label">Date of Purchase</label>
+          </div>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <input type="number" name="quantity_available" id="edit_quantity_available" placeholder="Quantity Available" required class="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-300">
-          <input type="number" name="unit_price" id="edit_unit_price" step="0.01" placeholder="Unit Price" required class="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-300">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="floating-container">
+            <input required="" type="number" name="quantity_available" id="edit_quantity_available" class="floating-input">
+            <label class="floating-label">Quantity Available</label>
+          </div>
+          <div class="floating-container">
+            <input required="" type="number" name="unit_price" id="edit_unit_price" step="0.01" class="floating-input">
+            <label class="floating-label">Unit Price</label>
+          </div>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <input type="text" name="manufacturer" id="edit_manufacturer" placeholder="Manufacturer" class="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-300">
-          <input type="text" name="category" id="edit_category" placeholder="Category" class="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-300">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="floating-container">
+            <input type="text" name="manufacturer" id="edit_manufacturer" class="floating-input">
+            <label class="floating-label">Manufacturer</label>
+          </div>
+          <div class="floating-container">
+            <input type="text" name="category" id="edit_category" class="floating-input">
+            <label class="floating-label">Category</label>
+          </div>
         </div>
-        <textarea name="description" id="edit_description" placeholder="Description" rows="3" class="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-300"></textarea>
+        <div class="floating-container">
+          <textarea name="description" id="edit_description" rows="3" class="floating-textarea"></textarea>
+          <label class="floating-label">Description</label>
+        </div>
         <div class="flex space-x-4">
           <button type="submit" class="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white py-3 rounded-lg font-semibold transition">Update Medicine</button>
           <button type="button" id="closeEditModal2" class="flex-1 bg-gray-500 hover:bg-gray-600 text-white py-3 rounded-lg font-semibold transition">Cancel</button>
@@ -186,6 +394,8 @@
     document.getElementById('closeEditModal2').addEventListener('click', () => {
       document.getElementById('editMedicineModal').classList.add('hidden');
     });
+
+
   </script>
 </body>
 </html> 

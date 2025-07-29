@@ -6,7 +6,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="css/loader.css">
   <style>
+    /* Global Serif Font Override */
+    * {
+      font-family: 'Times New Roman', Times, serif !important;
+    }
+    
     /* Animated gradient background */
     body::before {
       content: '';
@@ -31,64 +37,49 @@
       0% { transform: translateY(0); }
       100% { transform: translateY(-20px); }
     }
+  
   </style>
 </head>
-<body class="bg-gradient-to-br from-cyan-900 via-slate-900 to-blue-900 min-h-screen text-white overflow-x-hidden">
+<body class="bg-gradient-to-br from-cyan-900 via-slate-900 to-blue-900 min-h-screen text-white overflow-x-hidden about-page">
+
+
+  <!-- Loading Overlay -->
+  <div id="loadingOverlay" class="loading-overlay">
+    <div class="loader"></div>
+    <div class="loading-text">MEDicos</div>
+    <div class="loading-subtitle">About Our Legacy</div>
+    <div class="loading-messages">
+      <div class="loading-message">Loading our story...</div>
+      <div class="loading-message">Discovering our journey...</div>
+      <div class="loading-message">Almost ready...</div>
+    </div>
+  </div>
+
   <!-- Header -->
-  <header class="bg-white/10 backdrop-blur-lg border-b border-white/20">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between items-center h-16 lg:h-20">
-        <!-- Logo -->
-        <a class="flex items-center space-x-3 group" href="index.html">
-          <div class="relative">
-            <img src="logo.svg" alt="MEDicos" class="h-10 w-auto sm:h-12 lg:h-14 transition-transform duration-300 group-hover:scale-105">
-            <div class="absolute inset-0 bg-gradient-to-r from-emerald-400/20 to-teal-400/20 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-sm"></div>
-          </div>
-          <span class="text-2xl font-bold tracking-wide text-emerald-300">MEDicos</span>
-        </a>
-
-        <!-- Desktop Navigation -->
-        <div class="hidden lg:flex items-center space-x-1">
-          <a class="relative group text-white hover:text-emerald-300 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover:bg-white/10" href="index.html">
-            Home
-            <span class="absolute bottom-0 left-1/2 w-0 h-0.5 bg-gradient-to-r from-emerald-400 to-teal-500 group-hover:w-full group-hover:left-0 transition-all duration-300 rounded-full"></span>
-          </a>
-          <a class="relative group text-emerald-300 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover:bg-white/10" href="about.html">
-            About
-            <span class="absolute bottom-0 left-1/2 w-full h-0.5 bg-gradient-to-r from-emerald-400 to-teal-500 rounded-full"></span>
-          </a>
-          <div class="relative">
-            <button class="flex items-center space-x-1 text-white hover:text-emerald-300 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover:bg-white/10 group">
-              <span>Services</span>
-              <i data-lucide="chevron-down" class="h-4 w-4 transition-transform duration-300"></i>
-            </button>
-          </div>
-          <a class="relative group text-white hover:text-emerald-300 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover:bg-white/10" href="gallery.html">
-            Gallery
-            <span class="absolute bottom-0 left-1/2 w-0 h-0.5 bg-gradient-to-r from-emerald-400 to-teal-500 group-hover:w-full group-hover:left-0 transition-all duration-300 rounded-full"></span>
-          </a>
-          <a class="relative group text-white hover:text-emerald-300 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover:bg-white/10" href="staff.html">
-            Staff
-            <span class="absolute bottom-0 left-1/2 w-0 h-0.5 bg-gradient-to-r from-emerald-400 to-teal-500 group-hover:w-full group-hover:left-0 transition-all duration-300 rounded-full"></span>
-          </a>
-          <a class="relative group text-white hover:text-emerald-300 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover:bg-white/10" href="contact.html">
-            Contact
-            <span class="absolute bottom-0 left-1/2 w-0 h-0.5 bg-gradient-to-r from-emerald-400 to-teal-500 group-hover:w-full group-hover:left-0 transition-all duration-300 rounded-full"></span>
-          </a>
-        </div>
-
-        <!-- Login Button & Mobile Menu -->
-        <div class="flex items-center space-x-3">
-          <button class="hidden sm:flex items-center space-x-2 cursor-pointer bg-gradient-to-r from-emerald-500 to-teal-500 text-white px-4 py-2 lg:px-6 lg:py-3 rounded-xl font-semibold text-sm lg:text-base hover:from-emerald-600 hover:to-teal-600 transition-all duration-300 transform hover:scale-105 hover:shadow-lg group overflow-hidden relative" onclick="window.location.href='auth-admin.html'">
-            <span class="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
-            <i data-lucide="log-in" class="h-4 w-4 lg:h-5 lg:w-5 relative z-10"></i>
-            <span class="relative z-10">Login</span>
-          </button>
-          <button class="lg:hidden p-2 rounded-lg text-white hover:text-emerald-300 hover:bg-white/10 transition-all duration-300" aria-label="Toggle menu">
-            <i data-lucide="menu" class="h-6 w-6"></i>
-          </button>
+  <header class="header-container">
+    <div class="header-content">
+      <!-- Logo Section -->
+      <div class="logo-section">
+        <div class="flex items-center gap-3 group cursor-pointer" onclick="openLogoModal()">
+          <img src="logo.png" alt="MEDicos" class="logo-image">
+          <span class="logo-text">MEDicos</span>
         </div>
       </div>
+
+      <!-- Navigation Section -->
+      <div class="nav-section">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="about.html" class="nav-link">About</a>
+        <a href="index.html#locations" class="nav-link">Locations</a>
+        <a href="gallery.html" class="nav-link">Gallery</a>
+        <a href="staff.html" class="nav-link">Staff</a>
+        <a href="contact.html" class="nav-link">Contact</a>
+      </div>
+
+      <!-- Login Button -->
+      <button class="login-button" onclick="window.location.href='auth-admin.html'">
+        Login
+      </button>
     </div>
   </header>
 
@@ -100,66 +91,66 @@
   </div>
 
   <!-- About Us Section -->
-  <section class="relative py-16 px-4 z-10">
+  <section class="relative py-8 md:py-16 px-4 z-10">
     <div class="max-w-6xl mx-auto">
-      <div class="text-center mb-16">
-        <h1 class="text-4xl md:text-5xl font-bold text-emerald-300 mb-6">About MEDicos</h1>
-        <p class="text-xl text-gray-200 max-w-3xl mx-auto">
+      <div class="text-center mb-12 md:mb-16">
+        <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-emerald-300 mb-4 md:mb-6">About MEDicos</h1>
+        <p class="text-lg md:text-xl text-gray-200 max-w-3xl mx-auto px-4">
           Discover our journey, mission, and commitment to providing quality healthcare since 2018
         </p>
       </div>
 
-      <div class="grid md:grid-cols-2 gap-12 items-center mb-16">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center mb-12 md:mb-16">
         <div>
-          <h2 class="text-3xl font-bold text-emerald-300 mb-6">Our Story</h2>
-          <p class="text-lg text-gray-200 mb-6">
+          <h2 class="text-2xl md:text-3xl font-bold text-emerald-300 mb-4 md:mb-6">Our Story</h2>
+          <p class="text-base md:text-lg text-gray-200 mb-4 md:mb-6">
             MEDicos was founded in 2018 with a simple yet powerful mission: to make trusted medicines accessible and affordable for everyone. What started as a small local pharmacy has grown into a trusted healthcare partner for thousands of families.
           </p>
-          <p class="text-lg text-gray-200 mb-6">
+          <p class="text-base md:text-lg text-gray-200 mb-4 md:mb-6">
             Our journey began with a commitment to quality, compassion, and customer-first service. Over the years, we've built a reputation for excellence, earning the trust of both families and healthcare professionals in our community.
           </p>
-          <div class="flex items-center gap-4">
-            <div class="bg-emerald-500/20 rounded-lg p-4">
-              <i data-lucide="calendar" class="w-8 h-8 text-emerald-300"></i>
+          <div class="flex items-center gap-3 md:gap-4">
+            <div class="bg-emerald-500/20 rounded-lg p-3 md:p-4">
+              <i data-lucide="calendar" class="w-6 h-6 md:w-8 md:h-8 text-emerald-300"></i>
             </div>
             <div>
-              <h3 class="text-xl font-semibold text-emerald-300">Since 2018</h3>
-              <p class="text-gray-300">Years of trusted service</p>
+              <h3 class="text-lg md:text-xl font-semibold text-emerald-300">Since 2018</h3>
+              <p class="text-sm md:text-base text-gray-300">Years of trusted service</p>
             </div>
           </div>
         </div>
-        <div class="bg-white/10 rounded-2xl p-8 shadow-lg">
-          <img src="about_main.png" alt="MEDicos Pharmacy" class="w-full h-80 object-cover rounded-xl">
+        <div class="bg-white/10 rounded-2xl p-4 md:p-8 shadow-lg">
+          <img src="about_main.png" alt="MEDicos Pharmacy" class="w-full h-64 md:h-80 object-cover rounded-xl">
         </div>
       </div>
 
-      <div class="grid md:grid-cols-3 gap-8 mb-16">
-        <div class="bg-white/10 rounded-2xl p-8 text-center shadow-lg">
-          <div class="bg-emerald-500/20 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-            <i data-lucide="heart" class="w-8 h-8 text-emerald-300"></i>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-12 md:mb-16">
+        <div class="bg-white/10 rounded-2xl p-6 md:p-8 text-center shadow-lg">
+          <div class="bg-emerald-500/20 rounded-full w-12 h-12 md:w-16 md:h-16 flex items-center justify-center mx-auto mb-3 md:mb-4">
+            <i data-lucide="heart" class="w-6 h-6 md:w-8 md:h-8 text-emerald-300"></i>
           </div>
-          <h3 class="text-xl font-semibold text-emerald-300 mb-3">Our Mission</h3>
-          <p class="text-gray-200">To provide quality healthcare solutions that improve the lives of our customers through accessible, affordable, and trusted medicines.</p>
+          <h3 class="text-lg md:text-xl font-semibold text-emerald-300 mb-2 md:mb-3">Our Mission</h3>
+          <p class="text-sm md:text-base text-gray-200">To provide quality healthcare solutions that improve the lives of our customers through accessible, affordable, and trusted medicines.</p>
         </div>
-        <div class="bg-white/10 rounded-2xl p-8 text-center shadow-lg">
-          <div class="bg-cyan-500/20 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-            <i data-lucide="eye" class="w-8 h-8 text-cyan-300"></i>
+        <div class="bg-white/10 rounded-2xl p-6 md:p-8 text-center shadow-lg">
+          <div class="bg-cyan-500/20 rounded-full w-12 h-12 md:w-16 md:h-16 flex items-center justify-center mx-auto mb-3 md:mb-4">
+            <i data-lucide="eye" class="w-6 h-6 md:w-8 md:h-8 text-cyan-300"></i>
           </div>
-          <h3 class="text-xl font-semibold text-cyan-300 mb-3">Our Vision</h3>
-          <p class="text-gray-200">To be the leading pharmacy that families trust for their healthcare needs, known for excellence, compassion, and innovation.</p>
+          <h3 class="text-lg md:text-xl font-semibold text-cyan-300 mb-2 md:mb-3">Our Vision</h3>
+          <p class="text-sm md:text-base text-gray-200">To be the leading pharmacy that families trust for their healthcare needs, known for excellence, compassion, and innovation.</p>
         </div>
-        <div class="bg-white/10 rounded-2xl p-8 text-center shadow-lg">
-          <div class="bg-yellow-500/20 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-            <i data-lucide="target" class="w-8 h-8 text-yellow-300"></i>
+        <div class="bg-white/10 rounded-2xl p-6 md:p-8 text-center shadow-lg">
+          <div class="bg-yellow-500/20 rounded-full w-12 h-12 md:w-16 md:h-16 flex items-center justify-center mx-auto mb-3 md:mb-4">
+            <i data-lucide="target" class="w-6 h-6 md:w-8 md:h-8 text-yellow-300"></i>
           </div>
-          <h3 class="text-xl font-semibold text-yellow-300 mb-3">Our Values</h3>
-          <p class="text-gray-200">Quality, Trust, Compassion, Innovation, and Customer-First approach guide everything we do at MEDicos.</p>
+          <h3 class="text-lg md:text-xl font-semibold text-yellow-300 mb-2 md:mb-3">Our Values</h3>
+          <p class="text-sm md:text-base text-gray-200">Quality, Trust, Compassion, Innovation, and Customer-First approach guide everything we do at MEDicos.</p>
         </div>
       </div>
 
-      <div class="bg-white/10 rounded-2xl p-8 shadow-lg">
-        <h2 class="text-3xl font-bold text-emerald-300 mb-6 text-center">Why Choose MEDicos?</h2>
-        <div class="grid md:grid-cols-2 gap-8">
+      <div class="bg-white/10 rounded-2xl p-6 md:p-8 shadow-lg">
+        <h2 class="text-2xl md:text-3xl font-bold text-emerald-300 mb-4 md:mb-6 text-center">Why Choose MEDicos?</h2>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
           <div class="space-y-4">
             <div class="flex items-start gap-4">
               <div class="bg-emerald-500 rounded-full w-6 h-6 flex items-center justify-center mt-1">
@@ -223,6 +214,26 @@
     </div>
   </section>
 
+  <!-- Logo Modal -->
+  <div id="logoModal" class="fixed inset-0 bg-black/60 flex items-center justify-center z-50 hidden">
+    <div class="bg-white/95 rounded-2xl p-6 md:p-10 max-w-2xl w-full relative shadow-2xl">
+      <button onclick="closeLogoModal()" class="absolute top-4 right-4 text-gray-700 hover:text-red-500 text-2xl font-bold">&times;</button>
+      <div class="text-center">
+        <img src="logo.png" alt="MEDicos Logo" class="w-full max-w-md mx-auto mb-6 rounded-lg shadow-lg">
+        <h2 class="text-2xl md:text-3xl font-bold text-emerald-700 mb-4">MEDicos</h2>
+        <p class="text-gray-600 mb-6">Your Trusted Healthcare Partner Since 2018</p>
+        <div class="flex justify-center gap-4">
+          <button onclick="window.location.href='index.html'" class="px-6 py-3 bg-emerald-500 text-white rounded-lg hover:bg-emerald-600 transition-colors">
+            Go Home
+          </button>
+          <button onclick="closeLogoModal()" class="px-6 py-3 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <footer class="text-center py-8 text-gray-300 bg-white/10 mt-12">
     <div class="max-w-7xl mx-auto px-4">
       <p class="text-lg mb-4">&copy; 2018-2024 MEDicos. All rights reserved.</p>
@@ -235,6 +246,43 @@
     </div>
   </footer>
 
+  <script src="js/init.js"></script>
+  <script src="js/chatbot.js"></script>
+  <script>
+    // Loading overlay management
+    window.addEventListener('load', function() {
+      const loadingOverlay = document.getElementById('loadingOverlay');
+      if (loadingOverlay) {
+        setTimeout(() => {
+          loadingOverlay.classList.add('hidden');
+          setTimeout(() => {
+            loadingOverlay.style.display = 'none';
+          }, 300);
+        }, 1000); // Show loading for 1 second
+      }
+    });
+
+    // Logo Modal Functions
+    function openLogoModal() {
+      const logoModal = document.getElementById('logoModal');
+      logoModal.classList.remove('hidden');
+    }
+
+    function closeLogoModal() {
+      const logoModal = document.getElementById('logoModal');
+      logoModal.classList.add('hidden');
+    }
+
+    // Close modal when clicking outside
+    document.getElementById('logoModal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeLogoModal();
+      }
+    });
+  </script>
   <script>lucide.createIcons();</script>
+  <script>
+    
+  </script>
 </body>
 </html> 
