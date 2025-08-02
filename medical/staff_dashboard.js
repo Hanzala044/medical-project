@@ -634,10 +634,11 @@ class StaffDashboard {
     // Check WhatsApp receipt status
     async checkWhatsAppStatus(saleId) {
         try {
-            const response = await fetch(`/api/whatsapp-status/${saleId}`);
+            const response = await fetch(`/api/twilio-status/${saleId}`);
             const result = await response.json();
             
             if (result.success) {
+                console.log('WhatsApp status:', result);
                 return result;
             } else {
                 console.error('Failed to check WhatsApp status:', result.message);

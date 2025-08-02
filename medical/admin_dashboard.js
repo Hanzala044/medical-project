@@ -6,6 +6,7 @@ class AdminDashboard {
         this.initializeEventListeners();
         this.loadDashboardStats();
         this.loadMedicines();
+        this.loadWhatsAppStats();
         this.updateClock();
         setInterval(() => this.updateClock(), 1000);
     }
@@ -336,6 +337,51 @@ class AdminDashboard {
         setTimeout(() => {
             notification.remove();
         }, 3000);
+    }
+
+    // WhatsApp Integration Management
+    async testTwilioConnection() {
+        try {
+            this.showNotification('Testing Twilio connection...', 'info');
+            const response = await fetch('/api/test-twilio-connection', {
+                method: 'POST'
+            });
+            const result = await response.json();
+            
+            if (result.success) {
+                this.showNotification('✅ Twilio connection successful!', 'success');
+            } else {
+                this.showNotification('❌ Twilio connection failed: ' + result.message, 'error');
+            }
+        } catch (error) {
+            console.error('Error testing Twilio connection:', error);
+            this.showNotification('❌ Error testing Twilio connection', 'error');
+        }
+    }
+
+    async refreshWhatsAppStats() {
+        try {
+            this.showNotification('Refreshing WhatsApp statistics...', 'info');
+            const response = await fetch('/api/whatsapp-stats', {
+                method: 'GET'
+            });
+            const result = await response.json();
+            
+            if (result.success) {
+                document.getElementById('twilioReceiptsSent').textContent = result.twilio_receipts || 0;
+                document.getElementById('totalReceiptsSent').textContent = result.total_receipts || 0;
+                this.showNotification('✅ WhatsApp statistics updated!', 'success');
+            } else {
+                this.showNotification('❌ Failed to load WhatsApp statistics', 'error');
+            }
+        } catch (error) {
+            console.error('Error refreshing WhatsApp stats:', error);
+            this.showNotification('❌ Error refreshing WhatsApp statistics', 'error');
+        }
+    }
+
+    async loadWhatsAppStats() {
+        await this.refreshWhatsAppStats();
     }
 }
 

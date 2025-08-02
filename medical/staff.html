@@ -138,7 +138,9 @@
           <!-- Staff Member 2 -->
           <div class="bg-white/10 rounded-2xl p-4 md:p-6 shadow-lg">
             <div class="text-center mb-4 md:mb-6">
-              <img src="nalini.jpg" alt="Ms. Nalini Kharvi" class="w-24 h-24 md:w-32 md:h-32 mx-auto rounded-full border-4 border-cyan-400 shadow-lg mb-3 md:mb-4 object-cover cursor-pointer hover:scale-105 transition-transform duration-300" onclick="openStaffModal('nalini.jpg', 'Ms. Nalini Kharvi', 'Purchasing Executive')">
+              <div class="w-24 h-24 md:w-32 md:h-32 mx-auto rounded-full border-4 border-cyan-400 shadow-lg mb-3 md:mb-4 bg-gradient-to-br from-cyan-400 to-emerald-400 flex items-center justify-center cursor-pointer hover:scale-105 transition-transform duration-300" onclick="openStaffModal('', 'Ms. Nalini Kharvi', 'Purchasing Executive')">
+                <span class="text-white font-bold text-lg md:text-xl">NK</span>
+              </div>
               <h4 class="text-lg md:text-xl font-bold text-cyan-300 mb-2">Ms. Nalini Kharvi</h4>
               <p class="text-emerald-200 font-medium mb-2 md:mb-3 text-sm md:text-base">Purchasing Executive</p>
             </div>
@@ -177,7 +179,9 @@
           <!-- Staff Member 5 -->
           <div class="bg-white/10 rounded-2xl p-4 md:p-6 shadow-lg">
             <div class="text-center mb-4 md:mb-6">
-              <img src="suprita.jpg" alt="Ms. Suprita" class="w-24 h-24 md:w-32 md:h-32 mx-auto rounded-full border-4 border-cyan-400 shadow-lg mb-3 md:mb-4 object-cover cursor-pointer hover:scale-105 transition-transform duration-300" onclick="openStaffModal('suprita.jpg', 'Ms. Suprita', 'Head of Nursing')">
+              <div class="w-24 h-24 md:w-32 md:h-32 mx-auto rounded-full border-4 border-cyan-400 shadow-lg mb-3 md:mb-4 bg-gradient-to-br from-emerald-400 to-cyan-400 flex items-center justify-center cursor-pointer hover:scale-105 transition-transform duration-300" onclick="openStaffModal('', 'Ms. Suprita', 'Head of Nursing')">
+                <span class="text-white font-bold text-lg md:text-xl">MS</span>
+              </div>
               <h4 class="text-lg md:text-xl font-bold text-cyan-300 mb-2">Ms. Suprita</h4>
               <p class="text-emerald-200 font-medium mb-2 md:mb-3 text-sm md:text-base">Head of Nursing</p>
             </div>
@@ -343,7 +347,27 @@
       const staffModalName = document.getElementById('staffModalName');
       const staffModalDesignation = document.getElementById('staffModalDesignation');
       
-      staffModalImage.src = imageSrc;
+      if (imageSrc && imageSrc.trim() !== '') {
+        staffModalImage.src = imageSrc;
+        staffModalImage.style.display = 'block';
+      } else {
+        // Create placeholder for staff without images
+        const initials = name.split(' ').map(n => n[0]).join('').toUpperCase();
+        staffModalImage.style.display = 'none';
+        const placeholder = document.createElement('div');
+        placeholder.className = 'w-48 h-48 md:w-64 md:h-64 mx-auto rounded-full border-4 border-emerald-400 shadow-2xl mb-6 bg-gradient-to-br from-emerald-400 to-cyan-400 flex items-center justify-center';
+        placeholder.innerHTML = `<span class="text-white font-bold text-4xl md:text-6xl">${initials}</span>`;
+        
+        // Replace the image with placeholder
+        const imageContainer = staffModalImage.parentNode;
+        const existingPlaceholder = imageContainer.querySelector('.placeholder-div');
+        if (existingPlaceholder) {
+          existingPlaceholder.remove();
+        }
+        placeholder.classList.add('placeholder-div');
+        imageContainer.insertBefore(placeholder, staffModalImage);
+      }
+      
       staffModalName.textContent = name;
       staffModalDesignation.textContent = designation;
       
@@ -352,6 +376,17 @@
 
     function closeStaffModal() {
       const staffModal = document.getElementById('staffModal');
+      const staffModalImage = document.getElementById('staffModalImage');
+      
+      // Clean up placeholder if it exists
+      const placeholder = staffModal.querySelector('.placeholder-div');
+      if (placeholder) {
+        placeholder.remove();
+      }
+      
+      // Reset image display
+      staffModalImage.style.display = 'block';
+      
       staffModal.classList.add('hidden');
     }
 

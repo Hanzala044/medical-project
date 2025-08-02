@@ -1,14 +1,19 @@
 import os
 from dotenv import load_dotenv
 
-load_dotenv()
+# Try to load .env file, but don't fail if it doesn't exist
+try:
+    load_dotenv()
+except:
+    pass
 
 class ChatbotConfig:
     """Configuration class for the medical chatbot"""
     
     # AI Model Configuration
-    OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
-    GOOGLE_API_KEY = os.getenv('GOOGLE_API_KEY')
+    # You can add your API keys directly here instead of using .env file
+    OPENAI_API_KEY = os.getenv('OPENAI_API_KEY') or "your_openai_api_key_here"
+    GOOGLE_API_KEY = os.getenv('GOOGLE_API_KEY') or "AIzaSyAwukn5kBLRqszJflBSYoRG-pTL9q2lR2I"
     OPENAI_MODEL = "gpt-3.5-turbo"
     GEMINI_MODEL = "gemini-pro"
     

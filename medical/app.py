@@ -12,7 +12,6 @@ from googleapiclient.discovery import build
 from googleapiclient.http import MediaFileUpload
 
 # Import WhatsApp integration
-from whatsapp_integration import setup_whatsapp_routes
 from twilio_whatsapp_integration import setup_twilio_whatsapp_routes
 from razorpay_integration import setup_razorpay_routes
 
@@ -840,6 +839,80 @@ def get_available_medicines():
     except Error as e:
         return jsonify({'error': f'Database error: {str(e)}'}), 500
 
+# WhatsApp integration (Twilio only)
+setup_twilio_whatsapp_routes(app)
+
+# Unified WhatsApp endpoint (Twilio only)
+@app.route('/api/send-receipt/<int:sale_id>', methods=['POST'])
+def send_receipt_unified(sale_id):
+    """Send receipt via Twilio WhatsApp"""
+    try:
+        from twilio_whatsapp_integration import TwilioWhatsAppReceiptSender
+        sender = TwilioWhatsAppReceiptSender()
+        result = sender.send_receipt(sale_id)
+        return jsonify(result)
+    except Exception as e:
+        return jsonify({"success": False, "message": str(e)}), 500
+
+# WhatsApp Management API Endpoints
+@app.route('/api/test-twilio-connection', methods=['POST'])
+def test_twilio_connection():
+    try:
+        from twilio_whatsapp_integration import TwilioWhatsAppReceiptSender
+        sender = TwilioWhatsAppReceiptSender()
+        
+        # Test basic client initialization
+        if sender.client:
+            return jsonify({
+                "success": True,
+                "message": "Twilio client initialized successfully",
+                "account_sid": sender.account_sid[:10] + "..." if sender.account_sid else "Not set"
+            })
+        else:
+            return jsonify({
+                "success": False,
+                "message": "Failed to initialize Twilio client"
+            })
+    except Exception as e:
+        return jsonify({
+            "success": False,
+            "message": f"Twilio connection error: {str(e)}"
+        }), 500
+
+@app.route('/api/whatsapp-stats', methods=['GET'])
+def get_whatsapp_stats():
+    try:
+        connection = get_db_connection()
+        cursor = connection.cursor(dictionary=True)
+        
+        # Get Twilio receipts count
+        cursor.execute("""
+            SELECT COUNT(*) as count FROM sales 
+            WHERE whatsapp_receipt_sent = TRUE AND whatsapp_provider = 'twilio'
+        """)
+        twilio_receipts = cursor.fetchone()['count']
+        
+        # Get total receipts (all providers)
+        cursor.execute("""
+            SELECT COUNT(*) as count FROM sales 
+            WHERE whatsapp_receipt_sent = TRUE
+        """)
+        total_receipts = cursor.fetchone()['count']
+        
+        cursor.close()
+        connection.close()
+        
+        return jsonify({
+            "success": True,
+            "twilio_receipts": twilio_receipts,
+            "total_receipts": total_receipts
+        })
+    except Exception as e:
+        return jsonify({
+            "success": False,
+            "message": f"Error getting WhatsApp stats: {str(e)}"
+        }), 500
+
 # Serve static HTML files
 @app.route('/')
 def index():
@@ -855,17 +928,14 @@ if __name__ == '__main__':
     # Initialize database on startup
     init_database()
     
-    # Setup WhatsApp routes
-    setup_whatsapp_routes(app)
-    setup_twilio_whatsapp_routes(app)
+    # Setup routes
     setup_razorpay_routes(app)
     
     print("🚀 MEDicos Pharmacy Management System Backend")
     print("📊 Database initialized with sample data")
     print("🔐 Default admin credentials: admin1/admin123 or admin2/admin123")
     print("👥 Sample staff credentials: staff1/staff123, staff2/staff123, staff3/staff123")
-    print("📱 WhatsApp receipt integration enabled (Facebook API + Twilio)")
+    print("📱 WhatsApp receipt integration enabled (Twilio)")
     print("💳 Razorpay payment integration enabled")
     print("🌐 Server starting on http://localhost:5000")
-    
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=5000, debug=True)

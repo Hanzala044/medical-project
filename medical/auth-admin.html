@@ -143,6 +143,273 @@
       transform: scale(0.95);
     }
 
+    /* Professional Card Styles */
+    .professional-card {
+      width: 320px;
+      height: 400px;
+      perspective: 1000px;
+      cursor: pointer;
+      margin: 0 auto;
+      transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      flex-shrink: 0;
+    }
+
+    .professional-card.expanded {
+      width: 100%;
+      max-width: 600px;
+      height: auto;
+      min-height: 400px;
+      margin: 0 auto;
+    }
+
+    .professional-card.expanded .card-inner {
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.08));
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 
+        0 12px 40px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    }
+
+    .professional-card.hidden {
+      opacity: 0;
+      transform: scale(0.8);
+      pointer-events: none;
+    }
+
+    .card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      transition: transform 0.6s;
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      backdrop-filter: blur(10px);
+      box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      overflow: hidden;
+    }
+
+    .professional-card.expanded .card-inner {
+      height: auto;
+      min-height: 500px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .professional-card:hover .card-inner {
+      transform: translateY(-5px);
+      box-shadow: 
+        0 20px 40px rgba(0, 0, 0, 0.4),
+        0 0 0 1px rgba(255, 255, 255, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    }
+
+    .professional-card:active .card-inner {
+      transform: translateY(-2px);
+    }
+
+    .card-header {
+      position: relative;
+      padding: 24px 20px 16px;
+      background: linear-gradient(135deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.1));
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .icon-container {
+      width: 64px;
+      height: 64px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 12px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .icon-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.5s;
+    }
+
+    .professional-card:hover .icon-container::before {
+      left: 100%;
+    }
+
+    .card-badge {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: rgba(255, 255, 255, 0.1);
+      color: rgba(255, 255, 255, 0.8);
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .card-content {
+      padding: 20px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .card-title {
+      font-size: 24px;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 8px;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .card-subtitle {
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.7);
+      margin-bottom: 20px;
+      line-height: 1.4;
+    }
+
+    .card-features {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .feature-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.8);
+      padding: 4px 0;
+    }
+
+    .feature-item i {
+      flex-shrink: 0;
+    }
+
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      background: linear-gradient(135deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.1));
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      margin-top: auto;
+    }
+
+    .access-text {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.6);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .card-footer i {
+      transition: transform 0.3s ease;
+    }
+
+    .professional-card:hover .card-footer i {
+      transform: translateX(4px);
+    }
+
+    .expanded-content {
+      display: none;
+      padding: 30px;
+      flex: 1;
+    }
+
+    .professional-card.expanded .expanded-content {
+      display: block;
+      padding: 40px 30px;
+    }
+
+    .professional-card.expanded .card-content {
+      display: none;
+    }
+
+    .professional-card.expanded .card-header {
+      display: none;
+    }
+
+    .professional-card.expanded .card-footer {
+      display: none;
+    }
+
+    .back-button {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 8px;
+      padding: 10px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      z-index: 10;
+    }
+
+    .back-button:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: scale(1.05);
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .professional-card {
+        width: 280px;
+        height: 360px;
+      }
+      
+      .card-title {
+        font-size: 20px;
+      }
+      
+      .card-subtitle {
+        font-size: 13px;
+      }
+      
+      .feature-item {
+        font-size: 12px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .professional-card {
+        width: 260px;
+        height: 340px;
+      }
+      
+      .icon-container {
+        width: 56px;
+        height: 56px;
+      }
+      
+      .icon-container i {
+        width: 24px;
+        height: 24px;
+      }
+    }
+
 
   </style>
 </head>
@@ -162,14 +429,7 @@
     </div>
   </div>
 
-  <!-- Exit Button -->
-  <div class="absolute top-4 right-4 z-30">
-    <button onclick="window.location.href='index.html'" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition-all duration-300 flex items-center gap-2 shadow-lg hover:shadow-xl transform hover:scale-105">
-      <i data-lucide="home" class="w-4 h-4"></i>
-      <span class="hidden sm:inline">Exit to Home</span>
-      <span class="sm:hidden">Exit</span>
-    </button>
-  </div>
+
 
   <!-- Announcement Banner -->
   <div class="relative w-full flex justify-center z-20">
@@ -182,217 +442,289 @@
     </div>
   </div>
 
-  <!-- Trust Markers Navigation -->
-  <div class="flex flex-wrap justify-center gap-4 md:gap-6 mb-6 md:mb-8 mt-4 md:mt-6 px-4">
-    <!-- Login Trust Marker -->
-    <!-- From Uiverse.io by SupportHotline -->
-    <div class="trust-marker-button" onclick="showPage('login')">
-      <div class="TrustMarkerHeroComponent_trustMarkerContainer__yFj1S bg-gray-900 rounded-xl p-4 flex items-center space-x-4 min-w-[200px]">
-        <div class="TrustMarkerHeroComponent_trustMarkerHeadingContainer__cjGbd flex-1">
-          <h3 class="text-white font-semibold text-lg">Staff Login</h3>
-          <h4 class="text-gray-300 text-sm">Secure access portal</h4>
+  <!-- Professional Navigation Cards -->
+  <div id="cardsContainer" class="flex justify-center gap-6 mb-8 mt-6 px-4 max-w-6xl mx-auto">
+    <!-- Staff Login Card -->
+    <div id="loginCard" class="professional-card" onclick="expandCard('login')">
+      <div class="card-inner">
+        <button class="back-button hidden" onclick="collapseCard(event)">
+          <i data-lucide="arrow-left" class="w-5 h-5 text-white"></i>
+        </button>
+        <div class="card-header">
+          <div class="icon-container bg-gradient-to-br from-emerald-500 to-teal-600">
+            <i data-lucide="log-in" class="w-8 h-8 text-white"></i>
+          </div>
+          <div class="card-badge">Staff Access</div>
         </div>
-        <div class="TrustMarkerHeroComponent_trustMarkerImageContainer__434rY">
-          <div class="TrustMarkerHeroComponent_imageBackground__XVdWd w-12 h-12 bg-emerald-500/20 rounded-full flex items-center justify-center">
-            <i data-lucide="log-in" class="w-6 h-6 text-emerald-400"></i>
+        <div class="card-content">
+          <h3 class="card-title">Staff Login</h3>
+          <p class="card-subtitle">Secure access portal for pharmacy staff</p>
+          <div class="card-features">
+            <div class="feature-item">
+              <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i>
+              <span>Dashboard access</span>
+            </div>
+            <div class="feature-item">
+              <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i>
+              <span>Inventory management</span>
+            </div>
+            <div class="feature-item">
+              <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i>
+              <span>Patient records</span>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="access-text">Click to access</span>
+          <i data-lucide="arrow-right" class="w-5 h-5 text-emerald-400"></i>
+        </div>
+        <div class="expanded-content">
+          <div id="loginAccessControl" class="text-center">
+            <div class="bg-emerald-500/20 rounded-xl p-6 border border-emerald-500/30">
+              <i data-lucide="shield" class="w-12 h-12 text-emerald-400 mx-auto mb-4"></i>
+              <h2 class="text-xl font-bold text-white mb-2">Staff Access Required</h2>
+              <p class="text-gray-300 mb-4">Enter the staff password to continue</p>
+              <div class="flex flex-col gap-3">
+                <input type="password" id="staffAccessPassword" placeholder="Enter staff password" 
+                       class="w-full px-4 py-3 bg-white/10 border border-emerald-500/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-emerald-400 transition-colors">
+                <button onclick="verifyStaffAccess()" 
+                        class="w-full px-6 py-3 bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-semibold rounded-lg hover:from-emerald-600 hover:to-teal-700 transition-all transform hover:scale-105">
+                  Verify Access
+                </button>
+              </div>
+              <div id="staffAccessMsg" class="text-center mt-2 text-sm"></div>
+            </div>
+          </div>
+          <div id="loginFormContainer" class="hidden">
+            <div class="text-center mb-6">
+              <h2 class="text-2xl md:text-3xl font-bold text-white mb-2">Staff Login</h2>
+              <p class="text-gray-200 text-sm">Access your pharmacy dashboard</p>
+            </div>
+            <form id="loginForm" class="space-y-4">
+              <div class="relative">
+                <i data-lucide="user" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5"></i>
+                <div class="relative">
+                  <input type="text" id="staffSearchInput" placeholder="Search staff member..." 
+                         class="w-full pl-10 pr-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent backdrop-blur-sm transition-all duration-300 text-base"
+                         autocomplete="off">
+                  <div id="staffDropdown" class="absolute top-full left-0 right-0 mt-1 bg-gray-800/95 backdrop-blur-lg border border-gray-600 rounded-lg shadow-xl max-h-60 overflow-y-auto hidden z-50">
+                    <div class="staff-option p-2 hover:bg-gray-700 cursor-pointer border-b border-gray-600 text-white text-sm" data-value="mohammed.huzefa">MOHAMMED HUZEFA</div>
+                    <div class="staff-option p-2 hover:bg-gray-700 cursor-pointer border-b border-gray-600 text-white text-sm" data-value="nalini.kharvi">MS. NALINI KHARVI</div>
+                    <div class="staff-option p-2 hover:bg-gray-700 cursor-pointer border-b border-gray-600 text-white text-sm" data-value="mohammed.hannan">MR. MOHAMMED HANNAN</div>
+                    <div class="staff-option p-2 hover:bg-gray-700 cursor-pointer border-b border-gray-600 text-white text-sm" data-value="abdul.subhan">MR. ABDUL SUBHAN</div>
+                    <div class="staff-option p-2 hover:bg-gray-700 cursor-pointer border-b border-gray-600 text-white text-sm" data-value="suprita">MS. SUPRITA</div>
+                    <div class="staff-option p-2 hover:bg-gray-700 cursor-pointer border-b border-gray-600 text-white text-sm" data-value="mohammed.hanzala">MR. MOHAMMED HANZALA</div>
+                  </div>
+                  <input type="hidden" id="staffSelect" required>
+                </div>
+              </div>
+              <div id="passwordField" class="relative hidden transition-all duration-300 ease-in-out opacity-0 transform translate-y-2">
+                <i data-lucide="lock" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5"></i>
+                <input type="password" id="staffPassword" placeholder="Password" required class="w-full pl-10 pr-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent backdrop-blur-sm transition-all duration-300 text-base">
+              </div>
+              <button type="submit" class="neumorphic-button">
+                <div class="text">Login</div>
+                <i data-lucide="log-in" class="w-5 h-5"></i>
+              </button>
+            </form>
+            
+            <div class="text-center mt-4">
+              <span class="text-gray-300 text-sm">Don't have an account?</span>
+              <button onclick="collapseCard(event); expandCard('register')" class="text-cyan-400 hover:underline ml-1 text-sm">Register</button>
+            </div>
+            <div id="loginMsg" class="text-center mt-2 text-sm"></div>
           </div>
         </div>
       </div>
     </div>
 
-
-
-    <!-- Register Staff Trust Marker -->
-    <!-- From Uiverse.io by SupportHotline -->
-    <div class="trust-marker-button" onclick="showPage('register')">
-      <div class="TrustMarkerHeroComponent_trustMarkerContainer__yFj1S bg-gray-900 rounded-xl p-4 flex items-center space-x-4 min-w-[200px]">
-        <div class="TrustMarkerHeroComponent_trustMarkerHeadingContainer__cjGbd flex-1">
-          <h3 class="text-white font-semibold text-lg">Register Staff</h3>
-          <h4 class="text-gray-300 text-sm">Join our team</h4>
+    <!-- Register Staff Card -->
+    <div id="registerCard" class="professional-card" onclick="expandCard('register')">
+      <div class="card-inner">
+        <button class="back-button hidden" onclick="collapseCard(event)">
+          <i data-lucide="arrow-left" class="w-5 h-5 text-white"></i>
+        </button>
+        <div class="card-header">
+          <div class="icon-container bg-gradient-to-br from-blue-500 to-indigo-600">
+            <i data-lucide="user-plus" class="w-8 h-8 text-white"></i>
+          </div>
+          <div class="card-badge">New Staff</div>
         </div>
-        <div class="TrustMarkerHeroComponent_trustMarkerImageContainer__434rY">
-          <div class="TrustMarkerHeroComponent_imageBackground__XVdWd w-12 h-12 bg-blue-500/20 rounded-full flex items-center justify-center">
-            <i data-lucide="user-plus" class="w-6 h-6 text-blue-400"></i>
+        <div class="card-content">
+          <h3 class="card-title">Register Staff</h3>
+          <p class="card-subtitle">Join our healthcare team</p>
+          <div class="card-features">
+            <div class="feature-item">
+              <i data-lucide="check-circle" class="w-4 h-4 text-blue-400"></i>
+              <span>Quick registration</span>
+            </div>
+            <div class="feature-item">
+              <i data-lucide="check-circle" class="w-4 h-4 text-blue-400"></i>
+              <span>Secure onboarding</span>
+            </div>
+            <div class="feature-item">
+              <i data-lucide="check-circle" class="w-4 h-4 text-blue-400"></i>
+              <span>Team integration</span>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="access-text">Click to register</span>
+          <i data-lucide="arrow-right" class="w-5 h-5 text-blue-400"></i>
+        </div>
+        <div class="expanded-content">
+          <div id="registerAccessControl" class="text-center">
+            <div class="bg-blue-500/20 rounded-xl p-6 border border-blue-500/30">
+              <i data-lucide="shield" class="w-12 h-12 text-blue-400 mx-auto mb-4"></i>
+              <h2 class="text-xl font-bold text-white mb-2">Registration Access Required</h2>
+              <p class="text-gray-300 mb-4">Enter the registration password to continue</p>
+              <div class="flex flex-col gap-3">
+                <input type="password" id="registerAccessPassword" placeholder="Enter registration password" 
+                       class="w-full px-4 py-3 bg-white/10 border border-blue-500/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-400 transition-colors">
+                <button onclick="verifyRegisterAccess()" 
+                        class="w-full px-6 py-3 bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-semibold rounded-lg hover:from-blue-600 hover:to-indigo-700 transition-all transform hover:scale-105">
+                  Verify Access
+                </button>
+              </div>
+              <div id="registerAccessMsg" class="text-center mt-2 text-sm"></div>
+            </div>
+          </div>
+          <div id="registerFormContainer" class="hidden">
+            <div class="text-center mb-6">
+              <h2 class="text-2xl md:text-3xl font-bold text-white mb-2">Register Staff</h2>
+              <p class="text-gray-200 text-sm">Create your MEDicos staff account</p>
+            </div>
+            <form id="registerForm" class="space-y-4">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="relative">
+                  <i data-lucide="user" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4 md:w-5 md:h-5"></i>
+                  <input type="text" placeholder="First Name*" required class="w-full pl-8 md:pl-10 pr-4 py-2 md:py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent backdrop-blur-sm transition-all duration-300 text-sm md:text-base">
+                </div>
+                <div class="relative">
+                  <i data-lucide="user" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4 md:w-5 md:h-5"></i>
+                  <input type="text" placeholder="Last Name*" required class="w-full pl-8 md:pl-10 pr-4 py-2 md:py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent backdrop-blur-sm transition-all duration-300 text-sm md:text-base">
+                </div>
+              </div>
+              <div class="relative">
+                <i data-lucide="mail" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4 md:w-5 md:h-5"></i>
+                <input type="email" placeholder="Email Address" class="w-full pl-8 md:pl-10 pr-4 py-2 md:py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent backdrop-blur-sm transition-all duration-300 text-sm md:text-base">
+              </div>
+              <div class="relative">
+                <i data-lucide="phone" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4 md:w-5 md:h-5"></i>
+                <input type="tel" placeholder="Phone Number*" required class="w-full pl-8 md:pl-10 pr-4 py-2 md:py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent backdrop-blur-sm transition-all duration-300 text-sm md:text-base">
+              </div>
+              <div class="relative">
+                <i data-lucide="lock" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4 md:w-5 md:h-5"></i>
+                <input type="password" placeholder="Password*" required class="w-full pl-8 md:pl-10 pr-4 py-2 md:py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent backdrop-blur-sm transition-all duration-300 text-sm md:text-base">
+              </div>
+              <button type="submit" class="neumorphic-button">
+                <div class="text">Register</div>
+                <i data-lucide="user-plus" class="w-5 h-5"></i>
+              </button>
+            </form>
+            
+            <div class="text-center mt-4">
+              <span class="text-gray-300 text-sm">Already have an account?</span>
+              <button onclick="collapseCard(event); expandCard('login')" class="text-emerald-400 hover:underline ml-1 text-sm">Login</button>
+            </div>
+            <div id="registerMsg" class="text-center mt-2 text-sm"></div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Admin Trust Marker -->
-    <!-- From Uiverse.io by SupportHotline -->
-    <div class="trust-marker-button" onclick="showPage('admin')">
-      <div class="TrustMarkerHeroComponent_trustMarkerContainer__yFj1S bg-gray-900 rounded-xl p-4 flex items-center space-x-4 min-w-[200px]">
-        <div class="TrustMarkerHeroComponent_trustMarkerHeadingContainer__cjGbd flex-1">
-          <h3 class="text-white font-semibold text-lg">Admin Panel</h3>
-          <h4 class="text-gray-300 text-sm">System management</h4>
+    <!-- Admin Panel Card -->
+    <div id="adminCard" class="professional-card" onclick="expandCard('admin')">
+      <div class="card-inner">
+        <button class="back-button hidden" onclick="collapseCard(event)">
+          <i data-lucide="arrow-left" class="w-5 h-5 text-white"></i>
+        </button>
+        <div class="card-header">
+          <div class="icon-container bg-gradient-to-br from-purple-500 to-violet-600">
+            <i data-lucide="shield" class="w-8 h-8 text-white"></i>
+          </div>
+          <div class="card-badge">Admin Only</div>
         </div>
-        <div class="TrustMarkerHeroComponent_trustMarkerImageContainer__434rY">
-          <div class="TrustMarkerHeroComponent_imageBackground__XVdWd w-12 h-12 bg-purple-500/20 rounded-full flex items-center justify-center">
-            <i data-lucide="shield" class="w-6 h-6 text-purple-400"></i>
+        <div class="card-content">
+          <h3 class="card-title">Admin Panel</h3>
+          <p class="card-subtitle">System management & control</p>
+          <div class="card-features">
+            <div class="feature-item">
+              <i data-lucide="check-circle" class="w-4 h-4 text-purple-400"></i>
+              <span>System control</span>
+            </div>
+            <div class="feature-item">
+              <i data-lucide="check-circle" class="w-4 h-4 text-purple-400"></i>
+              <span>User management</span>
+            </div>
+            <div class="feature-item">
+              <i data-lucide="check-circle" class="w-4 h-4 text-purple-400"></i>
+              <span>Analytics & reports</span>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="access-text">Click to access</span>
+          <i data-lucide="arrow-right" class="w-5 h-5 text-purple-400"></i>
+        </div>
+        <div class="expanded-content">
+          <div id="adminAccessControl" class="text-center">
+            <div class="bg-purple-500/20 rounded-xl p-6 border border-purple-500/30">
+              <i data-lucide="shield" class="w-12 h-12 text-purple-400 mx-auto mb-4"></i>
+              <h2 class="text-xl font-bold text-white mb-2">Admin Access Required</h2>
+              <p class="text-gray-300 mb-4">Enter the admin password to continue</p>
+              <div class="flex flex-col gap-3">
+                <input type="password" id="adminAccessPassword" placeholder="Enter admin password" 
+                       class="w-full px-4 py-3 bg-white/10 border border-purple-500/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-400 transition-colors">
+                <button onclick="verifyAdminAccess()" 
+                        class="w-full px-6 py-3 bg-gradient-to-r from-purple-500 to-violet-600 text-white font-semibold rounded-lg hover:from-purple-600 hover:to-violet-700 transition-all transform hover:scale-105">
+                  Verify Access
+                </button>
+              </div>
+              <div id="adminAccessMsg" class="text-center mt-2 text-sm"></div>
+            </div>
+          </div>
+          <div id="adminFormContainer" class="hidden">
+            <div class="text-center mb-6">
+              <h2 class="text-2xl md:text-3xl font-bold text-white mb-2">Admin Login</h2>
+              <p class="text-gray-200 text-sm">Administrative access only</p>
+            </div>
+            <form id="adminForm" class="space-y-4">
+              <div class="relative">
+                <i data-lucide="user" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5"></i>
+                <div class="relative">
+                  <input type="text" id="adminSearchInput" placeholder="Search admin member..." 
+                         class="w-full pl-10 pr-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent backdrop-blur-sm transition-all duration-300 text-base"
+                         autocomplete="off">
+                  <div id="adminDropdown" class="absolute top-full left-0 right-0 mt-1 bg-gray-800/95 backdrop-blur-lg border border-gray-600 rounded-lg shadow-xl max-h-60 overflow-y-auto hidden z-50">
+                    <div class="admin-option p-2 hover:bg-gray-700 cursor-pointer border-b border-gray-600 text-white text-sm" data-value="mohammed.hanif">MOHAMMED HANIF (CEO)</div>
+                    <div class="admin-option p-2 hover:bg-gray-700 cursor-pointer border-b border-gray-600 text-white text-sm" data-value="mohammed.hanzala">MOHAMMED HANZALA</div>
+                  </div>
+                  <input type="hidden" id="adminSelect" required>
+                </div>
+              </div>
+              <div class="relative">
+                <i data-lucide="lock" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5"></i>
+                <input type="password" id="adminPassword" placeholder="Password" required class="w-full pl-10 pr-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent backdrop-blur-sm transition-all duration-300 text-base">
+              </div>
+              <button type="submit" class="neumorphic-button">
+                <div class="text">Login as Admin</div>
+                <i data-lucide="shield" class="w-5 h-5"></i>
+              </button>
+            </form>
+            
+            <div class="text-center mt-4">
+              <span class="text-gray-300 text-sm">Need staff access?</span>
+              <button onclick="collapseCard(event); expandCard('login')" class="text-purple-400 hover:underline ml-1 text-sm">Staff Login</button>
+            </div>
+            <div id="adminMsg" class="text-center mt-2 text-sm"></div>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Login Page -->
-  <div id="login" class="page active">
-    <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-6 md:p-8 shadow-2xl border border-white/20 relative w-[95vw] max-w-md mx-auto">
-      <div class="absolute -top-4 -right-4 w-20 h-20 bg-gradient-to-br from-blue-400 to-cyan-600 rounded-full opacity-20 animate-pulse"></div>
-      <div class="absolute -bottom-4 -left-4 w-16 h-16 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full opacity-20 animate-bounce" style="animation-duration: 3s;"></div>
-      <div class="absolute top-4 right-4 flex space-x-2">
-        <div class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
-          <i data-lucide="star" class="w-4 h-4 text-white fill-current"></i>
-        </div>
-      </div>
-      <div class="text-center mb-6">
-        <h2 class="text-2xl md:text-3xl font-bold text-white mb-2">Staff Login</h2>
-        <p class="text-gray-200 text-sm">Access your pharmacy dashboard</p>
-      </div>
-      <form id="loginForm" class="space-y-4">
-        <div class="relative">
-          <i data-lucide="user" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5"></i>
-          <select id="staffSelect" required class="w-full pl-10 pr-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent backdrop-blur-sm transition-all duration-300 text-base appearance-none">
-            <option value="">Select Staff Member</option>
-            <option value="mohammed.huzefa">MOHAMMED HUZEFA</option>
-            <option value="nalini.kharvi">MS. NALINI KHARVI</option>
-            <option value="mohammed.hannan">MR. MOHAMMED HANNAN</option>
-            <option value="abdul.subhan">MR. ABDUL SUBHAN</option>
-            <option value="suprita">MS. SUPRITA</option>
-            <option value="mohammed.hanzala">MR. MOHAMMED HANZALA</option>
-          </select>
-        </div>
-        <div class="relative">
-          <i data-lucide="lock" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5"></i>
-          <input type="password" placeholder="Password" required class="w-full pl-10 pr-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent backdrop-blur-sm transition-all duration-300 text-base">
-        </div>
-        <!-- From Uiverse.io by SupportHotline -->
-        <button type="submit" class="neumorphic-button">
-          <div class="text">Login</div>
-          <i data-lucide="log-in" class="w-5 h-5"></i>
-        </button>
-      </form>
-      
-      <!-- Exit Button for Staff Login -->
-      <div class="mt-4 text-center">
-        <button onclick="window.location.href='index.html'" class="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-lg transition-all duration-300 flex items-center gap-2 mx-auto shadow-lg hover:shadow-xl transform hover:scale-105">
-          <i data-lucide="home" class="w-4 h-4"></i>
-          Exit to Home
-        </button>
-      </div>
-      
-      <div class="text-center mt-4">
-        <span class="text-gray-300 text-sm">Don't have an account?</span>
-        <button onclick="showPage('register')" class="text-cyan-400 hover:underline ml-1 text-sm">Register</button>
-      </div>
-      <div id="loginMsg" class="text-center mt-2 text-sm"></div>
-    </div>
-  </div>
 
-  <!-- Register Page -->
-  <div id="register" class="page">
-    <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-6 md:p-8 shadow-2xl border border-white/20 relative w-[95vw] max-w-md mx-auto">
-      <div class="absolute -top-4 -right-4 w-20 h-20 bg-gradient-to-br from-green-400 to-emerald-600 rounded-full opacity-20 animate-pulse"></div>
-      <div class="absolute -bottom-4 -left-4 w-16 h-16 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full opacity-20 animate-bounce" style="animation-duration: 3s;"></div>
-      <div class="text-center mb-6">
-        <h2 class="text-2xl md:text-3xl font-bold text-white mb-2">Register Staff</h2>
-        <p class="text-gray-200 text-sm">Create your MEDicos staff account</p>
-      </div>
-      <form id="registerForm" class="space-y-4">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div class="relative">
-            <i data-lucide="user" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4 md:w-5 md:h-5"></i>
-            <input type="text" placeholder="First Name*" required class="w-full pl-8 md:pl-10 pr-4 py-2 md:py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent backdrop-blur-sm transition-all duration-300 text-sm md:text-base">
-          </div>
-          <div class="relative">
-            <i data-lucide="user" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4 md:w-5 md:h-5"></i>
-            <input type="text" placeholder="Last Name*" required class="w-full pl-8 md:pl-10 pr-4 py-2 md:py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent backdrop-blur-sm transition-all duration-300 text-sm md:text-base">
-          </div>
-        </div>
-        <div class="relative">
-          <i data-lucide="mail" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4 md:w-5 md:h-5"></i>
-          <input type="email" placeholder="Email Address" class="w-full pl-8 md:pl-10 pr-4 py-2 md:py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent backdrop-blur-sm transition-all duration-300 text-sm md:text-base">
-        </div>
-        <div class="relative">
-          <i data-lucide="phone" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4 md:w-5 md:h-5"></i>
-          <input type="tel" placeholder="Phone Number*" required class="w-full pl-8 md:pl-10 pr-4 py-2 md:py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent backdrop-blur-sm transition-all duration-300 text-sm md:text-base">
-        </div>
-        <div class="relative">
-          <i data-lucide="lock" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4 md:w-5 md:h-5"></i>
-          <input type="password" placeholder="Password*" required class="w-full pl-8 md:pl-10 pr-4 py-2 md:py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent backdrop-blur-sm transition-all duration-300 text-sm md:text-base">
-        </div>
-        <!-- From Uiverse.io by SupportHotline -->
-        <button type="submit" class="neumorphic-button">
-          <div class="text">Register</div>
-          <i data-lucide="user-plus" class="w-5 h-5"></i>
-        </button>
-      </form>
-      
-      <!-- Exit Button for Register -->
-      <div class="mt-4 text-center">
-        <button onclick="window.location.href='index.html'" class="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-lg transition-all duration-300 flex items-center gap-2 mx-auto shadow-lg hover:shadow-xl transform hover:scale-105">
-          <i data-lucide="home" class="w-4 h-4"></i>
-          Exit to Home
-        </button>
-      </div>
-      
-      <div class="text-center mt-4">
-        <span class="text-gray-300 text-sm">Already have an account?</span>
-        <button onclick="showPage('login')" class="text-emerald-400 hover:underline ml-1 text-sm">Login</button>
-      </div>
-      <div id="registerMsg" class="text-center mt-2 text-sm"></div>
-    </div>
-  </div>
-
-  <!-- Admin Login Page -->
-  <div id="admin" class="page">
-    <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-6 md:p-8 shadow-2xl border border-white/20 relative w-[95vw] max-w-md mx-auto">
-      <div class="absolute -top-4 -right-4 w-20 h-20 bg-gradient-to-br from-purple-400 to-indigo-600 rounded-full opacity-20 animate-pulse"></div>
-      <div class="absolute -bottom-4 -left-4 w-16 h-16 bg-gradient-to-br from-pink-400 to-red-500 rounded-full opacity-20 animate-bounce" style="animation-duration: 3s;"></div>
-      <div class="text-center mb-6">
-        <h2 class="text-2xl md:text-3xl font-bold text-white mb-2">Admin Login</h2>
-        <p class="text-gray-200 text-sm">Administrative access only</p>
-      </div>
-      <form id="adminForm" class="space-y-4">
-        <div class="relative">
-          <i data-lucide="user" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5"></i>
-          <select id="adminSelect" required class="w-full pl-10 pr-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent backdrop-blur-sm transition-all duration-300 text-base appearance-none">
-            <option value="">Select Admin</option>
-            <option value="hanif">MOHAMMED HANIF (CEO)</option>
-            <option value="huzefa">MOHAMMED HUZEFA</option>
-            <option value="hannan">MOHAMMED HANNAN</option>
-            <option value="subhan">ABDUL SUBHAN</option>
-            <option value="nalini">NALINI KHARVI</option>
-            <option value="suprita">SUPRITA</option>
-            <option value="hanzala">MOHAMMED HANZALA</option>
-          </select>
-        </div>
-        <div class="relative">
-          <i data-lucide="lock" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5"></i>
-          <input type="password" id="adminPassword" placeholder="Password" required class="w-full pl-10 pr-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent backdrop-blur-sm transition-all duration-300 text-base">
-        </div>
-        <!-- From Uiverse.io by SupportHotline -->
-        <button type="submit" class="neumorphic-button">
-          <div class="text">Login as Admin</div>
-          <i data-lucide="shield" class="w-5 h-5"></i>
-        </button>
-      </form>
-      
-      <!-- Exit Button for Admin Login -->
-      <div class="mt-4 text-center">
-        <button onclick="window.location.href='index.html'" class="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-lg transition-all duration-300 flex items-center gap-2 mx-auto shadow-lg hover:shadow-xl transform hover:scale-105">
-          <i data-lucide="home" class="w-4 h-4"></i>
-          Exit to Home
-        </button>
-      </div>
-      
-      <div class="text-center mt-4">
-        <span class="text-gray-300 text-sm">Need staff access?</span>
-        <button onclick="showPage('login')" class="text-purple-400 hover:underline ml-1 text-sm">Staff Login</button>
-      </div>
-      <div id="adminMsg" class="text-center mt-2 text-sm"></div>
-    </div>
-  </div>
 
   <script>
     function showPage(page) {
@@ -401,27 +733,332 @@
       document.getElementById('loginMsg').textContent = '';
       document.getElementById('registerMsg').textContent = '';
       document.getElementById('adminMsg').textContent = '';
+      
+      // Reset access control states
+      resetAccessControls();
     }
+
+    // Access control verification functions
+    function verifyStaffAccess() {
+      const password = document.getElementById('staffAccessPassword').value;
+      const msgElement = document.getElementById('staffAccessMsg');
+      
+      if (password === 'staff') {
+        msgElement.textContent = 'Access granted! Loading staff login...';
+        msgElement.className = 'text-center mt-2 text-sm text-green-400';
+        
+        setTimeout(() => {
+          document.getElementById('loginAccessControl').classList.add('hidden');
+          document.getElementById('loginFormContainer').classList.remove('hidden');
+        }, 1000);
+      } else {
+        msgElement.textContent = 'Invalid password! Please try again.';
+        msgElement.className = 'text-center mt-2 text-sm text-red-400';
+        document.getElementById('staffAccessPassword').value = '';
+      }
+    }
+
+    function verifyRegisterAccess() {
+      const password = document.getElementById('registerAccessPassword').value;
+      const msgElement = document.getElementById('registerAccessMsg');
+      
+      if (password === '123') {
+        msgElement.textContent = 'Access granted! Loading registration form...';
+        msgElement.className = 'text-center mt-2 text-sm text-green-400';
+        
+        setTimeout(() => {
+          document.getElementById('registerAccessControl').classList.add('hidden');
+          document.getElementById('registerFormContainer').classList.remove('hidden');
+        }, 1000);
+      } else {
+        msgElement.textContent = 'Invalid password! Please try again.';
+        msgElement.className = 'text-center mt-2 text-sm text-red-400';
+        document.getElementById('registerAccessPassword').value = '';
+      }
+    }
+
+    function verifyAdminAccess() {
+      const password = document.getElementById('adminAccessPassword').value;
+      const msgElement = document.getElementById('adminAccessMsg');
+      
+      if (password === 'admin') {
+        msgElement.textContent = 'Access granted! Loading admin panel...';
+        msgElement.className = 'text-center mt-2 text-sm text-green-400';
+        
+        setTimeout(() => {
+          document.getElementById('adminAccessControl').classList.add('hidden');
+          document.getElementById('adminFormContainer').classList.remove('hidden');
+        }, 1000);
+      } else {
+        msgElement.textContent = 'Invalid password! Please try again.';
+        msgElement.className = 'text-center mt-2 text-sm text-red-400';
+        document.getElementById('adminAccessPassword').value = '';
+      }
+    }
+
+    function resetAccessControls() {
+      // Reset all access control states
+      const accessControls = ['loginAccessControl', 'registerAccessControl', 'adminAccessControl'];
+      const formContainers = ['loginFormContainer', 'registerFormContainer', 'adminFormContainer'];
+      
+      accessControls.forEach(control => {
+        const element = document.getElementById(control);
+        if (element) element.classList.remove('hidden');
+      });
+      
+      formContainers.forEach(container => {
+        const element = document.getElementById(container);
+        if (element) element.classList.add('hidden');
+      });
+      
+      // Clear password fields
+      const passwordFields = ['staffAccessPassword', 'registerAccessPassword', 'adminAccessPassword'];
+      passwordFields.forEach(field => {
+        const element = document.getElementById(field);
+        if (element) element.value = '';
+      });
+      
+      // Clear messages
+    }
+
+    // Card expansion and collapse functions
+    function expandCard(cardType) {
+      const cardsContainer = document.getElementById('cardsContainer');
+      const allCards = ['loginCard', 'registerCard', 'adminCard'];
+      const targetCard = document.getElementById(cardType + 'Card');
+      
+      // Hide all other cards
+      allCards.forEach(cardId => {
+        const card = document.getElementById(cardId);
+        if (cardId !== cardType + 'Card') {
+          card.classList.add('hidden');
+        }
+      });
+      
+      // Expand the target card
+      targetCard.classList.add('expanded');
+      targetCard.classList.remove('hidden');
+      
+      // Show back button
+      const backButton = targetCard.querySelector('.back-button');
+      backButton.classList.remove('hidden');
+      
+      // Center the expanded card
+      cardsContainer.classList.add('justify-center');
+      cardsContainer.classList.remove('gap-6');
+    }
+
+    function collapseCard(event) {
+      event.stopPropagation(); // Prevent card click event
+      
+      const cardsContainer = document.getElementById('cardsContainer');
+      const allCards = ['loginCard', 'registerCard', 'adminCard'];
+      
+      // Reset all cards
+      allCards.forEach(cardId => {
+        const card = document.getElementById(cardId);
+        card.classList.remove('expanded', 'hidden');
+        
+        // Hide back button
+        const backButton = card.querySelector('.back-button');
+        backButton.classList.add('hidden');
+        
+        // Reset access controls
+        const accessControl = card.querySelector('[id$="AccessControl"]');
+        const formContainer = card.querySelector('[id$="FormContainer"]');
+        if (accessControl) accessControl.classList.remove('hidden');
+        if (formContainer) formContainer.classList.add('hidden');
+        
+        // Clear password fields
+        const passwordField = card.querySelector('input[type="password"]');
+        if (passwordField) passwordField.value = '';
+        
+        // Hide staff password field specifically
+        const staffPasswordField = document.getElementById('passwordField');
+        if (staffPasswordField) {
+          staffPasswordField.classList.add('hidden', 'opacity-0', 'translate-y-2');
+          staffPasswordField.classList.remove('opacity-100', 'translate-y-0');
+        }
+        
+        // Clear messages
+        const msgElement = card.querySelector('[id$="Msg"]');
+        if (msgElement) msgElement.textContent = '';
+        
+        // Reset dropdowns
+        const searchInputs = card.querySelectorAll('input[type="text"]');
+        const dropdowns = card.querySelectorAll('[id$="Dropdown"]');
+        const hiddenInputs = card.querySelectorAll('input[type="hidden"]');
+        
+        searchInputs.forEach(input => {
+          if (input.id.includes('SearchInput')) {
+            input.value = '';
+          }
+        });
+        
+        dropdowns.forEach(dropdown => {
+          dropdown.classList.add('hidden');
+        });
+        
+        hiddenInputs.forEach(input => {
+          if (input.id.includes('Select')) {
+            input.value = '';
+          }
+        });
+      });
+      
+      // Reset container layout
+      cardsContainer.classList.remove('justify-center');
+      cardsContainer.classList.add('gap-6');
+    }
+
+    // Advanced dropdown functionality for staff selection
+    function initializeStaffDropdown() {
+      const searchInput = document.getElementById('staffSearchInput');
+      const dropdown = document.getElementById('staffDropdown');
+      const hiddenInput = document.getElementById('staffSelect');
+      const options = dropdown.querySelectorAll('.staff-option');
+      
+      if (!searchInput || !dropdown || !hiddenInput) return;
+      
+      // Show dropdown on input focus
+      searchInput.addEventListener('focus', function() {
+        dropdown.classList.remove('hidden');
+        filterStaffOptions();
+      });
+      
+      // Filter options on input
+      searchInput.addEventListener('input', function() {
+        filterStaffOptions();
+      });
+      
+      // Handle option selection
+      options.forEach(option => {
+        option.addEventListener('click', function() {
+          const value = this.getAttribute('data-value');
+          const displayText = this.textContent;
+          
+          searchInput.value = displayText;
+          hiddenInput.value = value;
+          dropdown.classList.add('hidden');
+          
+          // Show password field after staff selection
+          const passwordField = document.getElementById('passwordField');
+          if (passwordField) {
+            passwordField.classList.remove('hidden');
+            // Trigger animation
+            setTimeout(() => {
+              passwordField.classList.remove('opacity-0', 'translate-y-2');
+              passwordField.classList.add('opacity-100', 'translate-y-0');
+            }, 10);
+            // Focus on password field
+            const passwordInput = document.getElementById('staffPassword');
+            if (passwordInput) {
+              setTimeout(() => passwordInput.focus(), 350);
+            }
+          }
+        });
+      });
+      
+      // Hide dropdown when clicking outside
+      document.addEventListener('click', function(e) {
+        if (!searchInput.contains(e.target) && !dropdown.contains(e.target)) {
+          dropdown.classList.add('hidden');
+        }
+      });
+      
+      function filterStaffOptions() {
+        const searchTerm = searchInput.value.toLowerCase();
+        
+        options.forEach(option => {
+          const text = option.textContent.toLowerCase();
+          if (text.includes(searchTerm)) {
+            option.style.display = 'block';
+          } else {
+            option.style.display = 'none';
+          }
+        });
+      }
+    }
+
+    // Advanced dropdown functionality for admin selection
+    function initializeAdminDropdown() {
+      const searchInput = document.getElementById('adminSearchInput');
+      const dropdown = document.getElementById('adminDropdown');
+      const hiddenInput = document.getElementById('adminSelect');
+      const options = dropdown.querySelectorAll('.admin-option');
+      
+      if (!searchInput || !dropdown || !hiddenInput) return;
+      
+      // Show dropdown on input focus
+      searchInput.addEventListener('focus', function() {
+        dropdown.classList.remove('hidden');
+        filterAdminOptions();
+      });
+      
+      // Filter options on input
+      searchInput.addEventListener('input', function() {
+        filterAdminOptions();
+      });
+      
+      // Handle option selection
+      options.forEach(option => {
+        option.addEventListener('click', function() {
+          const value = this.getAttribute('data-value');
+          const displayText = this.textContent;
+          
+          searchInput.value = displayText;
+          hiddenInput.value = value;
+          dropdown.classList.add('hidden');
+        });
+      });
+      
+      // Hide dropdown when clicking outside
+      document.addEventListener('click', function(e) {
+        if (!searchInput.contains(e.target) && !dropdown.contains(e.target)) {
+          dropdown.classList.add('hidden');
+        }
+      });
+      
+      function filterAdminOptions() {
+        const searchTerm = searchInput.value.toLowerCase();
+        
+        options.forEach(option => {
+          const text = option.textContent.toLowerCase();
+          if (text.includes(searchTerm)) {
+            option.style.display = 'block';
+          } else {
+            option.style.display = 'none';
+          }
+        });
+      }
+    }
+
+    // Clear messages
+    const msgElements = ['staffAccessMsg', 'registerAccessMsg', 'adminAccessMsg'];
+    msgElements.forEach(msg => {
+      const element = document.getElementById(msg);
+      if (element) element.textContent = '';
+    });
 
     // Admin credentials mapping
     const adminCredentials = {
-      'hanif': 'admin123',
-      'huzefa': 'admin123',
-      'hannan': 'admin123',
-      'subhan': 'admin123',
-      'nalini': 'admin123',
-      'suprita': 'admin123',
-      'hanzala': 'admin123'
+      'hanif': 'admin',
+      'huzefa': 'admin',
+      'hannan': 'admin',
+      'subhan': 'admin',
+      'nalini': 'admin',
+      'suprita': 'admin',
+      'hanzala': 'admin'
     };
 
     // Staff credentials mapping
     const staffCredentials = {
-      'mohammed.huzefa': 'staff123',
-      'nalini.kharvi': 'staff123',
-      'mohammed.hannan': 'staff123',
-      'abdul.subhan': 'staff123',
-      'suprita': 'staff123',
-      'mohammed.hanzala': 'staff123'
+      'mohammed.huzefa': 'staff',
+      'nalini.kharvi': 'staff',
+      'mohammed.hannan': 'staff',
+      'abdul.subhan': 'staff',
+      'suprita': 'staff',
+      'mohammed.hanzala': 'staff'
     };
 
     // Register Handler
@@ -473,10 +1110,16 @@
     document.getElementById('loginForm').onsubmit = async function(e) {
       e.preventDefault();
       const staffSelect = document.getElementById('staffSelect');
-      const password = e.target[1].value;
+      const password = document.getElementById('staffPassword').value;
       
       if (!staffSelect.value) {
         document.getElementById('loginMsg').textContent = 'Please select a staff member!';
+        document.getElementById('loginMsg').className = 'text-center mt-2 text-sm text-red-400';
+        return;
+      }
+      
+      if (!password) {
+        document.getElementById('loginMsg').textContent = 'Please enter your password!';
         document.getElementById('loginMsg').className = 'text-center mt-2 text-sm text-red-400';
         return;
       }
@@ -525,15 +1168,10 @@
         return;
       }
       
-      // Map admin selection to actual usernames
+      // Map admin selection to actual usernames (only 2 admins allowed)
       const adminMap = {
-        'hanif': 'admin1',
-        'huzefa': 'admin2',
-        'hannan': 'admin3',
-        'subhan': 'admin4',
-        'nalini': 'admin5',
-        'suprita': 'admin6',
-        'hanzala': 'admin7'
+        'mohammed.hanif': 'admin1', // CEO
+        'mohammed.hanzala': 'admin2'
       };
       
       const actualUsername = adminMap[admin];
@@ -575,6 +1213,24 @@
       // Initialize Lucide icons
       lucide.createIcons();
       console.log('✅ Icons initialized');
+      
+      // Add Enter key support for access password fields
+      const accessPasswordFields = ['staffAccessPassword', 'registerAccessPassword', 'adminAccessPassword'];
+      accessPasswordFields.forEach(fieldId => {
+        const field = document.getElementById(fieldId);
+        if (field) {
+          field.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+              e.preventDefault();
+              const verifyFunction = fieldId === 'staffAccessPassword' ? verifyStaffAccess : 
+                                   fieldId === 'registerAccessPassword' ? verifyRegisterAccess : 
+                                   verifyAdminAccess;
+              verifyFunction();
+            }
+          });
+        }
+      });
+      console.log('✅ Access password fields initialized');
       
       // Initialize trust markers
       const trustMarkers = document.querySelectorAll('.TrustMarkerHeroComponent_gradientBorderBackground___42bi');
@@ -635,6 +1291,11 @@
         });
       });
       console.log('✅ Button effects initialized');
+      
+      // Initialize advanced dropdowns
+      initializeStaffDropdown();
+      initializeAdminDropdown();
+      console.log('✅ Advanced dropdowns initialized');
       
       console.log('🎉 All MEDicos Auth components initialized successfully!');
     });
