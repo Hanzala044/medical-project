@@ -1,7 +1,5 @@
 from flask import Flask, request, jsonify, session, send_from_directory, url_for
 from flask_cors import CORS
-import mysql.connector
-from mysql.connector import Error
 import os
 import json
 from datetime import datetime, date
@@ -11,6 +9,9 @@ from google.oauth2 import service_account
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaFileUpload
 
+# Import database configuration
+from database_config import get_db_connection, get_cursor, execute_query, fetch_all, fetch_one, get_last_row_id
+
 # Import WhatsApp integration
 from twilio_whatsapp_integration import setup_twilio_whatsapp_routes
 from razorpay_integration import setup_razorpay_routes
@@ -19,184 +20,37 @@ app = Flask(__name__, static_folder='.', static_url_path='')
 app.secret_key = 'medicos_secret_key_2024'
 CORS(app)
 
-# Database configuration
-DB_CONFIG = {
-    'host': 'localhost',
-    'user': 'root',
-    'password': 'root',  # Replace with your actual password
-    'database': 'medicos_pharmacy'
-}
-
 # Google Drive API configuration
 SCOPES = ['https://www.googleapis.com/auth/drive.file']
 SERVICE_ACCOUNT_FILE = os.path.join(os.path.dirname(__file__), 'credentials.json')
 GOOGLE_DRIVE_FOLDER_ID = '1HUQ_O8mSB0jrirZarLOy1ct8fYW1B-PE'  # Replace with your actual folder ID from Google Drive
 
-def get_db_connection():
-    """Create and return database connection"""
-    try:
-        connection = mysql.connector.connect(**DB_CONFIG)
-        return connection
-    except Error as e:
-        print(f"Error connecting to MySQL: {e}")
-        return None
+# Database connection is now handled by database_config.py
 
 def init_database():
     """Initialize database tables if they don't exist"""
     try:
         connection = get_db_connection()
         if connection:
-            cursor = connection.cursor()
+            cursor = get_cursor(connection)
             
-            # Create database if not exists
-            cursor.execute("CREATE DATABASE IF NOT EXISTS medicos_pharmacy")
-            cursor.execute("USE medicos_pharmacy")
-            
-            # Create tables
-            cursor.execute("""
-                CREATE TABLE IF NOT EXISTS admins (
-                    admin_id INT PRIMARY KEY AUTO_INCREMENT,
-                    username VARCHAR(50) UNIQUE NOT NULL,
-                    password VARCHAR(255) NOT NULL,
-                    full_name VARCHAR(100) NOT NULL,
-                    email VARCHAR(100) UNIQUE NOT NULL,
-                    phone VARCHAR(20),
-                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                    last_login TIMESTAMP NULL,
-                    is_active BOOLEAN DEFAULT TRUE
-                )
-            """)
-            
-            cursor.execute("""
-                CREATE TABLE IF NOT EXISTS staff (
-                    staff_id INT PRIMARY KEY AUTO_INCREMENT,
-                    username VARCHAR(50) UNIQUE NOT NULL,
-                    password VARCHAR(255) NOT NULL,
-                    full_name VARCHAR(100) NOT NULL,
-                    email VARCHAR(100) UNIQUE NOT NULL,
-                    phone VARCHAR(20),
-                    position VARCHAR(50) NOT NULL,
-                    hire_date DATE NOT NULL,
-                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                    last_login TIMESTAMP NULL,
-                    is_active BOOLEAN DEFAULT TRUE
-                )
-            """)
-            
-            cursor.execute("""
-                CREATE TABLE IF NOT EXISTS medicines (
-                    medicine_id INT PRIMARY KEY AUTO_INCREMENT,
-                    medicine_name VARCHAR(200) NOT NULL,
-                    batch_number VARCHAR(50) UNIQUE NOT NULL,
-                    expiry_date DATE NOT NULL,
-                    date_of_purchase DATE NOT NULL,
-                    quantity_available INT NOT NULL DEFAULT 0,
-                    unit_price DECIMAL(10,2) NOT NULL,
-                    manufacturer VARCHAR(200),
-                    category VARCHAR(100),
-                    description TEXT,
-                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-                    created_by INT,
-                    FOREIGN KEY (created_by) REFERENCES admins(admin_id)
-                )
-            """)
-            
-            cursor.execute("""
-                CREATE TABLE IF NOT EXISTS sales (
-                    sale_id INT PRIMARY KEY AUTO_INCREMENT,
-                    medicine_id INT NOT NULL,
-                    quantity_sold INT NOT NULL,
-                    unit_price DECIMAL(10,2) NOT NULL,
-                    total_amount DECIMAL(10,2) NOT NULL,
-                    doctor_name VARCHAR(100),
-                    prescription_photo_url VARCHAR(500),
-                    customer_name VARCHAR(100),
-                    customer_phone VARCHAR(20),
-                    sale_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                    sold_by INT NOT NULL,
-                    rate_per_tablet DECIMAL(10,2),
-                    payment_id VARCHAR(100),
-                    order_id VARCHAR(100),
-                    payment_status ENUM('pending', 'completed', 'failed') DEFAULT 'pending',
-                    payment_method VARCHAR(50) DEFAULT 'razorpay',
-                    FOREIGN KEY (medicine_id) REFERENCES medicines(medicine_id),
-                    FOREIGN KEY (sold_by) REFERENCES staff(staff_id)
-                )
-            """)
-            
-            # Insert default admins if not exists
-            cursor.execute("SELECT COUNT(*) FROM admins")
-            if cursor.fetchone()[0] == 0:
-                admin_password = generate_password_hash('admin123')
-                
-                # Insert all admin accounts
-                admin_data = [
-                    ('admin1', admin_password, 'MOHAMMED HANIF (CEO)', 'hanif@medicos.com', '+91 9110232172'),
-                    ('admin2', admin_password, 'MOHAMMED HUZEFA', 'huzefa@medicos.com', '+91 9741690949'),
-                    ('admin3', admin_password, 'MOHAMMED HANNAN', 'hannan@medicos.com', '+91 9876543210'),
-                    ('admin4', admin_password, 'ABDUL SUBHAN', 'subhan@medicos.com', '+91 9876543211'),
-                    ('admin5', admin_password, 'NALINI KHARVI', 'nalini@medicos.com', '+91 9876543212'),
-                    ('admin6', admin_password, 'SUPRITA', 'suprita@medicos.com', '+91 9876543213'),
-                    ('admin7', admin_password, 'MOHAMMED HANZALA', 'hanzala@medicos.com', '+91 9876543214')
-                ]
-                
-                for admin in admin_data:
-                    cursor.execute("""
-                        INSERT INTO admins (username, password, full_name, email, phone) 
-                        VALUES (%s, %s, %s, %s, %s)
-                    """, admin)
-            
-            # Update existing admin passwords to be properly hashed
-            admin_password = generate_password_hash('admin123')
-            for i in range(1, 8):
-                cursor.execute("UPDATE admins SET password = %s WHERE username = %s", (admin_password, f'admin{i}'))
-            
-            # Insert current staff if not exists
-            cursor.execute("SELECT COUNT(*) FROM staff")
-            if cursor.fetchone()[0] == 0:
-                staff_password = generate_password_hash('staff123')
-                
-                # Insert all current staff members
-                staff_data = [
-                    ('mohammed.huzefa', staff_password, 'MOHAMMED HUZEFA', 'huzefa@medicos.com', '+91 9741690949', 'Purchase & Sales Manager', '2020-01-15'),
-                    ('nalini.kharvi', staff_password, 'MS. NALINI KHARVI', 'nalini@medicos.com', '+91 9876543215', 'Purchasing Executive', '2022-03-01'),
-                    ('mohammed.hannan', staff_password, 'MR. MOHAMMED HANNAN', 'hannan@medicos.com', '+91 9876543216', 'Associate Manager', '2021-06-15'),
-                    ('abdul.subhan', staff_password, 'MR. ABDUL SUBHAN', 'subhan@medicos.com', '+91 9876543217', 'Junior Executive', '2022-09-01'),
-                    ('suprita', staff_password, 'MS. SUPRITA', 'suprita@medicos.com', '+91 9876543218', 'Nursing Department Head', '2021-12-01'),
-                    ('mohammed.hanzala', staff_password, 'MR. MOHAMMED HANZALA', 'hanzala@medicos.com', '+91 9876543219', 'Software Engineer & Sales Head', '2020-08-01')
-                ]
-                
-                for staff in staff_data:
-                    cursor.execute("""
-                        INSERT INTO staff (username, password, full_name, email, phone, position, hire_date)
-                        VALUES (%s, %s, %s, %s, %s, %s, %s)
-                    """, staff)
-            
-            # Update existing staff passwords to be properly hashed
-            staff_password = generate_password_hash('staff123')
-            staff_usernames = ['mohammed.huzefa', 'nalini.kharvi', 'mohammed.hannan', 'abdul.subhan', 'suprita', 'mohammed.hanzala']
-            for username in staff_usernames:
-                cursor.execute("UPDATE staff SET password = %s WHERE username = %s", (staff_password, username))
-            
-            # Add sample medicines if not exists
-            cursor.execute("SELECT COUNT(*) FROM medicines")
-            if cursor.fetchone()[0] == 0:
-                cursor.execute("""
-                    INSERT INTO medicines (medicine_name, batch_number, expiry_date, date_of_purchase, 
-                                         quantity_available, unit_price, manufacturer, category, description, created_by)
-                    VALUES 
-                    ('Paracetamol 500mg', 'BATCH001', '2025-12-31', '2024-01-15', 100, 5.99, 'Johnson & Johnson', 'Pain Relief', 'Fever and pain relief tablets', 1),
-                    ('Ibuprofen 400mg', 'BATCH002', '2025-10-31', '2024-02-20', 75, 7.50, 'Pfizer', 'Pain Relief', 'Anti-inflammatory pain relief', 1),
-                    ('Amoxicillin 250mg', 'BATCH003', '2025-08-31', '2024-03-10', 50, 12.99, 'GlaxoSmithKline', 'Antibiotics', 'Broad-spectrum antibiotic', 1),
-                    ('Omeprazole 20mg', 'BATCH004', '2025-11-30', '2024-01-25', 60, 15.75, 'AstraZeneca', 'Gastric', 'Acid reflux medication', 1),
-                    ('Cetirizine 10mg', 'BATCH005', '2025-09-30', '2024-02-15', 80, 8.25, 'Merck', 'Allergy', 'Antihistamine for allergies', 1)
-                """)
+            # Read and execute PostgreSQL schema
+            with open('postgresql_schema.sql', 'r') as file:
+                schema_sql = file.read()
+                # Split by semicolon and execute each statement
+                statements = schema_sql.split(';')
+                for statement in statements:
+                    statement = statement.strip()
+                    if statement and not statement.startswith('--'):
+                        execute_query(cursor, statement)
             
             connection.commit()
             cursor.close()
             connection.close()
-            print("Database initialized successfully!")
+            print("✅ Database initialized successfully!")
+            
+    except Exception as e:
+        print(f"❌ Error initializing database: {e}")
             
     except Error as e:
         print(f"Error initializing database: {e}")

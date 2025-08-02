@@ -1,0 +1,35 @@
+[33mcommit 2d82c79e36886444bd3197e35b99788423527fd6[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mproduction-with-keys[m[33m, [m[1;32mmain[m[33m)[m
+Author: Mohammed Hanzala <hanzala@example.com>
+Date:   Sat Aug 2 21:05:38 2025 +0530
+
+    Update staff photos and enhance website functionality
+
+[33mcommit de95bd69cc8a3f4fe838a57d4d328ceb617d4890[m
+Author: Mohammed Hanzala <hanzala@example.com>
+Date:   Wed Jul 30 01:27:00 2025 +0530
+
+    Add .gitignore to exclude sensitive files and development artifacts
+
+[33mcommit f9b5ecd2fafa9a03f51ecdaa513d5e937ad6b65e[m[33m ([m[1;31morigin/main[m[33m)[m
+Author: Mohammed Hanzala <hanzala@example.com>
+Date:   Wed Jul 30 01:25:35 2025 +0530
+
+    Complete website mobile responsiveness and staff photo modal feature
+    
+    - Added mobile-responsive design to all pages (index, about, contact, gallery, staff, auth-admin, admin_dashboard, staff_dashboard)
+    - Implemented staff photo modal with glass lucid design
+    - Added clickable staff photos with hover effects
+    - Enhanced typography and spacing for mobile devices
+    - Updated grid layouts for responsive design
+    - Added glassmorphism effects to modals
+    - Improved touch-friendly interactions
+    - Added new gallery images (gallery1-gallery25)
+    - Updated staff photos and information
+    - Enhanced loading screens and animations
+    - Improved overall user experience across all devices
+
+[33mcommit 1d34877d4a5591f8052413b53811614e94396ae2[m[33m ([m[1;31morigin/clean-branch[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Mohammed Hanzala <hanzala@example.com>
+Date:   Sat Jul 26 11:53:17 2025 +0530
+
+    Initial commit: Medical project files (clean version)
